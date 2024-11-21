@@ -1,6 +1,6 @@
 <script>
 import axios from 'axios';
-
+import { api } from 'store';
 export default {
     data() {
         return {
@@ -50,7 +50,9 @@ export default {
         },
         async userLogin() {
             try {
-                await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+                api.getCSRF();
+                axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCrsfTokenFromCookies();
+                
                 await axios.post('http://localhost:8000/login', {
                     email: this.userEmail,
                     password: this.userPassword,
