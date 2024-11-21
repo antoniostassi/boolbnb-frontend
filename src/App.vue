@@ -22,6 +22,6 @@ export default {
     <AppFooter/>
 </template>
 
-<style src="./style.css">
+<style>
 </style>
 
