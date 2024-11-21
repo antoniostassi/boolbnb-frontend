@@ -1,0 +1,24 @@
+@use 'partials/variables.scss' as *;
+@use 'partials/mixins.scss' as *;
+@use 'partials/utilities.scss' as *;
+
+/* 
+    GENERAL
+*/
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.my-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 
+    APP
+*/
+main {
+  text-align: center;
+}
+

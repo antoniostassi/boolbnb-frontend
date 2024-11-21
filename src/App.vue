@@ -18,10 +18,20 @@ export default {
 
 <template>
     <AppHeader/>
-    <router-view></router-view>
+    <main>
+      <router-view></router-view>
+    </main>
+    
     <AppFooter/>
 </template>
 
 <style>
+* {
+  
+}
+  main {
+    min-height: 650px;
+    background-color: lightcoral;
+  }
 </style>
 
