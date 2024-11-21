@@ -24,15 +24,15 @@ export default {
                 password: this.userPassword
             })
             .then((response) => {
-                console.log("Login riuscito:", response.data);
                 this.$router.replace('/');
+                document.querySelector('button.btn-close').click();
                 
             }).catch((error) =>{
                 this.testoErrore = error.response.data.message;
             });
-        // console.log(this.userEmail); // userEmail v-model
-        // console.log(this.userPassword); userPassword v-model
-        //axios.get('http://localhost:8000/sanctum/csrf-cookie');
+        },
+        closeModalOnResponse(){
+
         },
 
     },
@@ -74,7 +74,7 @@ export default {
         <!-- Modal Footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" @click="userLogin">Login</button>
+          <button type="button" class="btn btn-primary"  @click="userLogin">Login</button>
         </div>
       </div>
     </div>
