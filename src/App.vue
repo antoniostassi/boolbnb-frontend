@@ -26,12 +26,8 @@ export default {
 </template>
 
 <style>
-* {
-  
-}
   main {
     min-height: 650px;
-    background-color: lightcoral;
   }
 </style>
 

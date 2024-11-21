@@ -6,14 +6,15 @@ export default {
             helpLinks: [
                 { name: "Centro assistenza", href: "/help" },
                 { name: "Servizi", href: "/services" },
+                { name: "Promozioni", href: "/promotions" },
                 { name: "Chi siamo", href: "/about" },
                 { name: "Contatti", href: "/contacts" },
             ],
             generalLinks: [
-                { name: "Il tuo profilo", href: "/help" },
+                { name: "Il tuo profilo", href: "/profile" },
                 { name: "Cerca strutture", href: "/apartments" },
                 { name: "Privacy", href: "/privacy" },
-                { name: "Termini del servizio", href: "/terms" },
+                { name: "Termini del servizio", href: "/terms" }
             ],
         };
     },
@@ -25,8 +26,8 @@ export default {
 </script>
 
 <template>
-    <footer class="bg-gradient sticky-top">
-        <nav class="container d-flex align-items-center justify-content-start py-3">
+    <footer class="bg-gradient">
+        <nav class="container d-flex align-items-start justify-content-between py-4">
             <!-- Logo -->
             <div class="logo-container">
                 <router-link to="/" class="d-flex align-items-center">
@@ -34,89 +35,83 @@ export default {
                 </router-link>
             </div>
 
-            <!-- Navbar -->
-            <div class="navbar mx-5">
+            <!-- Links Navbar -->
+            <div class="navbar d-flex">
                 <ul class="nav flex-column mx-5">
-                    <li v-for="(link, index) in helpLinks" :key="index" class="nav-item fw-bold">
+                    <li v-for="(link, index) in helpLinks" :key="index" class="nav-item">
                         <router-link :to="link.href" class="nav-link">{{ link.name }}</router-link>
                     </li>
                 </ul>
                 <ul class="nav flex-column mx-5">
-                    <li v-for="(link, index) in generalLinks" :key="index" class="nav-item fw-bold">
+                    <li v-for="(link, index) in generalLinks" :key="index" class="nav-item">
                         <router-link :to="link.href" class="nav-link">{{ link.name }}</router-link>
                     </li>
                 </ul>
             </div>
-
         </nav>
+
+        <div class="footer-bottom text-center py-3">
+            <hr class="divider" />
+            <p class="mb-0">&copy; 2024 BoolBnB. Tutti i diritti riservati.</p>
+        </div>
     </footer>
 </template>
 
+
 <style lang="scss">
-footer {
-    background: linear-gradient(90deg, white 50%, rgba(240, 240, 240, 1) 100%);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
+    footer {
+        font-family: "Baumans", system-ui, sans-serif;
+        background: linear-gradient(90deg, white 50%, rgba(240, 240, 240, 1) 100%);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 
-    .logo-container {
-        .logo {
-            max-height: 40px;
-            transform: scale(1.5);
-            transition: transform 0.3s ease;
+        .logo-container {
+            .logo {
+                max-height: 50px;
+                transition: transform 0.3s ease-in-out;
 
-            &:hover {
-                transform: scale(1.8);
+                &:hover {
+                    transform: scale(1.3);
+                }
             }
         }
-    }
 
-    .navbar {
-        .nav {
+        .navbar {
             display: flex;
-            gap: 1rem;
 
-            .nav-item {
-                .nav-link {
-                    color: black;
-                    font-size: 1rem;
-                    font-weight: 400;
-                    padding: 3px;
-                    transition: color 0.3s, background-color 0.3s;
+            .nav {
+                .nav-item {
+                    .nav-link {
+                        color: black;
+                        font-size: 14px;
+                        font-weight: 500;
+                        padding: 5px 0;
+                        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 
-                    &:hover {
-                        color: #ff69b4;
-                        border-radius: 4px;
+                        &:hover {
+                            color: #ff69b4;
+                            transform: translateX(25px); 
+                        }
                     }
                 }
             }
         }
-    }
 
-    .profile-menu {
-        .avatar {
-            height: 35px;
-            width: 35px;
-            transition: transform 0.3s;
+        .footer-bottom {
+            text-align: center;
+            color: #333;
 
-            &:hover {
-                transform: scale(1.1);
+            .divider {
+                border: none;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                margin: 0 auto 1rem auto;
+                max-width: 80%;
             }
-        }
 
-        .dropdown-menu {
-            border-radius: 0.5rem;
-
-            .dropdown-item {
-                font-size: 0.9rem;
-                color: #333;
-
-                &:hover {
-                    color: #ff69b4;
-                }
+            p {
+                font-size: 12px;
+                color: #555;
             }
         }
     }
-}
 
 </style>

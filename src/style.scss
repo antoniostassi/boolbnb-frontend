@@ -1,2 +1,6 @@
 // Import all of Bootstrap's CSS
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+html {
+    font-family: "Baumans", system-ui !important;
+}
