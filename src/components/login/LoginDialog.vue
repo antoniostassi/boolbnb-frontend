@@ -31,9 +31,6 @@ export default {
                 this.testoErrore = error.response.data.message;
             });
         },
-        closeModalOnResponse(){
-
-        },
 
     },
 };
