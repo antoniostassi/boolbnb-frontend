@@ -1,5 +1,6 @@
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import AppHeader from './components/AppHeader.vue';
+import AppFooter from './components/AppFooter.vue';
 
 export default {
   data() {
@@ -7,7 +8,8 @@ export default {
     };
   },
   components: {
-    HelloWorld
+    AppHeader,
+    AppFooter,
   },
   methods: {
   },
@@ -15,8 +17,21 @@ export default {
 </script>
 
 <template>
-    <HelloWorld/>
+    <AppHeader/>
+    <main>
+      <router-view></router-view>
+    </main>
+    
+    <AppFooter/>
 </template>
 
 <style>
+* {
+  
+}
+  main {
+    min-height: 650px;
+    background-color: lightcoral;
+  }
 </style>
+

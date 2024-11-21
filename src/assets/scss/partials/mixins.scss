@@ -1,0 +1,9 @@
+@use 'variables' as *;
+
+@mixin link-style {
+    color: $linkColor;
+
+    &:hover {
+        color: white;
+    }
+}

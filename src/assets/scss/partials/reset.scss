@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+*:not(ul):not(ol) {
+    padding: 0;
+}
+
+body {
+    font-family: "Baumans", system-ui !important;
+    
+    > * {
+        
+    }
+
+}
+
