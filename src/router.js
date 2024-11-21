@@ -6,6 +6,7 @@ import AboutPage from './pages/AboutPage.vue';
 import ServicesPage from './pages/ServicesPage.vue';
 import ContactsPage from './pages/ContactsPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
+import LoginDialog from './components/login/LoginDialog.vue';
 
 
 const router = createRouter({
@@ -37,10 +38,15 @@ const router = createRouter({
             component: ContactsPage
         },
         {
+            path:'/login',
+            name: 'login',
+            component:LoginDialog
+        },
+        {
             path: '/:pathMatch(.*)*',
             name: 'not-found',
             component: NotFoundPage
-        },
+        }
     ]
 });
 
