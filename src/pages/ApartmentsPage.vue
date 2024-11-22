@@ -63,9 +63,12 @@ export default {
       <div
         v-for="(apartment, index) in apartments"
         :key="apartment.id"
-        class="apartment-card-wrapper"
+        class="col-12 col-sm-6 col-lg-3 p-3"
       >
+      <div class="apartment-card-wrapper">
         <SingleApartment :apartment="apartment" :index="index" />
+      </div>
+        
       </div>
     </div>
 
@@ -102,34 +105,7 @@ export default {
   margin: 30px 0;
 }
 
-.apartment-card-wrapper {
-  padding: 10px;
 
-  @media (min-width: 1200px) {
-    flex: 0 0 calc(100% / 5);
-    max-width: calc(100% / 5);
-  }
-
-  @media (min-width: 992px) and (max-width: 1199.98px) {
-    flex: 0 0 calc(100% / 4);
-    max-width: calc(100% / 4);
-  }
-
-  @media (min-width: 768px) and (max-width: 991.98px) {
-    flex: 0 0 calc(100% / 3);
-    max-width: calc(100% / 3);
-  }
-
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    flex: 0 0 calc(100% / 2);
-    max-width: calc(100% / 2);
-  }
-
-  @media (max-width: 575.98px) {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-}
 
 .pagination {
   display: flex;
