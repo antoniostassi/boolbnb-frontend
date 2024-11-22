@@ -1,16 +1,17 @@
 <script>
 import axios from 'axios';
 import { api } from '../store';
-import OffCanvasBody from './HeaderComponents/OffCanvasBody.vue';
-import { store } from '../store'
-
 export default {
-    components: { 
-        OffCanvasBody 
-    },
     data() {
         return {
-            store,
+            navbarLinks: [
+                { name: "Strutture", href: "/apartments" },
+                { name: "Piani promozionali", href: "/promotions" },
+                { name: "Servizi", href: "/services" },
+                { name: "Chi siamo", href: "/about" },
+                { name: "Contatti", href: "/contacts" },
+            ],
+            api,
             lastScrollY: 0, // Memorizza l'ultima posizione di scroll
             hideHeader: false, // Stato che indica se l'header deve essere nascosto
             isLoggedIn: false, // Stato per verificare se l'utente è loggato
@@ -25,7 +26,7 @@ export default {
             userFirstname: '', // Nome per la registrazione
             userLastname: '', // Cognome per la registrazione
             userDateOfBirth: '', // Data di nascita per la registrazione
-            errorText: '', // Errore visualizzato in caso di fallimento login/registrazione
+            testoErrore: '', // Errore visualizzato in caso di fallimento login/registrazione
         };
     },
     mounted() {
@@ -49,21 +50,22 @@ export default {
             this.lastScrollY = currentScrollY;
         },
         async userLogin() {
-            try {
-                api.getCSRF();
-                axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCrsfTokenFromCookies();
-                
-                await axios.post('http://localhost:8000/login', {
-                    email: this.userEmail,
-                    password: this.userPassword,
-                });
+            this.api.getCSRF();
+            this.api.getCsrfTokenFromCookies();
+
+            await axios.post('http://localhost:8000/login', {  
+                email: this.userEmail,
+                password: this.userPassword
+            })
+            .then((response) => {
                 this.isLoggedIn = true;
                 this.resetForm();
                 this.showLoginForm = false; // Chiudi il form di login al successo
                 this.$router.push('/'); // Reindirizza alla home
-            } catch (error) {
-                this.errorText = error.response?.data?.message || 'Errore durante il login.';
-            }
+                
+            }).catch((error) =>{
+                this.testoErrore = error.response?.data?.message || 'Errore durante il login.';
+            });
         },
         async userRegister() {
             // Rimuovi spazi extra dalle password
@@ -72,7 +74,7 @@ export default {
 
             // Controllo se le password corrispondono
             if (trimmedPassword !== trimmedPasswordConfirm) {
-                this.errorText = 'Le password non corrispondono.';
+                this.testoErrore = 'Le password non corrispondono.';
                 return;
             }
 
@@ -113,7 +115,7 @@ export default {
             this.userFirstname = '';
             this.userLastname = '';
             this.userDateOfBirth = '';
-            this.errorText = '';
+            this.testoErrore = '';
         }
     },
 };
@@ -133,10 +135,8 @@ export default {
                 <!-- Navbar -->
                 <div class="navbar d-none d-lg-block">
                     <ul class="nav">
-                        <li v-for="(link, index) in store.navbarLinks" :key="index" class="nav-item">
-                            <router-link :to="link.href" class="nav-link">
-                                {{ link.name }}
-                            </router-link>
+                        <li v-for="(link, index) in navbarLinks" :key="index" class="nav-item">
+                            <router-link :to="link.href" class="nav-link">{{ link.name }}</router-link>
                         </li>
                     </ul>
                 </div>
@@ -177,7 +177,17 @@ export default {
             </nav>
         </header>       
         
-        <OffCanvasBody/>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasRightLabel">
+                    Menù
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                
+            </div>
+        </div>
 
         <!-- Overlay Login/Register Form -->
         <div v-if="showLoginForm" class="overlay">
@@ -232,7 +242,7 @@ export default {
                                     <input type="password" class="form-control" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required>
                                 </div>
                             </div>
-                            <span class="text-danger">{{ errorText }}</span>
+                            <span class="text-danger">{{ testoErrore }}</span>
 
                             <!-- Cambia tra Login e Registrazione -->
                             <div>
@@ -296,7 +306,7 @@ export default {
                         transition: color 0.3s, background-color 0.3s;
 
                         &:hover {
-                            color: #E352FA;
+                            color: #ff69b4;
                             border-radius: 4px;
                         }
                     }
@@ -306,20 +316,19 @@ export default {
 
         .auth-buttons {
             .btn-outline-primary {
-                color: #E352FA;
-                border: 2px solid #E352FA;
+                color: #ff69b4;
+                border: 2px solid #ff69b4;
                 transition: all 0.3s;
-                margin: 0 10px;
 
                 &:hover {
-                    background: #E352FA;
+                    background: #ff69b4;
                     color: white;
                 }
             }
 
             .btn-primary {
-                background: #E352FA;
-                border: 2px solid #E352FA;
+                background: #ff69b4;
+                border: 2px solid #ff69b4;
                 color: white;
                 transition: all 0.3s;
 
@@ -329,8 +338,6 @@ export default {
                 }
             }
         }
-
-        
 
         .profile-menu {
             .avatar {
@@ -351,7 +358,7 @@ export default {
                     color: #333;
 
                     &:hover {
-                        color: #E352FA;
+                        color: #ff69b4;
                     }
                 }
             }
@@ -383,4 +390,5 @@ export default {
             padding: 20px;
         }
     }
+
 </style>
