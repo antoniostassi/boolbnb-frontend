@@ -5,6 +5,7 @@ export const api = reactive({
 
     getCSRF() {
         axios.get('http://localhost:8000/sanctum/csrf-cookie');
+       // console.log('storing Api');
     },
 
     getCsrfTokenFromCookies() {
