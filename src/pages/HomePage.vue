@@ -14,34 +14,34 @@ export default {
   },
   methods: {
     getApartments() {
-      axios
-        .get("http://localhost:8000/api/apartments?all=true")
-        .then((response) => {
-          this.apartments = response.data.data || [];
-          console.log("Appartamenti:", this.apartments);
+        axios
+            .get("http://localhost:8000/api/apartments?all=true")
+            .then((response) => {
+            this.apartments = response.data;
+            console.log("Appartamenti:", this.apartments);
 
-          // Filtra gli appartamenti con promozioni attive
-          const promoted = this.apartments.filter(
-            (apartment) =>
-              apartment.promotions && apartment.promotions.length > 0
-          );
-          console.log("Appartamenti promossi:", promoted);
+            // Filtra gli appartamenti con promozioni attive
+                const promoted = this.apartments.filter(
+                    (apartment) =>
+                    apartment.promotions && apartment.promotions.length > 0
+                );
+            console.log("Appartamenti promossi:", promoted);
 
-          // Assegna un'immagine casuale a ogni appartamento
-          this.promotedApartments = promoted.map((apartment) => {
-            apartment.image = `https://picsum.photos/seed/${apartment.id}/400/300`;
-            return apartment;
-          });
+            // Assegna un'immagine casuale a ogni appartamento
+            this.promotedApartments = promoted.map((apartment) => {
+                apartment.image = `https://picsum.photos/seed/${apartment.id}/400/300`;
+                return apartment;
+            });
 
-          // Mescola casualmente e prendi i primi 3
-          this.promotedApartments = this.promotedApartments
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 3);
-          console.log("Appartamenti promossi selezionati:", this.promotedApartments);
-        })
-        .catch((error) => {
-          console.error("Errore nel caricamento degli appartamenti:", error);
-        });
+            // Mescola casualmente e prendi i primi 3
+            this.promotedApartments = this.promotedApartments
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3);
+            console.log("Appartamenti promossi selezionati:", this.promotedApartments);
+            })
+            .catch((error) => {
+            console.error("Errore nel caricamento degli appartamenti:", error);
+            });
     },
   },
   mounted() {
