@@ -39,4 +39,5 @@ export const store = reactive({
         { name: "Chi siamo", href: "/about" },
         { name: "Contatti", href: "/contacts" },
     ],
+    currentApartment:''
 });

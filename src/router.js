@@ -12,6 +12,7 @@ import ServicesPage from './pages/ServicesPage.vue';
 import ContactsPage from './pages/ContactsPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 import LoginDialog from './components/login/LoginDialog.vue';
+import EditApartmentPage from './pages/EditApartmentPage.vue';
 
 
 const router = createRouter({
@@ -53,6 +54,11 @@ const router = createRouter({
             name: 'create-apartment',
             component: CreateApartmentPage,
             props: true
+        },
+        {
+            path: '/apartments/edit/:id',
+            name: 'edit-apartment',
+            component: EditApartmentPage,
         },
         {
             path: '/about',
