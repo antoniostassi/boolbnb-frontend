@@ -69,7 +69,7 @@ export default {
     <label for="bathrooms">Numero di bagni</label>
     <input type="number" name="bathrooms" required v-model="apartment.bathrooms">
 
-    
+
     <label for="apartment_size">Metri quadrati</label>
     <input type="number" name="apartment_size" required v-model="apartment.apartment_size">
 
@@ -86,7 +86,6 @@ export default {
         <label :for="'service-'+index">{{service.title}}</label>
       </div>
     </div>
-
     <h1>Promotions</h1>
     <div class="row gap-2">
       <div class="col-2" v-for="(promotion, index) in this.api.promotions" :key="index">
@@ -95,7 +94,7 @@ export default {
       </div>
       <label for="nothing">Nessun abbonamento</label>
       <input type="radio" name="promotions" id="nothing" :value=null checked="checked" v-model="apartment.promotion">
-      
+
     </div>
 
     <button type="submit">
