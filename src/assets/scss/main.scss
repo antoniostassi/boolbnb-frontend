@@ -1,6 +1,7 @@
-@use 'partials/variables.scss' as *;
-@use 'partials/mixins.scss' as *;
-@use 'partials/utilities.scss' as *;
+@use '../scss/partials/reset.scss' as *;
+@use '../scss/partials/utilities.scss' as *;
+@use '../scss/partials/mixins.scss' as *;
+@use '../scss/partials/variables.scss' as *;
 
 /* 
     GENERAL
