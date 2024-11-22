@@ -14,3 +14,13 @@ export const api = reactive({
     },
 
 });
+
+export const store = reactive({
+    navbarLinks: [
+        { name: "Strutture", href: "/apartments" },
+        { name: "Piani promozionali", href: "/promotions" },
+        { name: "Servizi", href: "/services" },
+        { name: "Chi siamo", href: "/about" },
+        { name: "Contatti", href: "/contacts" },
+    ],
+});
