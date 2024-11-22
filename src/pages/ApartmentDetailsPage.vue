@@ -1,11 +1,14 @@
 <script>
 import axios from 'axios';
+import { store } from '../store'
 
 export default {
     data() {
         return {
+            store,
             apartment: null
         };
+        
     },
     props: {
         id: {
@@ -22,12 +25,13 @@ export default {
     methods: {
         getApartment() {
             axios
-                .get(`http://localhost:8000/api/apartment/${this.id}`)
+                .get(`http://localhost:8000/api/apartments/${this.id}`)
                 .then((response) => {
                     console.log(response.data[0]); // Logga la risposta completa
                     this.apartment = response.data[0];
-                    apartment.image = `https://picsum.photos/seed/${apartment.id}/400/300`;
-                    console.log(apartment)
+                    this.apartment.image = `https://picsum.photos/seed/${this.id}/400/300`;
+                    this.store.currentApartment = this.id
+                    console.log(this.store.currentApartment)
                 })
                 .catch((error) => {
                     console.error(error);
@@ -72,6 +76,12 @@ export default {
                 </ul>
             </div>
         </div>
+        
+          <router-link :to="{ name: 'edit-apartment', params: { id: this.id } }">
+            Modifica
+          </router-link>
+
+      
     </div>
 </template>
 
