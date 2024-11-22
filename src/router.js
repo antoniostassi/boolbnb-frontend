@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import HomePage from './pages/HomePage.vue';
+import ProfilePage from './pages/ProfilePage.vue';
+import YourApartmentsPage from './pages/YourApartmentsPage.vue';
 import PromotionsPage from './pages/PromotionsPage.vue';
 import ApartmentsPage from './pages/ApartmentsPage.vue';
 import ApartmentDetailsPage from './pages/ApartmentDetailsPage.vue';
@@ -20,6 +22,16 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: HomePage
+        },
+        {
+            path: '/user/profile',
+            name: 'profile-page',
+            component: ProfilePage
+        },
+        {
+            path: '/user/apartments',
+            name: 'your-apartments',
+            component: YourApartmentsPage
         },
         {
             path: '/promotions',
