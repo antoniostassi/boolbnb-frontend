@@ -82,7 +82,7 @@ export default {
     <h1>Services</h1>
     <div class="row gap-2">
       <div class="col-2" v-for="(service, index) in this.api.services" :key="index">
-        <input type="checkbox" name="services[]" :id="'service-'+service.id" v-model="apartment.services" :value="service.id">
+        <input type="checkbox" name="services[]" :id="'service-'+service.id" :value="service.id">
         <label :for="'service-'+index">{{service.title}}</label>
       </div>
     </div>

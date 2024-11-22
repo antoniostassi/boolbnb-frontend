@@ -11,7 +11,7 @@ export default {
       api,
       store,
       apartment: [],
-      currentServices: []
+      activeServices: []
     };
   },
   components: {
@@ -27,8 +27,11 @@ export default {
             axios
                 .get(`http://localhost:8000/api/apartments/${this.store.currentApartment}`)
                 .then((response) => {
+                   console.log(response.data);
                     this.apartment = response.data[0];
-                    console.log(this.apartment.services)
+                    this.apartment.services.forEach(element => {
+                      this.activeServices.push(element.id);
+                    });
                 })
                 .catch((error) => {
                     console.error(error);
@@ -101,9 +104,10 @@ export default {
     <h1>Services</h1>
     <div class="row gap-2">
       <div class="col-2" v-for="(service, index) in this.api.services" :key="index">
-        <input type="checkbox" name="services[]" :id="'service-'+service.id" v-model="apartment.services" :value="service.id">
-        <label :for="'service-'+index">{{service.title}}</label>
+        <input type="checkbox" :checked="activeServices.includes(service.id)" name="services[]" :id="'service-'+service.id" :value="service.id">
+        <label :for="'service-'+index">{{service.title}}</label>        
       </div>
+
     </div>
 
     <h1>Promotions</h1>
