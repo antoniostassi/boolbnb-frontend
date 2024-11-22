@@ -20,9 +20,11 @@ export default {
 </script>
 
 <template>
-  <div>
-    Il tuo profilo
-  </div>
+    <div class="container">
+        <h1 class="text-center">
+            Benvenuto {{ user.firstName + '' + user.lastName }}
+        </h1>
+    </div>
 </template>
 
 <style>

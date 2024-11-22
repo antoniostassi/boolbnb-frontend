@@ -22,7 +22,7 @@ export default {
   methods: {
     getApartments(page = 1) {
       axios
-        .get(`http://localhost:8000/api/apartment?page=${page}`)
+        .get(`http://localhost:8000/api/apartments?page=${page}`)
         .then((response) => {
           console.log("Risposta API:", response.data);
 
