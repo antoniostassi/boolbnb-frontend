@@ -21,7 +21,7 @@ export default {
 
 <template>
   <div>
-    Promozioni Page
+    Il tuo profilo
   </div>
 </template>
 
