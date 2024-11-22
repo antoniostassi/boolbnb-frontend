@@ -77,7 +77,7 @@ export default {
   <h1>
     Edit apartment: {{ store.currentApartment }}
   </h1>
-  <form @submit.prevent="createApartment">
+  <form @submit.prevent="editApartment">
     <label for="title">Titolo della struttura</label>
     <input type="text" name="title" required v-model="apartment.title">
 
