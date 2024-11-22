@@ -17,6 +17,7 @@ export default {
             showLoginForm: false, // Stato per mostrare/nascondere il form di login
 
             // Variabili per il form di login e registrazione
+            api,
             isRegistration: false, // Stato per passare da login a registrazione
             userEmail: '', // Email per il login/registrazione
             userPassword: '', // Password per il login/registrazione
@@ -49,21 +50,22 @@ export default {
             this.lastScrollY = currentScrollY;
         },
         async userLogin() {
-            try {
-                api.getCSRF();
-                axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCrsfTokenFromCookies();
-                
-                await axios.post('http://localhost:8000/login', {
-                    email: this.userEmail,
-                    password: this.userPassword,
-                });
+            this.api.getCSRF();
+            this.api.getCsrfTokenFromCookies();
+
+            await axios.post('http://localhost:8000/login', {  
+                email: this.userEmail,
+                password: this.userPassword
+            })
+            .then((response) => {
                 this.isLoggedIn = true;
                 this.resetForm();
                 this.showLoginForm = false; // Chiudi il form di login al successo
                 this.$router.push('/'); // Reindirizza alla home
-            } catch (error) {
-                this.errorText = error.response?.data?.message || 'Errore durante il login.';
-            }
+                
+            }).catch((error) =>{
+                this.testoErrore = error.response?.data?.message || 'Errore durante il login.';
+            });
         },
         async userRegister() {
             // Rimuovi spazi extra dalle password
