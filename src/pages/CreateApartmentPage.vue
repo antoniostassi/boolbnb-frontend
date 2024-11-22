@@ -69,7 +69,6 @@ export default {
     <label for="bathrooms">Numero di bagni</label>
     <input type="number" name="bathrooms" required v-model="apartment.bathrooms">
 
-
     <label for="apartment_size">Metri quadrati</label>
     <input type="number" name="apartment_size" required v-model="apartment.apartment_size">
 
@@ -94,7 +93,6 @@ export default {
       </div>
       <label for="nothing">Nessun abbonamento</label>
       <input type="radio" name="promotions" id="nothing" :value=null checked="checked" v-model="apartment.promotion">
-
     </div>
 
     <button type="submit">
