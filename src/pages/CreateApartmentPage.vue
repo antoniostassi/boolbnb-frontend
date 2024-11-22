@@ -1,14 +1,15 @@
 <script>
 
 import { api } from '../store';
+import axios from 'axios';
 
 export default {
   data() {
     return {
       api,
       apartment : {
-        services : []
-      }
+        services: []
+      },
     };
   },
   components: {
@@ -19,7 +20,27 @@ export default {
   },
   methods: {
     createApartment() {
-      
+      axios
+      .post('http://localhost:8000/api/apartments', {
+        user_id: 1,
+        title: this.apartment.title,
+        rooms: this.apartment.rooms,
+        beds: this.apartment.beds,
+        bathrooms: this.apartment.bathrooms,
+        apartment_size: this.apartment.apartment_size,
+        address: this.apartment.address,
+        latitude: 32.2112,
+        longitude: 1.3203,
+        image: this.apartment.image,
+        services: this.apartment.services,
+        promotions: this.apartment.promotion
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     },
 
     tryLog() {
@@ -27,6 +48,7 @@ export default {
       console.log(this.api.promotions); */
       // 
       console.log(this.apartment);
+      console.log(this.promotion);
     }
   },
 }
@@ -60,7 +82,7 @@ export default {
     <h1>Services</h1>
     <div class="row gap-2">
       <div class="col-2" v-for="(service, index) in this.api.services" :key="index">
-        <input type="checkbox" name="services[]" :id="'service-'+index" v-model="apartment.services">
+        <input type="checkbox" name="services[]" :id="'service-'+service.id" v-model="apartment.services" :value="service.id">
         <label :for="'service-'+index">{{service.title}}</label>
       </div>
     </div>
@@ -69,8 +91,10 @@ export default {
     <div class="row gap-2">
       <div class="col-2" v-for="(promotion, index) in this.api.promotions" :key="index">
         <label :for="'promotion-'+index">{{promotion.title}}</label>
-        <input type="checkbox" name="promotions[]" :id="'promotion-'+index" >
+        <input type="radio" name="promotions" :id="'promotion-'+promotion.id" :value="promotion.id" v-model="apartment.promotion">
       </div>
+      <label for="nothing">Nessun abbonamento</label>
+      <input type="radio" name="promotions" id="nothing" :value=null checked="checked" v-model="apartment.promotion">
       
     </div>
 
