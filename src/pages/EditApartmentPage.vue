@@ -38,9 +38,9 @@ export default {
                 });
                 
     },
-    createApartment() {
+    editApartment() {
       axios
-      .post('http://localhost:8000/api/apartments', {
+      .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
         user_id: 1,
         title: this.apartment.title,
         rooms: this.apartment.rooms,
@@ -52,7 +52,6 @@ export default {
         longitude: 1.3203,
         image: this.apartment.image,
         services: this.apartment.services,
-        promotions: this.apartment.promotion
       })
       .then((result) => {
         console.log(result);
@@ -63,8 +62,8 @@ export default {
     },
 
     tryLog() {
-      /* console.log(this.api.services);
-      console.log(this.api.promotions); */
+       console.log(this.apartment);
+      
       // 
 
     }
@@ -108,17 +107,6 @@ export default {
         <label :for="'service-'+index">{{service.title}}</label>        
       </div>
 
-    </div>
-
-    <h1>Promotions</h1>
-    <div class="row gap-2">
-      <div class="col-2" v-for="(promotion, index) in this.api.promotions" :key="index">
-        <label :for="'promotion-'+index">{{promotion.title}}</label>
-        <input type="radio" name="promotions" :id="'promotion-'+promotion.id" :value="promotion.id" v-model="apartment.promotion">
-      </div>
-      <label for="nothing">Nessun abbonamento</label>
-      <input type="radio" name="promotions" id="nothing" :value=null checked="checked" v-model="apartment.promotion">
-      
     </div>
 
     <button type="submit">
