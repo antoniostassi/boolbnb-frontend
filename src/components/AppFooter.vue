@@ -3,6 +3,12 @@
 export default {
     data() {
         return {
+            careersLinks: [
+                { name: "Lavora con noi", href: "/careers" },
+                { name: "Studenti", href: "/students" },
+                { name: "Laureati", href: "/graduates" },
+                { name: "Perché lavorare con noi", href: "/why-work-with-us" }
+            ],
             helpLinks: [
                 { name: "Centro assistenza", href: "/help" },
                 { name: "Servizi", href: "/services" },
@@ -27,24 +33,36 @@ export default {
 
 <template>
     <footer class="bg-gradient">
-        <nav class="container d-flex align-items-start justify-content-between py-4">
+        
+        <nav class="container d-flex align-items-start justify-content-evenly py-4">
             <!-- Logo -->
-            <div class="logo-container">
+            <div class="logo-container d-none d-sm-block">
                 <router-link to="/" class="d-flex align-items-center">
                     <img src="/img/BoolBnB Logo.png" alt="BoolBnB Logo" class="logo">
                 </router-link>
             </div>
 
             <!-- Links Navbar -->
-            <div class="navbar d-flex">
-                <ul class="nav flex-column mx-5">
+            <div class="navbar d-flex align-items-start row">
+                <ul class="nav flex-column col-12 col-sm-4 px-3">
                     <li v-for="(link, index) in helpLinks" :key="index" class="nav-item">
-                        <router-link :to="link.href" class="nav-link">{{ link.name }}</router-link>
+                        <router-link :to="link.href" class="nav-link">
+                            {{ link.name }}
+                        </router-link>
                     </li>
                 </ul>
-                <ul class="nav flex-column mx-5">
+                <ul class="nav flex-column col-12 col-sm-4 px-3">
                     <li v-for="(link, index) in generalLinks" :key="index" class="nav-item">
-                        <router-link :to="link.href" class="nav-link">{{ link.name }}</router-link>
+                        <router-link :to="link.href" class="nav-link">
+                            {{ link.name }}
+                        </router-link>
+                    </li>
+                </ul>
+                <ul class="nav flex-column col-12 col-sm-4 px-3">
+                    <li v-for="(link, index) in careersLinks" :key="index" class="nav-item">
+                        <router-link :to="link.href" class="nav-link">
+                            {{ link.name }}
+                        </router-link>
                     </li>
                 </ul>
             </div>
