@@ -59,11 +59,11 @@ export default {
 <template>
   <div class="container my-3">
     <!-- Lista degli appartamenti -->
-    <div class="row d-flex justify-content-start flex-wrap">
+    <div class="row d-flex flex-wrap">
       <div
         v-for="(apartment, index) in apartments"
         :key="apartment.id"
-        class="col-12 col-sm-6 col-lg-3 p-3"
+        class="col-12 col-sm-6 col-lg-3 p-3 m-auto d-flex justify-content-center"
       >
       <div class="apartment-card-wrapper">
         <SingleApartment :apartment="apartment" :index="index" />
