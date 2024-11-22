@@ -170,8 +170,15 @@ export default {
                             <img src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg" alt="User Avatar" class="rounded-circle avatar" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Profilo</a></li>
-                            <li><a class="dropdown-item" href="#">Impostazioni</a></li>
+                            <router-link
+                                :to="{ name: 'profile-page', params: { fullName: `${userName}+${userSurname}` } }"
+                                class="dropdown-item">
+                                    Profilo
+                            </router-link>
+
+                            <router-link :to="{ name: 'your-apartments' }" class="dropdown-item">
+                                Le tue strutture
+                            </router-link>
                             <li><a class="dropdown-item" href="#" @click="userLogout">Logout</a></li>
                         </ul>
                     </div>

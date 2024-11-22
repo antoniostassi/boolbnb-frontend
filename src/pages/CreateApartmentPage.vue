@@ -9,7 +9,7 @@ export default {
   },
   methods: {
     createApartment() {
-      
+
     }
   },
 }
@@ -28,7 +28,6 @@ export default {
 
     <label for="bathrooms">Numero di bagni</label>
     <input type="number" name="bathrooms" required>
-
     
     <label for="apartment_size">Metri quadrati</label>
     <input type="number" name="apartment_size" required>
