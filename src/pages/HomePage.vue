@@ -1,15 +1,32 @@
 <script>
+import axios from 'axios';
+
 
 export default {
   data() {
     return {
+      apartments: [],
+      searchQuery: "",
     };
   },
   components: {
   },
   methods: {
-    
+        getApartments() {
+            axios
+                .get('http://localhost:8000/api/apartment')
+                .then((response) => {
+                    this.apartments = response.data;
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        },
   },
+  created() {
+    this.getApartments();
+  }
 }
 </script>
 
@@ -27,6 +44,7 @@ export default {
         <button type="submit" class="btn search-button">Cerca</button>
       </form>
     </div>
+    
   </section>
 </template>
 
@@ -103,6 +121,8 @@ section {
     }
   }
 }
+
+
 
 
 </style>
