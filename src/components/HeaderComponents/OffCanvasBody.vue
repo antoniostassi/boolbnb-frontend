@@ -1,16 +1,28 @@
 <script>
 
+import axios from 'axios';
 import { store, api } from '../../store'
 export default {
   data() {
     return {
         store,
-        api
+        api,
+        userData: [],
       };
   },
   components: {
   },
+  mounted() {
+    this.getUser();
+  },
   methods: {
+    async getUser(){
+       await axios.get('http://localhost:8000/api/user')
+        .then((response)=>{
+            this.userData = response.data;
+            console.log('userData:', this.userData);
+        })
+    },
   },
 }
 </script>
@@ -26,7 +38,7 @@ export default {
                     <button @click="showLoginForm = true; isRegistration = true" class="btn offcanvas-btn-primary">Registrati</button>
                 </h5>
                 <h5 v-else class="text-center ms-1" id="offcanvasRightLabel">
-                    Benvenuto <!-- {{ user.FirstName + '' + user.LastName }} -->
+                    Benvenuto {{ userData.firstname + ' ' + userData.lastname }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
@@ -40,29 +52,32 @@ export default {
                 </div>
                 
                 <!-- Navbar -->
-                <div class="navbar">
+                <div class="navbar d-flex flex-column align-items-start">
                     <ul class="nav flex-column fs-5">
+                        <li class="nav-item">
+                            <router-link
+                                v-if="this.api.isLoggedIn"
+                                :to="{ name: 'profile-page' }"
+                                class="nav-link">
+                                    Profilo
+                            </router-link>
+                        </li>
+                        <li v-if="this.api.isLoggedIn" class="nav-item">
+                            <router-link :to="{ name: 'your-apartments' }" class="nav-link">
+                                Le tue strutture
+                            </router-link>
+                        </li>
+                        <li v-if="this.api.isLoggedIn" class="nav-item">
+                            <a class="nav-link" href="#" @click="userLogout">
+                                Logout
+                            </a>
+                        </li>
+                        <hr>
                         <li v-for="(link, index) in store.navbarLinks" :key="index" class="nav-item">
                             <router-link :to="link.href" class="nav-link">{{ link.name }}</router-link>
                         </li>
                     </ul>
-                    <ul v-if="this.api.isLoggedIn" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                Profilo
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                Impostazioni
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#" @click="userLogout">
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
+                    
                 </div>
             </div>
         </div>
