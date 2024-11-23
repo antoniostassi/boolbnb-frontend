@@ -1,5 +1,5 @@
 <script>
-import { api } from '../store';
+import { api } from '../../store';
 import axios from 'axios';
 import * as services from '@tomtom-international/web-sdk-services';
 
@@ -69,7 +69,7 @@ export default {
             .then((result) => {
                 console.log('Risultato:', result);
                 alert('Appartamento creato con successo');
-                this.$router.push('/user/apartments')
+                this.$router.push('/user/dashboard')
             })
             .catch((error) => {
                 console.log(error);

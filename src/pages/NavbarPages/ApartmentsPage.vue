@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-import SingleApartment from "../components/SingleApartment.vue";
+import SingleApartment from "../../components/SingleApartment.vue";
 
 export default {
   data() {
@@ -88,34 +88,34 @@ export default {
     <div class="d-flex justify-content-center">
       <div class="pagination">
         <button class="page-item" :disabled="pagination.currentPage == 1 || paginationClick" @click="getApartments(pagination.currentPage = 1)">
-          <a href="#main-container"class="page-link" :class="pagination.currentPage == 1 ? 'disabled':''">Prima Pagina</a>
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == 1 ? 'disabled':''">Prima Pagina</a>
         </button>
         <button class="page-item" :disabled="pagination.currentPage == 1 || paginationClick" @click="getApartments(pagination.currentPage = pagination.prevPage)">
-          <a href="#main-container"class="page-link" :class="pagination.currentPage == 1 ? 'disabled':''"><</a>
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == 1 ? 'disabled':''"><i class="fa-solid fa-angle-left"></i></a>
         </button>
         <!-- questo button si mostra solo se siamo sull'ultima pagina e verrà visualizzato come primo button -->
         <button class="page-item" v-show="pagination.nextPage > pagination.lastPage" :disabled="paginationClick" @click="getApartments(pagination.currentPage = pagination.prevPage - 1)">
-          <a href="#main-container"class="page-link">{{ pagination.prevPage - 1 }}</a>
+          <a href="#main-container" class="page-link">{{ pagination.prevPage - 1 }}</a>
         </button>
         <!-- se è 0 non viene mostrato in pagina -->
         <button class="page-item" :disabled="paginationClick" v-show="pagination.prevPage > 0" @click="getApartments(pagination.currentPage = pagination.prevPage)">
-          <a href="#main-container"class="page-link">{{ pagination.prevPage }}</a>
+          <a href="#main-container" class="page-link">{{ pagination.prevPage }}</a>
         </button>
         <button disabled class="page-item">
-          <a href="#main-container"class="page-link bg-primary text-white" >{{ pagination.currentPage }}</a>
+          <a href="#main-container" class="page-link bg-primary text-white" >{{ pagination.currentPage }}</a>
         </button>
         <button class="page-item" v-show="pagination.currentPage != pagination.lastPage" :disabled="pagination.currentPage == pagination.lastPage || paginationClick"  @click="getApartments(pagination.currentPage = pagination.nextPage)">
-          <a href="#main-container"class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">{{ pagination.nextPage }}</a>
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">{{ pagination.nextPage }}</a>
         </button>
         <!-- se la prevPage è 0 viene mostrato in pagina il button con la pagina num 3  -->
         <button  class="page-item" :disabled="paginationClick" v-show="pagination.prevPage == 0" @click="getApartments(pagination.currentPage = 3)">
-          <a href="#main-container"class="page-link">3</a>
+          <a href="#main-container" class="page-link">3</a>
         </button>
         <button  class="page-item" :disabled="pagination.currentPage == pagination.lastPage || paginationClick" @click="getApartments(pagination.currentPage = pagination.nextPage)">
-          <a href="#main-container"class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">></a>
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''"><i class="fa-solid fa-angle-right"></i></a>
         </button>
         <button class="page-item" :disabled="pagination.currentPage == pagination.lastPage || paginationClick" @click="getApartments(pagination.currentPage = pagination.lastPage); console.log(paginationClick)">
-          <a href="#main-container"class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">Ultima Pagina</a>
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">Ultima Pagina</a>
         </button>
       </div>
     </div>
@@ -123,20 +123,25 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-button{
+button {
   padding:0;
+
 }
-.page-item{
+
+.page-item {
   border:none;
 
 }
+
 .container {
-  max-width: 1400px; // Ingrandisci il container per dare più spazio alle card
-  margin: 0 auto; // Centra il container
+  max-width: 1400px;
+  margin: 0 auto;
+
 }
 
 .row {
   margin: 30px 0;
+
 }
 
 </style>
