@@ -38,7 +38,7 @@ export default {
     editApartment() {
       axios
       .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
-        user_id: 1,
+        user_id: this.api.user.id,
         title: this.apartment.title,
         rooms: this.apartment.rooms,
         beds: this.apartment.beds,

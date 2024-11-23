@@ -99,9 +99,9 @@ export default {
         async userLogout() {
             try {
                 await axios.post('http://localhost:8000/logout');
-                this.api.getCSRF();
                 this.api.isLoggedIn = false;
                 this.$router.push('/'); // Reindirizza alla home dopo il logout
+                this.api.getCSRF();
             } catch (error) {
                 console.error('Errore durante il logout:', error.response?.data?.message || error.message);
             }

@@ -9,9 +9,9 @@ export const api = reactive({
     promotions: [],
 
     getCSRF() {
-        console.log('Token updated');
         axios.get('http://localhost:8000/sanctum/csrf-cookie');
         axios.defaults.headers.common["X-XSRF-TOKEN"] = this.getCsrfTokenFromCookies();
+        console.log('Token updated');
     },
 
     getCsrfTokenFromCookies() {
