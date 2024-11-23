@@ -1,28 +1,32 @@
 <script>
 import axios from 'axios';
-
+import { api, store } from '../store'
 
 export default {
   data() {
     return {
-
+      api,
+      store
     };
   },
   components: {
   },
+  mounted() {
+    this.api.getUserData();
+  },
   methods: {
-    // getData() {
-    //   axios
-    //     .get('http://localhost:8000/api/user')
-    // }
+    
   },
 }
 </script>
 
 <template>
     <div class="container">
-        <h1 class="text-center">
-            Benvenuto {{ user.firstName + '' + user.lastName }}
+        <h1 class="text-center py-3">
+            Benvenuto 
+            <span v-show="api.user.firstname != null">
+              {{ api.user.firstname }}
+            </span>
         </h1>
     </div>
 </template>
