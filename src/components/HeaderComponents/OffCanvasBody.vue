@@ -6,23 +6,15 @@ export default {
   data() {
     return {
         store,
-        api,
-        userData: [],
+        api
       };
   },
   components: {
   },
   mounted() {
-    this.getUser();
+    this.api.getUserData();
   },
   methods: {
-    async getUser(){
-       await axios.get('http://localhost:8000/api/user')
-        .then((response)=>{
-            this.userData = response.data;
-            console.log('userData:', this.userData);
-        })
-    },
   },
 }
 </script>
@@ -38,7 +30,7 @@ export default {
                     <button @click="showLoginForm = true; isRegistration = true" class="btn offcanvas-btn-primary">Registrati</button>
                 </h5>
                 <h5 v-else class="text-center ms-1" id="offcanvasRightLabel">
-                    Benvenuto {{ userData.firstname + ' ' + userData.lastname }}
+                    Benvenuto {{ api.user.firstname + ' ' + api.user.lastname }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
