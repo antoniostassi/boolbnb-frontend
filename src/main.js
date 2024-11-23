@@ -19,6 +19,7 @@ axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCsrfTokenFromCookies();
 //console.log(axios.defaults.headers.common);
 
 if (!api.loginCheck) {
+    api.getCSRF(); // Download CSRF cookie once
     api.getUserData();
     api.loginCheck = true;
 }
