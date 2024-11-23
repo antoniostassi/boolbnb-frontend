@@ -202,31 +202,31 @@ export default {
                             <div v-if="isRegistration">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Inserisci il tuo username" v-model="userName" required autocomplete="name">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Inserisci il tuo username" v-model="userName" required autocomplete="name">
                                 </div>
                                 <div class="mb-3">
                                     <label for="firstname" class="form-label">Nome</label>
-                                    <input type="text" class="form-control" id="firstname" placeholder="Inserisci il tuo nome" v-model="userFirstname" required autocomplete="firstname">
+                                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Inserisci il tuo nome" v-model="userFirstname" required autocomplete="firstname">
                                 </div>
                                 <div class="mb-3">
                                     <label for="lastname" class="form-label">Cognome</label>
-                                    <input type="text" class="form-control" id="lastname" placeholder="Inserisci il tuo cognome" v-model="userLastname" required autocomplete="lastname">
+                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Inserisci il tuo cognome" v-model="userLastname" required autocomplete="lastname">
                                 </div>
                                 <div class="mb-3">
                                     <label for="dateOfBirth" class="form-label">Data di nascita</label>
-                                    <input type="date" class="form-control" id="dateOfBirth" v-model="userDateOfBirth" required autocomplete="dateOfBirth">
+                                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" v-model="userDateOfBirth" required autocomplete="dateOfBirth">
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
                                 </div>
                                 <div class="mb-3">
                                     <label for="passwordConfirm" class="form-label">Conferma Password</label>
-                                    <input type="password" class="form-control" id="passwordConfirm" placeholder="Conferma la tua password" v-model="userPasswordConfirm" required autocomplete="passwordConfirm">
+                                    <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Conferma la tua password" v-model="userPasswordConfirm" required autocomplete="passwordConfirm">
                                 </div>
                             </div>
 
