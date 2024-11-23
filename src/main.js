@@ -20,6 +20,5 @@ createApp(App).use(router).mount('#app'); // Utilizzo di router nella navigazion
 if (!api.loginCheck) {
     api.getCSRF();
     api.getUserData();
-    axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCsrfTokenFromCookies();
     api.loginCheck = true;
 };

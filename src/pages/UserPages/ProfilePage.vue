@@ -11,9 +11,6 @@ export default {
   },
   components: {
   },
-  mounted() {
-    this.api.getUserData();
-  },
   methods: {
     
   },
