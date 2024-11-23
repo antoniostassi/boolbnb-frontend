@@ -123,7 +123,7 @@ export default {
 
 <template>
     <div>
-        <header class="bg-gradient sticky-top" :class="{ 'hide-header': hideHeader }">
+        <header id="main-container" class="bg-gradient sticky-top" :class="{ 'hide-header': hideHeader }">
             <nav class="container d-flex align-items-center justify-content-between py-3">
                 <!-- Logo -->
                 <div class="logo-container">
