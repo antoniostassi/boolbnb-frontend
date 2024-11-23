@@ -17,3 +17,8 @@ createApp(App).use(router).mount('#app'); // Utilizzo di router nella navigazion
 
 axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCsrfTokenFromCookies();
 //console.log(axios.defaults.headers.common);
+
+if (!api.loginCheck) {
+    api.getUserData();
+    api.loginCheck = true;
+}

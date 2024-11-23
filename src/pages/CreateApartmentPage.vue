@@ -127,6 +127,7 @@ export default {
             <input type="radio" name="promotions" id="nothing" :value=null checked="checked" v-model="apartment.promotion">
             </div>
 
+
             <button type="submit">
                 Crea
             </button>

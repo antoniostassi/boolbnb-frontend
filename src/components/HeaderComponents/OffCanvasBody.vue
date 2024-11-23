@@ -1,11 +1,11 @@
 <script>
 
-import { store } from '../../store'
-
+import { store, api } from '../../store'
 export default {
   data() {
     return {
-        store
+        store,
+        api
       };
   },
   components: {
@@ -21,7 +21,7 @@ export default {
                 <h5 class="text-center ms-3" id="offcanvasRightLabel">
                     Menù |
                 </h5>
-                <h5 v-if="!isLoggedIn" class="text-center ms-1" id="offcanvasRightLabel">
+                <h5 v-if="!this.api.isLoggedIn" class="text-center ms-1" id="offcanvasRightLabel">
                     <button @click="showLoginForm = true; isRegistration = false" class="btn offcanvas-btn-outline-primary">Accedi</button>
                     <button @click="showLoginForm = true; isRegistration = true" class="btn offcanvas-btn-primary">Registrati</button>
                 </h5>
@@ -46,7 +46,7 @@ export default {
                             <router-link :to="link.href" class="nav-link">{{ link.name }}</router-link>
                         </li>
                     </ul>
-                    <ul v-if="isLoggedIn" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <ul v-if="this.api.isLoggedIn" class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                         <li>
                             <a class="dropdown-item" href="#">
                                 Profilo

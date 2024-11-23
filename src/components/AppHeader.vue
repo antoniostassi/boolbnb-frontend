@@ -13,7 +13,6 @@ export default {
             store,
             lastScrollY: 0, // Memorizza l'ultima posizione di scroll
             hideHeader: false, // Stato che indica se l'header deve essere nascosto
-            isLoggedIn: false, // Stato per verificare se l'utente è loggato
             showLoginForm: false, // Stato per mostrare/nascondere il form di login
 
             // Variabili per il form di login e registrazione
@@ -58,7 +57,8 @@ export default {
                 password: this.userPassword
             })
             .then((response) => {
-                this.isLoggedIn = true;
+                this.api.getUserData();
+                this.api.isLoggedIn = true;
                 this.resetForm();
                 this.showLoginForm = false; // Chiudi il form di login al successo
                 this.$router.push('/'); // Reindirizza alla home
@@ -100,7 +100,7 @@ export default {
         async userLogout() {
             try {
                 await axios.post('http://localhost:8000/logout');
-                this.isLoggedIn = false;
+                this.api.isLoggedIn = false;
                 this.$router.push('/'); // Reindirizza alla home dopo il logout
             } catch (error) {
                 console.error('Errore durante il logout:', error.response?.data?.message || error.message);
@@ -153,7 +153,7 @@ export default {
                 <!-- Auth Controls -->
                 <div>
                     <!-- Se l'utente NON è loggato -->
-                    <div v-if="!isLoggedIn" class="auth-buttons d-flex gap-2 d-none d-lg-block">
+                    <div v-if="!this.api.isLoggedIn" class="auth-buttons d-flex gap-2 d-none d-lg-block">
                         <button @click="showLoginForm = true; isRegistration = false" class="btn btn-outline-primary">Accedi</button>
                         <button @click="showLoginForm = true; isRegistration = true" class="btn btn-primary">Registrati</button>
                     </div>

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import tt from '@tomtom-international/web-sdk-maps';
 import { markRaw } from 'vue';
+import { store } from '../store'
 
 export default {
     data() {
@@ -9,12 +10,14 @@ export default {
             apartment: null,
             map: null,
             mapCenter: { lat: 0, lng: 0 },
+            store,
         };
+        
     },
     props: {
         id: {
-            type: Number,
-            required: true,
+            type: Number, // To understand
+            required: true, // To understand
         },
     },
     mounted() {
@@ -35,6 +38,9 @@ export default {
                         };
                         this.initializeMap();
                     }
+
+                    this.store.currentApartment = this.id // To understand
+                    console.log(this.store.currentApartment) // To understand
                 })
                 .catch((error) => {
                     console.error(error);
@@ -105,6 +111,12 @@ export default {
             </div>
             
         </div>
+        
+          <router-link :to="{ name: 'edit-apartment', params: { id: this.id } }">
+            Modifica
+          </router-link>
+
+      
     </div>
 </template>
 
