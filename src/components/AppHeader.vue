@@ -159,7 +159,7 @@ export default {
                     </div>
 
                     <!-- Se l'utente è loggato -->
-                    <div v-else class="dropdown profile-menu">
+                    <div v-else class="dropdown profile-menu d-none d-lg-inline-block">
                         <a
                             href="#"
                             class="d-flex align-items-center"
@@ -171,7 +171,7 @@ export default {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                             <router-link
-                                :to="{ name: 'profile-page', params: { fullName: `${userName}+${userSurname}` } }"
+                                :to="{ name: 'profile-page' }"
                                 class="dropdown-item">
                                     Profilo
                             </router-link>
@@ -179,7 +179,11 @@ export default {
                             <router-link :to="{ name: 'your-apartments' }" class="dropdown-item">
                                 Le tue strutture
                             </router-link>
-                            <li><a class="dropdown-item" href="#" @click="userLogout">Logout</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#" @click="userLogout">
+                                    Logout
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
