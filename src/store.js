@@ -19,21 +19,21 @@ export const api = reactive({
 
     async getServices() {
         await axios.get('http://localhost:8000/api/services').then((result) => {
-            this.services = result.data;
+            this.services = result.data; // Store services
         });
     },
 
     async getPromotions() {
         await axios.get('http://localhost:8000/api/promotions').then((result) => {
-            this.promotions = result.data;
+            this.promotions = result.data; // Store promotions
         });
     },
 
     async getUserData() {
         await axios.get('http://localhost:8000/api/user').then((result) => {
-            this.user = result.data;
-            this.isLoggedIn = true;
-            this.getUserApartments();
+            this.user = result.data; // Store user data
+            this.isLoggedIn = true; // Set user logged for frontend control
+            this.getUserApartments(); // Store user's apartments
         }).catch((error) => {
             console.log('Utente non loggato');
         });
@@ -46,8 +46,7 @@ export const api = reactive({
         }).catch((error) => {
             console.log(error);
         })
-    }
-
+    },
 
 });
 
