@@ -258,7 +258,7 @@ export default {
                             </div>
                             <div class="card-footer d-flex justify-content-end">
                                 <button type="button" class="btn btn-secondary me-2" @click="showLoginForm = false">Chiudi</button>
-                                <button type="button" class="btn btn-primary" @click="isRegistration ? userRegister() : userLogin()">{{ isRegistration ? 'Registrati' : 'Accedi' }}</button>
+                                <button type="button" @keyup.enter="isRegistration ? userRegister() : userLogin()" class="btn btn-primary" @click="isRegistration ? userRegister() : userLogin()">{{ isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
                         </form>
                     </div>
