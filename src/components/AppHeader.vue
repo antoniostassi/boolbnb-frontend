@@ -11,12 +11,12 @@ export default {
     data() {
         return {
             store,
+            api,
             lastScrollY: 0, // Memorizza l'ultima posizione di scroll
             hideHeader: false, // Stato che indica se l'header deve essere nascosto
             showLoginForm: false, // Stato per mostrare/nascondere il form di login
 
             // Variabili per il form di login e registrazione
-            api,
             isRegistration: false, // Stato per passare da login a registrazione
             userEmail: '', // Email per il login/registrazione
             userPassword: '', // Password per il login/registrazione
