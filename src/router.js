@@ -1,90 +1,51 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import HomePage from './pages/HomePage.vue';
-import ProfilePage from './pages/ProfilePage.vue';
-import YourApartmentsPage from './pages/YourApartmentsPage.vue';
-import PromotionsPage from './pages/PromotionsPage.vue';
-import ApartmentsPage from './pages/ApartmentsPage.vue';
-import ApartmentDetailsPage from './pages/ApartmentDetailsPage.vue';
-import CreateApartmentPage from './pages/CreateApartmentPage.vue';
-import AboutPage from './pages/AboutPage.vue';
-import ServicesPage from './pages/ServicesPage.vue';
-import ContactsPage from './pages/ContactsPage.vue';
-import NotFoundPage from './pages/NotFoundPage.vue';
-import LoginDialog from './components/login/LoginDialog.vue';
-import EditApartmentPage from './pages/EditApartmentPage.vue';
+// NavbarPages
+import HomePage from './pages/NavbarPages/HomePage.vue';
+import ApartmentsPage from './pages/NavbarPages/ApartmentsPage.vue';
+import PromotionsPage from './pages/NavbarPages/PromotionsPage.vue';
+import AboutPage from './pages/NavbarPages/AboutPage.vue';
+import ContactsPage from './pages/NavbarPages/ContactsPage.vue';
 
+// SingleApartmentPage
+import ApartmentDetailsPage from './pages/SingleApartmentPage/ApartmentDetailsPage.vue';
+
+// UserPages
+import ProfilePage from './pages/UserPages/ProfilePage.vue';
+
+// ApartmentsCRUDPages
+import DashboardPage from './pages/ApartmentsCRUDPages/DashboardPage.vue'; // Show
+import CreateApartmentPage from './pages/ApartmentsCRUDPages/CreateApartmentPage.vue'; // Create
+import EditApartmentPage from './pages/ApartmentsCRUDPages/EditApartmentPage.vue'; // Edit
+
+// NotFoundPage
+import NotFoundPage from './pages/NotFoundPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: HomePage
+
+        // NavbarPages
+        { path: '/', name: 'home', component: HomePage },
+        { path: '/apartments', name: 'apartments', component: ApartmentsPage },
+        { path: '/promotions', name: 'promotions', component: PromotionsPage },
+        { path: '/about', name: 'about', component: AboutPage },
+        { path: '/contacts', name: 'contacts', component: ContactsPage
         },
-        {
-            path: '/user/profile',
-            name: 'profile-page',
-            component: ProfilePage
-        },
-        {
-            path: '/user/apartments',
-            name: 'your-apartments',
-            component: YourApartmentsPage
-        },
-        {
-            path: '/promotions',
-            name: 'promotions',
-            component: PromotionsPage
-        },
-        {
-            path: '/apartments',
-            name: 'apartments',
-            component: ApartmentsPage
-        },
-        {
-            path: '/apartments/:id',
-            name: 'apartments-details',
-            component: ApartmentDetailsPage,
-            props: true
-        },
-        {
-            path: '/apartments/create',
-            name: 'create-apartment',
-            component: CreateApartmentPage,
-            props: true
-        },
-        {
-            path: '/apartments/edit/:id',
-            name: 'edit-apartment',
-            component: EditApartmentPage,
-        },
-        {
-            path: '/about',
-            name: 'about',
-            component: AboutPage
-        },
-        {
-            path: '/services',
-            name: 'services',
-            component: ServicesPage
-        },
-        {
-            path: '/contacts',
-            name: 'contacts',
-            component: ContactsPage
-        },
-        {
-            path:'/login',
-            name: 'login',
-            component:LoginDialog
-        },
-        {
-            path: '/:pathMatch(.*)*',
-            name: 'not-found',
-            component: NotFoundPage
-        }
+
+        // SingleApartmentPage
+        { path: '/apartments/:id', name: 'apartments-details', component: ApartmentDetailsPage, props: true },
+
+        // UserPages
+        {  path: '/user/profile', name: 'profile-page', component: ProfilePage },
+
+        // ApartmentsCRUDPages
+        { path: '/user/dashboard', name: 'your-apartments', component: DashboardPage },
+        {  path: '/apartments/create', name: 'create-apartment', component: CreateApartmentPage, props: true },
+        { path: '/apartments/edit/:id', name: 'edit-apartment', component: EditApartmentPage },
+
+        // NotFoundPage
+        { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage }
     ]
 });
 
