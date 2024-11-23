@@ -1,5 +1,5 @@
 <script>
-import { api } from '../store';
+import { api } from '../../store';
 import axios from 'axios';
 import * as services from '@tomtom-international/web-sdk-services';
 

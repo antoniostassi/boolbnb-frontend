@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-import SingleApartment from "../components/SingleApartment.vue";
+import SingleApartment from "../../components/SingleApartment.vue";
 
 export default {
   data() {

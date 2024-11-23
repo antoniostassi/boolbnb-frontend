@@ -2,7 +2,7 @@
 import axios from 'axios';
 import tt from '@tomtom-international/web-sdk-maps';
 import { markRaw } from 'vue';
-import { store } from '../store';
+import { store } from '../../store';
 
 export default {
     data() {

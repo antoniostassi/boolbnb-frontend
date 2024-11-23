@@ -1,7 +1,7 @@
 <script>
 
-import { api } from '../store';
-import { store } from '../store';
+import { api } from '../../store';
+import { store } from '../../store';
 
 import axios from 'axios';
 

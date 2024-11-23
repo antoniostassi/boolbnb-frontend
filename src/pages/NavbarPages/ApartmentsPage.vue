@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-import SingleApartment from "../components/SingleApartment.vue";
+import SingleApartment from "../../components/SingleApartment.vue";
 
 export default {
   data() {
@@ -141,7 +141,7 @@ button {
 
 .row {
   margin: 30px 0;
-  
+
 }
 
 </style>
