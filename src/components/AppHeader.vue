@@ -1,8 +1,7 @@
 <script>
 import axios from 'axios';
-import { api } from '../store';
 import OffCanvasBody from './HeaderComponents/OffCanvasBody.vue';
-import { store } from '../store'
+import { store, api } from '../store'
 
 export default {
     components: { 
@@ -14,10 +13,6 @@ export default {
             api,
             lastScrollY: 0, // Memorizza l'ultima posizione di scroll
             hideHeader: false, // Stato che indica se l'header deve essere nascosto
-            showLoginForm: false, // Stato per mostrare/nascondere il form di login
-
-            // Variabili per il form di login e registrazione
-            isRegistration: false, // Stato per passare da login a registrazione
             userEmail: '', // Email per il login/registrazione
             userPassword: '', // Password per il login/registrazione
             userPasswordConfirm: '', // Conferma password per la registrazione
@@ -59,7 +54,7 @@ export default {
                 this.api.getUserData();
                 this.api.isLoggedIn = true;
                 this.resetForm();
-                this.showLoginForm = false; // Chiudi il form di login al successo
+                this.store.showLoginForm = false; // Chiudi il form di login al successo
                 this.$router.push('/'); // Reindirizza alla home
                 
             }).catch((error) =>{
@@ -154,8 +149,8 @@ export default {
                 <div>
                     <!-- Se l'utente NON è loggato -->
                     <div v-if="!this.api.isLoggedIn" class="auth-buttons d-flex gap-2 d-none d-lg-block">
-                        <button @click="showLoginForm = true; isRegistration = false" class="btn btn-outline-primary">Accedi</button>
-                        <button @click="showLoginForm = true; isRegistration = true" class="btn btn-primary">Registrati</button>
+                        <button @click="store.showLoginForm = true; store.isRegistration = false" class="btn btn-outline-primary">Accedi</button>
+                        <button @click="store.showLoginForm = true; store.isRegistration = true" class="btn btn-primary">Registrati</button>
                     </div>
 
                     <!-- Se l'utente è loggato -->
@@ -193,17 +188,17 @@ export default {
         <OffCanvasBody/>
 
         <!-- Overlay Login/Register Form -->
-        <div v-if="showLoginForm" class="overlay">
+        <div v-if="store.showLoginForm" class="overlay">
             <div class="overlay-content">
                 <div class="card login-card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">{{ isRegistration ? 'Registrazione' : 'Login' }}</h5>
-                        <button type="button" class="btn-close" aria-label="Close" @click="showLoginForm = false"></button>
+                        <h5 class="card-title mb-0">{{ store.isRegistration ? 'Registrazione' : 'Login' }}</h5>
+                        <button type="button" class="btn-close" aria-label="Close" @click="store.showLoginForm = false"></button>
                     </div>
                     <div class="card-body">
                         <form>
                             <!-- Sezione Registrazione -->
-                            <div v-if="isRegistration">
+                            <div v-if="store.isRegistration">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Username</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Inserisci il tuo username" v-model="userName" required autocomplete="name">
@@ -249,16 +244,16 @@ export default {
 
                             <!-- Cambia tra Login e Registrazione -->
                             <div>
-                                <span v-if="isRegistration">
-                                    Sei già registrato? <a href="#" @click="isRegistration = false">Accedi</a>
+                                <span v-if="store.isRegistration">
+                                    Sei già registrato? <a href="#" @click="store.isRegistration = false">Accedi</a>
                                 </span>
                                 <span v-else>
-                                    Non sei ancora registrato? <a href="#" @click="isRegistration = true">Registrati</a>
+                                    Non sei ancora registrato? <a href="#" @click="store.isRegistration = true">Registrati</a>
                                 </span>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <button type="button" class="btn btn-secondary me-2" @click="showLoginForm = false">Chiudi</button>
-                                <button type="button" @keyup.enter="isRegistration ? userRegister() : userLogin()" class="btn btn-primary" @click="isRegistration ? userRegister() : userLogin()">{{ isRegistration ? 'Registrati' : 'Accedi' }}</button>
+                                <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false">Chiudi</button>
+                                <button type="button" @keyup.enter="store.isRegistration ? userRegister() : userLogin()" class="btn btn-primary" @click="store.isRegistration ? userRegister() : userLogin()">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
                         </form>
                     </div>
