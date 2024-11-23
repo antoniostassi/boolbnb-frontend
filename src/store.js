@@ -9,7 +9,9 @@ export const api = reactive({
     promotions: [],
 
     getCSRF() {
+        console.log('Token updated');
         axios.get('http://localhost:8000/sanctum/csrf-cookie');
+        axios.defaults.headers.common["X-XSRF-TOKEN"] = this.getCsrfTokenFromCookies();
     },
 
     getCsrfTokenFromCookies() {
@@ -34,6 +36,8 @@ export const api = reactive({
             this.user = result.data; // Store user data
             this.isLoggedIn = true; // Set user logged for frontend control
             this.getUserApartments(); // Store user's apartments
+            this.getServices(); // Store services
+            this.getPromotions(); // Store promotions
         }).catch((error) => {
             console.log('Utente non loggato');
         });

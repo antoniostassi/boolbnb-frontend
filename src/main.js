@@ -15,11 +15,11 @@ import { router } from './router'; // Importato Router
 
 createApp(App).use(router).mount('#app'); // Utilizzo di router nella navigazione delle pagine
 
-axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCsrfTokenFromCookies();
 //console.log(axios.defaults.headers.common);
 
 if (!api.loginCheck) {
-    api.getCSRF(); // Download CSRF cookie once
+    api.getCSRF();
     api.getUserData();
+    axios.defaults.headers.common["X-XSRF-TOKEN"] = api.getCsrfTokenFromCookies();
     api.loginCheck = true;
-}
+};

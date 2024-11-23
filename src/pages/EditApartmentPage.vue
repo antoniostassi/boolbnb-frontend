@@ -52,6 +52,7 @@ export default {
       })
       .then((result) => {
         console.log(result);
+        this.api.getUserApartments();
       })
       .catch((error) => {
         console.log(error);

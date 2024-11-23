@@ -49,14 +49,13 @@ export default {
             this.lastScrollY = currentScrollY;
         },
         async userLogin() {
-            this.api.getCSRF();
-            this.api.getCsrfTokenFromCookies();
 
             await axios.post('http://localhost:8000/login', {  
                 email: this.userEmail,
                 password: this.userPassword
             })
             .then((response) => {
+                this.api.getCSRF();
                 this.api.getUserData();
                 this.api.isLoggedIn = true;
                 this.resetForm();
@@ -100,6 +99,7 @@ export default {
         async userLogout() {
             try {
                 await axios.post('http://localhost:8000/logout');
+                this.api.getCSRF();
                 this.api.isLoggedIn = false;
                 this.$router.push('/'); // Reindirizza alla home dopo il logout
             } catch (error) {
