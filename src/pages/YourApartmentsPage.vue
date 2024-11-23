@@ -1,27 +1,33 @@
 <script>
 import axios from 'axios';
+import { store } from '../store';
 
 export default {
   data() {
     return {
+      store,
       apartments: [], // Elenco degli appartamenti
       userId: null, // ID dell'utente
     };
   },
   mounted() {
-    // Ottiene l'user_id dall'URL e carica gli appartamenti
-    this.userId = this.$route.params.user_id;
-    if (this.userId) {
-      this.getApartments(this.userId);
-    }
+    this.getUser()
   },
   methods: {
     // Metodo per ottenere gli appartamenti
+    async getUser(){
+       await axios.get('http://localhost:8000/api/user')
+        .then((response)=>{
+          console.log(response.data.id)
+          this.userId = response.data.id
+          this.getApartments(this.userId)
+        })
+    },
     getApartments(userId) {
       axios
-        .get(`http://localhost:8000/api/apartments?user_id=${userId}`)
+        .get(`http://localhost:8000/api/apartments?user_id=` + this.userId)
         .then((response) => {
-          this.apartments = response.data.data;
+          this.apartments = response.data;
         })
         .catch((error) => {
           console.error("Errore nel caricamento degli appartamenti:", error);
@@ -45,6 +51,7 @@ export default {
     },
     // Metodo per navigare alla pagina di modifica
     editApartment(apartmentId) {
+      this.store.currentApartment = apartmentId;
       this.$router.push({ name: "edit-apartment", params: { id: apartmentId } });
     },
     // Metodo per creare un nuovo appartamento
@@ -76,12 +83,13 @@ export default {
       </thead>
       <tbody>
         <!-- Itera sugli appartamenti -->
-        <tr v-for="(apartment, index) in apartments" :key="apartment.id">
+        <tr v-for="(apartment, index) in apartments" :key="index">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ apartment.title }}</td>
           <td>{{ apartment.address }}</td>
           <td>
             <!-- Pulsante per vedere i dettagli -->
+            <button class="btn btn-success btn-sm me-3">Promuovi</button>
             <router-link
               :to="{ name: 'apartments-details', params: { id: apartment.id } }"
               class="btn btn-primary btn-sm me-3"
@@ -105,11 +113,10 @@ export default {
           </td>
         </tr>
         <!-- Messaggio se non ci sono appartamenti -->
-        <tr v-if="apartments.length === 0">
-          <td colspan="4">Nessun appartamento trovato.</td>
-        </tr>
+        
       </tbody>
     </table>
+    
   </div>
 </template>
 
