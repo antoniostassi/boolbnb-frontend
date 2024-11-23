@@ -28,13 +28,11 @@ export default {
 
           // Aggiorna gli appartamenti aggiungendo un'immagine Picsum generata e filtrando l'indirizzo
           this.apartments = response.data.data.map((apartment) => {
-            const addressParts = apartment.address.split(", ");
-            const filteredAddress = `${addressParts[addressParts.length - 3]}, ${addressParts[addressParts.length - 2]}`;
             
             return {
               id: apartment.id,
               title: apartment.title,
-              address: filteredAddress,
+              address: apartment.address,
               apartment_size: apartment.apartment_size,
               rooms: apartment.rooms,
               image: `https://picsum.photos/seed/${apartment.id}/400/400`
