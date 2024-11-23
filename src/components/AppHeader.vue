@@ -32,6 +32,7 @@ export default {
         window.removeEventListener("scroll", this.handleScroll);
     },
     methods: {
+        
         handleScroll() {
             const currentScrollY = window.scrollY;
 
@@ -91,16 +92,7 @@ export default {
                 this.testoErrore = error.response?.data?.message || 'Errore durante la registrazione.';
             }
         },
-        async userLogout() {
-            try {
-                await axios.post('http://localhost:8000/logout');
-                this.api.isLoggedIn = false;
-                this.$router.push('/'); // Reindirizza alla home dopo il logout
-                this.api.getCSRF();
-            } catch (error) {
-                console.error('Errore durante il logout:', error.response?.data?.message || error.message);
-            }
-        },
+        
         resetForm() {
             // Resetta i dati del form
             this.userEmail = '';
@@ -175,7 +167,7 @@ export default {
                                 Le tue strutture
                             </router-link>
                             <li>
-                                <a class="dropdown-item" href="#" @click="userLogout">
+                                <a class="dropdown-item" href="#" @click="api.userLogout($router);">
                                     Logout
                                 </a>
                             </li>
