@@ -1,46 +1,71 @@
 <script>
 import axios from 'axios';
+import tt from '@tomtom-international/web-sdk-maps';
+import { markRaw } from 'vue';
 import { store } from '../store'
 
 export default {
     data() {
         return {
+            apartment: null,
+            map: null,
+            mapCenter: { lat: 0, lng: 0 },
             store,
-            apartment: null
         };
         
     },
     props: {
         id: {
-            type: Number,
-            required: true
-        }
-    },
-    components: {
+            type: Number, // To understand
+            required: true, // To understand
+        },
     },
     mounted() {
         this.getApartment();
     },
-
     methods: {
         getApartment() {
             axios
                 .get(`http://localhost:8000/api/apartments/${this.id}`)
                 .then((response) => {
-                    console.log(response.data[0]); // Logga la risposta completa
                     this.apartment = response.data[0];
-                    this.apartment.image = `https://picsum.photos/seed/${this.id}/400/300`;
-                    this.store.currentApartment = this.id
-                    console.log(this.store.currentApartment)
+                    this.apartment.image = `https://picsum.photos/seed/${this.apartment.id}/400/300`;
+
+                    if (this.apartment.latitude && this.apartment.longitude) {
+                        this.mapCenter = {
+                            lat: this.apartment.latitude,
+                            lng: this.apartment.longitude,
+                        };
+                        this.initializeMap();
+                    }
+
+                    this.store.currentApartment = this.id // To understand
+                    console.log(this.store.currentApartment) // To understand
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         },
+        initializeMap() {
+            this.$nextTick(() => {
+                this.map = markRaw(tt.map({
+                    key: 'Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ',
+                    container: 'map',
+                    center: [this.mapCenter.lng, this.mapCenter.lat],
+                    zoom: 15,
+                }));
+
+                const marker = markRaw(new tt.Marker()
+                    .setLngLat([this.mapCenter.lng, this.mapCenter.lat])
+                    .addTo(this.map));
+            });
+        }
     },
-}
+};
 
 </script>
+
+
 
 <template>
     <div>
@@ -75,6 +100,16 @@ export default {
                     </li>
                 </ul>
             </div>
+
+            <div v-if="apartment && mapCenter.lat && mapCenter.lng" class="map-container container d-flex flex-column justify-content-center align-items-center">
+                <h2 class="text-center">
+                    Posizione dell'appartamento
+                </h2>
+                <div id="map">
+
+                </div>
+            </div>
+            
         </div>
         
           <router-link :to="{ name: 'edit-apartment', params: { id: this.id } }">
@@ -88,4 +123,8 @@ export default {
 
 
 <style>
+#map {
+    height: 400px;
+    width: 400px;
+}
 </style>

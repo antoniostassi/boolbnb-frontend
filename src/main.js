@@ -3,6 +3,8 @@ import '../src/style.scss';
 import App from './App.vue';
 import axios from 'axios';
 import { api } from './store.js';
+import '@tomtom-international/web-sdk-maps/dist/maps.css';
+
 
 axios.defaults.withCredentials = true;
 
