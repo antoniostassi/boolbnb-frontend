@@ -15,6 +15,7 @@ export default {
             },
             suggestions: [],
             apiKey: 'Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ',
+            currentUserId: null,
         };
     },
     components: {
@@ -22,8 +23,18 @@ export default {
     mounted() {
         this.api.getServices();
         this.api.getPromotions();
+        this.getCurrentUserId();
     },
     methods: {
+        getCurrentUserId() {
+            axios.get('http://localhost:8000/api/user')
+                .then((response) => {
+                    this.currentUserId = response.data.id;
+                })
+                .catch((error) => {
+                    console.error('Errore nel recuperare l\'utente:', error)
+                })
+        },
         fetchSuggestions(query) {
             if (query.length < 3) {
                 this.suggestions = [];
@@ -51,13 +62,13 @@ export default {
         selectSuggestion(suggestion) {
             this.apartment.address = suggestion.address;
             this.apartment.latitude = suggestion.position.lat;
-            this.apartment.longitude = suggestion.position.lon;
+            this.apartment.longitude = suggestion.position.lng;
             this.suggestions = [];
         },
         createApartment() {
             axios
             .post('http://localhost:8000/api/apartments', {
-                user_id: 1,
+                user_id: this.currentUserId,
                 title: this.apartment.title,
                 rooms: this.apartment.rooms,
                 beds: this.apartment.beds,
@@ -71,7 +82,9 @@ export default {
                 promotions: this.apartment.promotion
             })
             .then((result) => {
-                console.log(result);
+                console.log('Risultato:', result);
+                alert('Appartamento creato con successo');
+                this.$router.push('/user/apartments')
             })
             .catch((error) => {
                 console.log(error);
@@ -82,56 +95,145 @@ export default {
 </script>
 
 <template>
-    <div class="container">
-        <form @submit.prevent="createApartment">
-            <label class="form-label" for="title">Titolo della struttura</label>
-            <input class="form-control" type="text" name="title" required v-model="apartment.title">
-
-            <label class="form-label" for="rooms">Numero di stanze</label>
-            <input class="form-control" type="number" name="rooms" required v-model="apartment.rooms">
-
-            <label class="form-label" for="beds">Numero di letti</label>
-            <input class="form-control" type="number" name="beds" required v-model="apartment.beds">
-
-            <label class="form-label" for="bathrooms">Numero di bagni</label>
-            <input class="form-control" type="number" name="bathrooms" required v-model="apartment.bathrooms">
-
-            <label class="form-label" for="apartment_size">Metri quadrati</label>
-            <input class="form-control" type="number" name="apartment_size" required v-model="apartment.apartment_size">
-
-            <label class="form-label" for="address">Indirizzo</label>
-            <input class="form-control" type="text" name="address" required v-model="apartment.address" @input="fetchSuggestions(apartment.address)" autocomplete="off">
-            <ul v-if="suggestions.length" class="list-group">
-                <li v-for="(suggestion, index) in suggestions" :key="index" @click="selectSuggestion(suggestion)" class="list-group-item">
-                    {{ suggestion.address }}
-                </li>
-            </ul>
-
-            <label class="form-label" for="image">Immagine</label>
-            <input class="form-control" type="text" name="image" required v-model="apartment.image">
-
-            <h1>Services</h1>
-            <div class="row gap-2">
-            <div class="col-2" v-for="(service, index) in this.api.services" :key="index">
-                <input type="checkbox" name="services[]" :id="'service-'+service.id" v-model="apartment.services" :value="service.id">
-                <label class="form-label" :for="'service-'+index">{{service.title}}</label>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Crea un nuovo appartamento</h1>
+        <form @submit.prevent="createApartment" class="p-4 border rounded shadow">
+            <div class="mb-3">
+                <label class="form-label" for="title">Titolo della struttura</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="title"
+                    required
+                    v-model="apartment.title"
+                    placeholder="Inserisci il titolo"
+                />
             </div>
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label" for="rooms">Numero di stanze</label>
+                    <input
+                        class="form-control"
+                        type="number"
+                        name="rooms"
+                        required
+                        v-model="apartment.rooms"
+                        placeholder="Inserisci il numero di stanze"
+                    />
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label" for="beds">Numero di letti</label>
+                    <input
+                        class="form-control"
+                        type="number"
+                        name="beds"
+                        required
+                        v-model="apartment.beds"
+                        placeholder="Inserisci il numero di letti"
+                    />
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label" for="bathrooms">Numero di bagni</label>
+                    <input
+                        class="form-control"
+                        type="number"
+                        name="bathrooms"
+                        required
+                        v-model="apartment.bathrooms"
+                        placeholder="Inserisci il numero di bagni"
+                    />
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label" for="apartment_size">Metri quadrati</label>
+                    <input
+                        class="form-control"
+                        type="number"
+                        name="apartment_size"
+                        required
+                        v-model="apartment.apartment_size"
+                        placeholder="Inserisci i metri quadrati"
+                    />
+                </div>
             </div>
-            <h1>Promotions</h1>
-            <div class="row gap-2">
-            <div class="col-2" v-for="(promotion, index) in this.api.promotions" :key="index">
-                <label class="form-label" :for="'promotion-'+index">{{promotion.title}}</label>
-                <input type="radio" name="promotions" :id="'promotion-'+promotion.id" :value="promotion.id" v-model="apartment.promotion">
-            </div>
-            <label class="form-label" for="nothing">Nessun abbonamento</label>
-            <input type="radio" name="promotions" id="nothing" :value=null checked="checked" v-model="apartment.promotion">
+            <div class="mb-3">
+                <label class="form-label" for="address">Indirizzo</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="address"
+                    required
+                    v-model="apartment.address"
+                    @input="fetchSuggestions(apartment.address)"
+                    placeholder="Inserisci l'indirizzo"
+                    autocomplete="off"
+                />
+                <ul v-if="suggestions.length" class="list-group mt-2">
+                    <li
+                        v-for="(suggestion, index) in suggestions"
+                        :key="index"
+                        @click="selectSuggestion(suggestion)"
+                        class="list-group-item list-group-item-action"
+                    >
+                        {{ suggestion.address }}
+                    </li>
+                </ul>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label" for="image">Immagine</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    name="image"
+                    required
+                    v-model="apartment.image"
+                    placeholder="Inserisci il link dell'immagine"
+                />
+            </div>
 
-            <button type="submit">
-                Crea
-            </button>
+            <h3>Servizi</h3>
+            <div class="row mb-3">
+                <div class="col-md-3 d-flex align-items-center justify-content-center" v-for="(service, index) in api.services" :key="index">
+                    <label :for="'service-'+index" class="ms-1 my-1 w-50">{{ service.title }}</label>
+                    <input
+                        type="checkbox"
+                        name="services[]"
+                        :id="'service-'+service.id"
+                        v-model="apartment.services"
+                        :value="service.id"
+                    />
+                    
+                </div>
+            </div>
 
+            <h3>Promozioni</h3>
+            <div class="row mb-3">
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                    <label for="nothing" class="ms-1 my-1 w-75">Nessun abbonamento</label>
+                    <input
+                        type="radio"
+                        name="promotions"
+                        id="nothing"
+                        :value="null"
+                        checked="checked"
+                        v-model="apartment.promotion"
+                    />
+                </div>
+                <div class="col-md-3 d-flex align-items-center justify-content-center" v-for="(promotion, index) in api.promotions" :key="index">
+                    <label :for="'promotion-'+index" class="ms-1 my-1 w-50">{{ promotion.title }}</label>
+                    <input
+                        type="radio"
+                        name="promotions"
+                        :id="'promotion-'+promotion.id"
+                        :value="promotion.id"
+                        v-model="apartment.promotion"
+                    />
+                    
+                </div>
+                
+            </div>
+
+            <button class="btn btn-success w-100">Crea Appartamento</button>
         </form>
     </div>
 </template>
