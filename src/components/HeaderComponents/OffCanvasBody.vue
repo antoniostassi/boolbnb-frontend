@@ -11,6 +11,7 @@ export default {
   components: {
   },
   methods: {
+    
     closeCanvas(){
         document.getElementById("close-canvas").click()
     }
@@ -26,8 +27,8 @@ export default {
                     Menù |
                 </h5>
                 <h5 v-if="!this.api.isLoggedIn" class="text-center ms-1" id="offcanvasRightLabel">
-                    <button @click="store.showLoginForm = true; store.isRegistration = false ; this.closeCanvas()" class="btn offcanvas-btn-outline-primary">Accedi</button>
-                    <button @click="store.showLoginForm = true; store.isRegistration = true; this.closeCanvas() " class="btn offcanvas-btn-primary">Registrati</button>
+                    <button @click="store.showLoginForm = true; store.isRegistration = false ; closeCanvas()" class="btn offcanvas-btn-outline-primary">Accedi</button>
+                    <button @click="store.showLoginForm = true; store.isRegistration = true; closeCanvas() " class="btn offcanvas-btn-primary">Registrati</button>
                 </h5>
                 <h5 v-else class="text-center ms-1" id="offcanvasRightLabel">
                     Benvenuto {{ api.user.firstname + ' ' + api.user.lastname }}
@@ -38,7 +39,7 @@ export default {
                 <!-- CORPO DELL'OFFCANVAS IN MOBILE DEVICES -->
 
                 <div class="logo-container">
-                    <router-link to="/" class="d-flex align-items-center" @click="this.closeCanvas()">
+                    <router-link to="/" class="d-flex align-items-center" @click="closeCanvas()">
                         <img src="/img/BoolBnB Logo.png" alt="BoolBnB Logo" class="logo ms-3" />
                     </router-link>
                 </div>
@@ -47,7 +48,7 @@ export default {
                 <div class="navbar d-flex flex-column align-items-start">
                     <ul class="nav flex-column fs-5">
                         <li class="nav-item">
-                            <router-link @click="this.closeCanvas()"
+                            <router-link @click="closeCanvas()"
                                 v-if="this.api.isLoggedIn"
                                 :to="{ name: 'profile-page' }"
                                 class="nav-link">
@@ -55,18 +56,18 @@ export default {
                             </router-link>
                         </li>
                         <li v-if="this.api.isLoggedIn" class="nav-item">
-                            <router-link :to="{ name: 'your-apartments' }" class="nav-link" @click="this.closeCanvas()">
+                            <router-link :to="{ name: 'your-apartments' }" class="nav-link" @click="closeCanvas()">
                                 Le tue strutture
                             </router-link>
                         </li>
                         <li v-if="this.api.isLoggedIn" class="nav-item">
-                            <a class="nav-link" href="#" @click="userLogout; this.closeCanvas()" >
+                            <a class="nav-link" href="#" @click="api.userLogout($router); closeCanvas()" >
                                 Logout
                             </a>
                         </li>
                         <hr>
                         <li v-for="(link, index) in store.navbarLinks" :key="index" class="nav-item">
-                            <router-link @click="this.closeCanvas()" :to="link.href" class="nav-link">{{ link.name }}</router-link>
+                            <router-link @click="closeCanvas()" :to="link.href" class="nav-link">{{ link.name }}</router-link>
                         </li>
                     </ul>
                     
