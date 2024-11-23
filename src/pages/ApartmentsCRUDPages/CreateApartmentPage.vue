@@ -69,7 +69,7 @@ export default {
             .then((result) => {
                 console.log('Risultato:', result);
                 alert('Appartamento creato con successo');
-                this.$router.push('/user/apartments')
+                this.$router.push('/user/dashboard')
             })
             .catch((error) => {
                 console.log(error);
