@@ -52,6 +52,18 @@ export const api = reactive({
         })
     },
 
+
+    async userLogout(param) {
+        try {
+            await axios.post('http://localhost:8000/logout');
+            this.isLoggedIn = false;
+            param.push('/')
+            this.getCSRF();
+        } catch (error) {
+            console.error('Errore durante il logout:', error.response?.data?.message || error.message);
+        }
+    },
+
 });
 
 export const store = reactive({
