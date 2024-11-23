@@ -11,12 +11,12 @@ export default {
     data() {
         return {
             store,
+            api,
             lastScrollY: 0, // Memorizza l'ultima posizione di scroll
             hideHeader: false, // Stato che indica se l'header deve essere nascosto
             showLoginForm: false, // Stato per mostrare/nascondere il form di login
 
             // Variabili per il form di login e registrazione
-            api,
             isRegistration: false, // Stato per passare da login a registrazione
             userEmail: '', // Email per il login/registrazione
             userPassword: '', // Password per il login/registrazione
@@ -49,14 +49,13 @@ export default {
             this.lastScrollY = currentScrollY;
         },
         async userLogin() {
-            this.api.getCSRF();
-            this.api.getCsrfTokenFromCookies();
 
             await axios.post('http://localhost:8000/login', {  
                 email: this.userEmail,
                 password: this.userPassword
             })
             .then((response) => {
+                this.api.getCSRF();
                 this.api.getUserData();
                 this.api.isLoggedIn = true;
                 this.resetForm();
@@ -100,6 +99,7 @@ export default {
         async userLogout() {
             try {
                 await axios.post('http://localhost:8000/logout');
+                this.api.getCSRF();
                 this.api.isLoggedIn = false;
                 this.$router.push('/'); // Reindirizza alla home dopo il logout
             } catch (error) {
@@ -202,31 +202,31 @@ export default {
                             <div v-if="isRegistration">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Inserisci il tuo username" v-model="userName" required>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Inserisci il tuo username" v-model="userName" required autocomplete="name">
                                 </div>
                                 <div class="mb-3">
                                     <label for="firstname" class="form-label">Nome</label>
-                                    <input type="text" class="form-control" id="firstname" placeholder="Inserisci il tuo nome" v-model="userFirstname" required>
+                                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Inserisci il tuo nome" v-model="userFirstname" required autocomplete="firstname">
                                 </div>
                                 <div class="mb-3">
                                     <label for="lastname" class="form-label">Cognome</label>
-                                    <input type="text" class="form-control" id="lastname" placeholder="Inserisci il tuo cognome" v-model="userLastname" required>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Inserisci il tuo cognome" v-model="userLastname" required autocomplete="lastname">
                                 </div>
                                 <div class="mb-3">
                                     <label for="dateOfBirth" class="form-label">Data di nascita</label>
-                                    <input type="date" class="form-control" id="dateOfBirth" v-model="userDateOfBirth" required>
+                                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" v-model="userDateOfBirth" required autocomplete="dateOfBirth">
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Inserisci la tua email" v-model="userEmail" required>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
                                 </div>
                                 <div class="mb-3">
                                     <label for="passwordConfirm" class="form-label">Conferma Password</label>
-                                    <input type="password" class="form-control" id="passwordConfirm" placeholder="Conferma la tua password" v-model="userPasswordConfirm" required>
+                                    <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Conferma la tua password" v-model="userPasswordConfirm" required autocomplete="passwordConfirm">
                                 </div>
                             </div>
 
@@ -234,11 +234,11 @@ export default {
                             <div v-else>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Inserisci la tua email" v-model="userEmail" required>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
                                 </div>
                             </div>
                             <span class="text-danger">{{ errorText }}</span>

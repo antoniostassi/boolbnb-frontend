@@ -9,7 +9,9 @@ export const api = reactive({
     promotions: [],
 
     getCSRF() {
+        console.log('Token updated');
         axios.get('http://localhost:8000/sanctum/csrf-cookie');
+        axios.defaults.headers.common["X-XSRF-TOKEN"] = this.getCsrfTokenFromCookies();
     },
 
     getCsrfTokenFromCookies() {
@@ -19,21 +21,23 @@ export const api = reactive({
 
     async getServices() {
         await axios.get('http://localhost:8000/api/services').then((result) => {
-            this.services = result.data;
+            this.services = result.data; // Store services
         });
     },
 
     async getPromotions() {
         await axios.get('http://localhost:8000/api/promotions').then((result) => {
-            this.promotions = result.data;
+            this.promotions = result.data; // Store promotions
         });
     },
 
     async getUserData() {
         await axios.get('http://localhost:8000/api/user').then((result) => {
-            this.user = result.data;
-            this.isLoggedIn = true;
-            this.getUserApartments();
+            this.user = result.data; // Store user data
+            this.isLoggedIn = true; // Set user logged for frontend control
+            this.getUserApartments(); // Store user's apartments
+            this.getServices(); // Store services
+            this.getPromotions(); // Store promotions
         }).catch((error) => {
             console.log('Utente non loggato');
         });
@@ -46,8 +50,7 @@ export const api = reactive({
         }).catch((error) => {
             console.log(error);
         })
-    }
-
+    },
 
 });
 
@@ -59,5 +62,5 @@ export const store = reactive({
         { name: "Chi siamo", href: "/about" },
         { name: "Contatti", href: "/contacts" },
     ],
-    currentApartment:''
+    currentApartment: 0 // 0 by default because it is a number
 });
