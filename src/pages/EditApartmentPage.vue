@@ -18,24 +18,21 @@ export default {
   },
   mounted() {
     this.getApartment();
-    this.api.getServices();
-    this.api.getPromotions();
   },
   methods: {
    
     getApartment() {
-            axios
-                .get(`http://localhost:8000/api/apartments/${this.store.currentApartment}`)
-                .then((response) => {
-                   console.log(response.data);
-                    this.apartment = response.data[0];
-                    this.apartment.services.forEach(element => {
-                      this.activeServices.push(element.id);
-                    });
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+      axios.get(`http://localhost:8000/api/apartments/${this.store.currentApartment}`)
+          .then((response) => {
+              //console.log(response.data);
+              this.apartment = response.data[0];
+              this.apartment.services.forEach(element => {
+                this.activeServices.push(element.id);
+              });
+          })
+          .catch((error) => {
+              console.error(error);
+          });
                 
     },
     editApartment() {
@@ -55,6 +52,7 @@ export default {
       })
       .then((result) => {
         console.log(result);
+        this.api.getUserApartments();
       })
       .catch((error) => {
         console.log(error);
@@ -63,9 +61,7 @@ export default {
 
     tryLog() {
        console.log(this.apartment);
-      
       // 
-
     }
   },
 }
@@ -75,7 +71,7 @@ export default {
 
   <button @click="tryLog" class="d-non"> Cliccami </button> <!-- for test purposes -->
   <h1>
-    Edit apartment: {{ store.currentApartment }}
+    {{ apartment.title }}
   </h1>
   <form @submit.prevent="editApartment">
     <label for="title">Titolo della struttura</label>

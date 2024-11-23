@@ -15,26 +15,11 @@ export default {
             },
             suggestions: [],
             apiKey: 'Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ',
-            currentUserId: null,
         };
     },
     components: {
     },
-    mounted() {
-        this.api.getServices();
-        this.api.getPromotions();
-        this.getCurrentUserId();
-    },
     methods: {
-        getCurrentUserId() {
-            axios.get('http://localhost:8000/api/user')
-                .then((response) => {
-                    this.currentUserId = response.data.id;
-                })
-                .catch((error) => {
-                    console.error('Errore nel recuperare l\'utente:', error)
-                })
-        },
         fetchSuggestions(query) {
             if (query.length < 3) {
                 this.suggestions = [];
@@ -68,7 +53,7 @@ export default {
         createApartment() {
             axios
             .post('http://localhost:8000/api/apartments', {
-                user_id: this.currentUserId,
+                user_id: this.api.user.id,
                 title: this.apartment.title,
                 rooms: this.apartment.rooms,
                 beds: this.apartment.beds,
@@ -204,33 +189,6 @@ export default {
                     />
                     
                 </div>
-            </div>
-
-            <h3>Promozioni</h3>
-            <div class="row mb-3">
-                <div class="col-md-3 d-flex align-items-center justify-content-center">
-                    <label for="nothing" class="ms-1 my-1 w-75">Nessun abbonamento</label>
-                    <input
-                        type="radio"
-                        name="promotions"
-                        id="nothing"
-                        :value="null"
-                        checked="checked"
-                        v-model="apartment.promotion"
-                    />
-                </div>
-                <div class="col-md-3 d-flex align-items-center justify-content-center" v-for="(promotion, index) in api.promotions" :key="index">
-                    <label :for="'promotion-'+index" class="ms-1 my-1 w-50">{{ promotion.title }}</label>
-                    <input
-                        type="radio"
-                        name="promotions"
-                        :id="'promotion-'+promotion.id"
-                        :value="promotion.id"
-                        v-model="apartment.promotion"
-                    />
-                    
-                </div>
-                
             </div>
 
             <button class="btn btn-success w-100">Aggiungi Appartamento</button>

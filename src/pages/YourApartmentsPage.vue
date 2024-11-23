@@ -1,38 +1,15 @@
 <script>
 import axios from 'axios';
-import { store } from '../store';
+import { store, api } from '../store';
 
 export default {
   data() {
     return {
-      store,
-      apartments: [], // Elenco degli appartamenti
-      userId: null, // ID dell'utente
+      store, api,
     };
   },
-  mounted() {
-    this.getUser()
-  },
+
   methods: {
-    // Metodo per ottenere gli appartamenti
-    async getUser(){
-       await axios.get('http://localhost:8000/api/user')
-        .then((response)=>{
-          console.log(response.data.id)
-          this.userId = response.data.id
-          this.getApartments(this.userId)
-        })
-    },
-    getApartments(userId) {
-      axios
-        .get(`http://localhost:8000/api/apartments?user_id=` + this.userId)
-        .then((response) => {
-          this.apartments = response.data;
-        })
-        .catch((error) => {
-          console.error("Errore nel caricamento degli appartamenti:", error);
-        });
-    },
     // Metodo per eliminare un appartamento
     deleteApartment(apartmentId) {
       if (confirm("Sei sicuro di voler eliminare questo appartamento?")) {
@@ -40,9 +17,7 @@ export default {
           .delete(`http://localhost:8000/api/apartments/${apartmentId}`)
           .then(() => {
             // Aggiorna la lista degli appartamenti dopo l'eliminazione
-            this.apartments = this.apartments.filter(
-              (apartment) => apartment.id !== apartmentId
-            );
+            this.api.getUserApartments();
           })
           .catch((error) => {
             console.error("Errore durante l'eliminazione dell'appartamento:", error);
@@ -50,12 +25,12 @@ export default {
       }
     },
     // Metodo per navigare alla pagina di modifica
-    editApartment(apartmentId) {
+    navigateToEditApartment(apartmentId) {
       this.store.currentApartment = apartmentId;
       this.$router.push({ name: "edit-apartment", params: { id: apartmentId } });
     },
     // Metodo per creare un nuovo appartamento
-    createApartment() {
+    navigateToCreateApartment() {
       this.$router.push({ name: "create-apartment" });
     },
   },
@@ -67,7 +42,7 @@ export default {
     <h2>Appartamenti dell'utente</h2>
 
     <!-- Pulsante per creare un nuovo appartamento -->
-    <button @click="createApartment" class="btn btn-success btn-sm">
+    <button @click="navigateToCreateApartment" class="btn btn-success btn-sm">
       + Crea
     </button>
 
@@ -83,7 +58,7 @@ export default {
       </thead>
       <tbody>
         <!-- Itera sugli appartamenti -->
-        <tr v-for="(apartment, index) in apartments" :key="index">
+        <tr v-for="(apartment, index) in this.api.user.apartments" :key="index">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ apartment.title }}</td>
           <td>{{ apartment.address }}</td>
@@ -98,7 +73,7 @@ export default {
             </router-link>
             <!-- Pulsante per modificare -->
             <button
-              @click="editApartment(apartment.id)"
+              @click="navigateToEditApartment(apartment.id)"
               class="btn btn-secondary btn-sm me-3"
             >
               Modifica
