@@ -20,7 +20,7 @@ export default {
   >
     <div
       class="card animate-card"
-      :style="{ animationDelay: `${index * 0.2}s` }"
+      :style="{ animationDelay: `${index * 0.1}s` }"
     >
       <img
         :src="apartment.image"
