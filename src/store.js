@@ -61,5 +61,8 @@ export const store = reactive({
         { name: "Chi siamo", href: "/about" },
         { name: "Contatti", href: "/contacts" },
     ],
-    currentApartment: 0 // 0 by default because it is a number
+    currentApartment: 0, // 0 by default because it is a number
+    showLoginForm: false, // Stato per mostrare/nascondere il form di login
+    // Variabili per il form di login e registrazione
+    isRegistration: false, // Stato per passare da login a registrazione
 });
