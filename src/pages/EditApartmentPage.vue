@@ -51,7 +51,7 @@ export default {
         latitude: 32.2112,
         longitude: 1.3203,
         image: this.apartment.image,
-        services: this.apartment.services,
+        services: this.activeServices,
       })
       .then((result) => {
         console.log(result);
@@ -103,7 +103,7 @@ export default {
     <h1>Services</h1>
     <div class="row gap-2">
       <div class="col-2" v-for="(service, index) in this.api.services" :key="index">
-        <input type="checkbox" :checked="activeServices.includes(service.id)" name="services[]" :id="'service-'+service.id" :value="service.id">
+        <input type="checkbox" :checked="activeServices.includes(service.id)" name="services[]" :id="'service-'+service.id" :value="service.id" v-model="activeServices">
         <label :for="'service-'+index">{{service.title}}</label>        
       </div>
 
