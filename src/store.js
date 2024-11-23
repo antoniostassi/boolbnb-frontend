@@ -58,5 +58,5 @@ export const store = reactive({
         { name: "Chi siamo", href: "/about" },
         { name: "Contatti", href: "/contacts" },
     ],
-    currentApartment:''
+    currentApartment: 0 // 0 by default because it is a number
 });
