@@ -19,7 +19,7 @@ export default {
     class="router-link-wrapper"
   >
     <div
-      class="card animate-card"
+      class="card animate-card m-auto"
       :style="{ animationDelay: `${index * 0.1}s` }"
     >
       <img

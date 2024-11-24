@@ -75,9 +75,9 @@ export default {
       <div
         v-for="(apartment, index) in apartments"
         :key="apartment.id"
-        class="col-12 col-sm-6 col-lg-3 p-3 m-auto d-flex justify-content-center"
+        class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
       >
-      <div class="apartment-card-wrapper">
+      <div class="apartment-card-wrapper w-100">
         <SingleApartment :apartment="apartment" :index="index" />
       </div>
         
