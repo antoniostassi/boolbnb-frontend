@@ -7,6 +7,7 @@ export default {
     data() {
         return {
             api,
+            formSubmitted: false,
             apartment : {
                 services: [],
                 address: '',
@@ -20,6 +21,11 @@ export default {
     components: {
     },
     methods: {
+        delayOnAPI(){
+            setTimeout(() => {
+                this.formSubmitted = false;
+            }, 2000);
+        },
         fetchSuggestions(query) {
             if (query.length < 3) {
                 this.suggestions = [];
@@ -51,6 +57,7 @@ export default {
             this.suggestions = [];
         },
         createApartment() {
+            this.formSubmitted = true;
             axios
             .post('http://localhost:8000/api/apartments', {
                 user_id: this.api.user.id,
@@ -74,6 +81,7 @@ export default {
             .catch((error) => {
                 console.log(error);
             })
+            this.delayOnAPI();
         }
     },
 }
@@ -82,13 +90,15 @@ export default {
 <template>
     <div class="container my-5">
         <h1 class="text-center mb-4">Aggiungi un nuovo appartamento</h1>
-        <form @submit.prevent="createApartment" class="p-4 border rounded shadow">
+        <form @submit.prevent="createApartment" class="p-4 border rounded shadow" validate>
             <div class="mb-3">
-                <label class="form-label" for="title">Titolo dell'annuncio</label>
+                <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
                 <input
                     class="form-control"
                     type="text"
                     name="title"
+                    minlength="5"
+                    maxlength="128"
                     required
                     v-model="apartment.title"
                     placeholder="Inserisci il titolo"
@@ -96,56 +106,70 @@ export default {
             </div>
             <div class="row">
                 <div class="col-md-3 mb-3">
-                    <label class="form-label" for="rooms">Numero di stanze</label>
+                    <label class="form-label" for="rooms">Numero di stanze <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         type="number"
                         name="rooms"
-                        required
                         v-model="apartment.rooms"
                         placeholder="Inserisci il numero di stanze"
+                        step="1"
+                        min="1"
+                        max="20"
+                        required
                     />
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label class="form-label" for="beds">Numero di letti</label>
+                    <label class="form-label" for="beds">Numero di letti <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         type="number"
                         name="beds"
-                        required
                         v-model="apartment.beds"
                         placeholder="Inserisci il numero di letti"
+                        step="1"
+                        min="1"
+                        max="20"
+                        required
                     />
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label class="form-label" for="bathrooms">Numero di bagni</label>
+                    <label class="form-label" for="bathrooms">Numero di bagni <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         type="number"
-                        name="bathrooms"
-                        required
                         v-model="apartment.bathrooms"
                         placeholder="Inserisci il numero di bagni"
+                        min="1"
+                        step="1"
+                        max="10"
+                        name="bathrooms"
+                        required
                     />
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label class="form-label" for="apartment_size">Metri quadrati</label>
+                    <label class="form-label" for="apartment_size">Metri quadrati <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         type="number"
                         name="apartment_size"
-                        required
                         v-model="apartment.apartment_size"
                         placeholder="Inserisci i metri quadrati"
+                        min="7"
+                        step="1"
+                        max="500"
+                        required
                     />
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="address">Indirizzo</label>
+                <label class="form-label" for="address">Indirizzo <span class="text-danger">*</span></label>
                 <input
                     class="form-control"
                     type="text"
                     name="address"
+                    minlength="10"
+                    maxlength="128"
                     required
                     v-model="apartment.address"
                     @input="fetchSuggestions(apartment.address)"
@@ -165,7 +189,7 @@ export default {
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="image">Immagine</label>
+                <label class="form-label" for="image">Immagine <span class="text-danger">*</span></label>
                 <input
                     class="form-control"
                     type="text"
@@ -175,7 +199,8 @@ export default {
                     placeholder="Inserisci il link dell'immagine"
                 />
             </div>
-
+            <div class="fw-bold mb-3">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</div>
+            <hr>
             <h3>Servizi</h3>
             <div class="row mb-3">
                 <div class="col-md-3 d-flex align-items-center justify-content-center" v-for="(service, index) in api.services" :key="index">
@@ -191,7 +216,7 @@ export default {
                 </div>
             </div>
 
-            <button class="btn btn-success w-100">Aggiungi Appartamento</button>
+            <button class="btn btn-success w-100" :disabled="formSubmitted">Aggiungi Appartamento</button>
         </form>
     </div>
 </template>
