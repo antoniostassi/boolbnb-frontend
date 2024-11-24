@@ -188,7 +188,7 @@ export default {
                         <button type="button" class="btn-close" aria-label="Close" @click="store.showLoginForm = false"></button>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form @keyup.enter="store.isRegistration ? userRegister() : userLogin()">
                             <!-- Sezione Registrazione -->
                             <div v-if="store.isRegistration">
                                 <div class="mb-3">
@@ -245,7 +245,7 @@ export default {
                             </div>
                             <div class="card-footer d-flex justify-content-end">
                                 <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false">Chiudi</button>
-                                <button type="button" @keyup.enter="store.isRegistration ? userRegister() : userLogin()" class="btn btn-primary" @click="store.isRegistration ? userRegister() : userLogin()">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
+                                <button type="button" class="btn btn-primary" @click="store.isRegistration ? userRegister() : userLogin()">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
                         </form>
                     </div>
