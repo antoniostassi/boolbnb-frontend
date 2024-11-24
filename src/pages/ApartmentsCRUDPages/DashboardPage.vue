@@ -49,7 +49,7 @@ export default {
           <tr>
             <th>Titolo</th>
             <th class="address-column">Indirizzo</th>
-            <th>Azioni</th>
+            <th class="text-center">Azioni</th>
           </tr>
         </thead>
         <tbody>
@@ -105,6 +105,10 @@ export default {
     .dashboard-title {
       font-size: 2rem;
       color: #4a4a4a;
+
+      @media (max-width: 576px) {
+        font-size: 1.5rem;
+      }
     }
 
     .create-button {
@@ -134,22 +138,31 @@ export default {
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
       tr {
-        padding: 12px;
+        display: flex;
+        width: 100%; /* Imposta larghezza della riga */
+        flex-wrap: nowrap; /* Evita che le celle vadano su più righe */
       }
 
-      th, td {
+      th,
+      td {
+        flex: 1; /* Tutte le celle hanno la stessa altezza */
         text-align: left;
         padding: 12px;
-        height: 55px;
         border-bottom: 1px solid #ddd;
         color: #555;
-        
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       th {
-        background-color: #f4f4f4;
         font-weight: bold;
-        color: #333;
+        background-color: #f4f4f4;
+      }
+
+      td {
+        display: flex;
+        align-items: center; /* Allinea verticalmente i contenuti */
       }
 
       tr:hover {
@@ -163,8 +176,8 @@ export default {
       }
 
       .actions {
-        display: flex;
-        gap: 10px;
+        justify-content: center; /* Centra i pulsanti */
+        gap: 8px; /* Spaziatura tra i pulsanti */
       }
     }
 
