@@ -136,8 +136,6 @@ export default {
       font-size: 1rem;
       color: #555;
       height: 80px; // Fissa l'altezza della lista
-      overflow: hidden; // Evita che testi troppo lunghi influiscano
-
       li {
         margin: 5px 0;
       }
