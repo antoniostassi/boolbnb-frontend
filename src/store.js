@@ -8,10 +8,12 @@ export const api = reactive({
     services: [],
     promotions: [],
 
-    getCSRF() {
-        axios.get('http://localhost:8000/sanctum/csrf-cookie');
-        axios.defaults.headers.common["X-XSRF-TOKEN"] = this.getCsrfTokenFromCookies();
-        console.log('Token updated');
+    async getCSRF() {
+        await axios.get('http://localhost:8000/sanctum/csrf-cookie');
+        setTimeout(async () => {
+            axios.defaults.headers.common["X-XSRF-TOKEN"] = this.getCsrfTokenFromCookies();
+            console.log(axios.defaults.headers.common["X-XSRF-TOKEN"]);
+        }, 100); // Ritardo in millisecondi
     },
 
     getCsrfTokenFromCookies() {
