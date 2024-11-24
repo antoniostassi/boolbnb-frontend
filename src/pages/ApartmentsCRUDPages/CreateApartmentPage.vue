@@ -222,28 +222,31 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-  input {
-    display: block;
-    margin:auto;
-    text-align: center;
-  }
+.container {
+    max-width: 1000px;
 
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ccc;
-    max-height: 150px;
-    overflow-y: auto;
-
-      li {
-      padding: 8px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f0f0f0;
-      }
+    input {
+        display: block;
+        margin:auto;
+        text-align: center;
     }
-  }
 
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #ccc;
+        max-height: 150px;
+        overflow-y: auto;
+
+        li {
+            padding: 8px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+}
 </style>

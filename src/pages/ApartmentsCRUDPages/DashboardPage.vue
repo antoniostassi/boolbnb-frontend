@@ -22,11 +22,11 @@ export default {
           });
       }
     },
-    navigateToEditApartment(apartmentId) {
+    editApartment(apartmentId) {
       this.store.currentApartment = apartmentId;
       this.$router.push({ name: "edit-apartment", params: { id: apartmentId } });
     },
-    navigateToCreateApartment() {
+    createApartment() {
       this.$router.push({ name: "create-apartment" });
     },
   },
@@ -36,9 +36,9 @@ export default {
 <template>
   <div class="dashboard-page">
     <div class="header">
-      <h2 class="dashboard-title">I tuoi Appartamenti</h2>
-      <button @click="navigateToCreateApartment" class="create-button">
-        + Crea Nuovo
+      <h2 class="dashboard-title">I tuoi appartamenti</h2>
+      <button @click="createApartment" class="create-button">
+        Aggiungi appartamento
       </button>
     </div>
 
@@ -47,42 +47,39 @@ export default {
       <table class="table">
         <thead>
           <tr>
-            <th>#</th>
             <th>Titolo</th>
-            <th>Indirizzo</th>
+            <th class="address-column">Indirizzo</th>
             <th>Azioni</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(apartment, index) in this.api.user.apartments" :key="index">
-            <td>{{ index + 1 }}</td>
             <td>{{ apartment.title }}</td>
-            <td>{{ apartment.address }}</td>
+            <td class="address-column">{{ apartment.address }}</td>
             <td class="actions">
-              <button class="promote-button">Promuovi</button>
               <router-link
                 :to="{ name: 'apartments-details', params: { id: apartment.id } }"
                 class="view-button"
               >
-                Vedi
+                <i class="fa-solid fa-eye"></i>
               </router-link>
               <button
-                @click="navigateToEditApartment(apartment.id)"
+                @click="editApartment(apartment.id)"
                 class="edit-button"
               >
-                Modifica
+                <i class="fa-solid fa-pencil"></i>
               </button>
               <button
                 @click="deleteApartment(apartment.id)"
                 class="delete-button"
               >
-                Elimina
+                <i class="fa-solid fa-trash-can"></i>
               </button>
             </td>
           </tr>
           <tr v-if="!this.api.user.apartments.length">
             <td colspan="4" class="no-apartments">
-              Non hai appartamenti disponibili.
+              Nessun appartamento disponibile
             </td>
           </tr>
         </tbody>
@@ -136,12 +133,17 @@ export default {
       background: white;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
-      th,
-      td {
+      tr {
+        padding: 12px;
+      }
+
+      th, td {
         text-align: left;
         padding: 12px;
+        height: 55px;
         border-bottom: 1px solid #ddd;
         color: #555;
+        
       }
 
       th {
@@ -152,6 +154,12 @@ export default {
 
       tr:hover {
         background-color: #f9f9f9;
+      }
+
+      .address-column {
+        @media (max-width: 992px) {
+          display: none;
+        }
       }
 
       .actions {
@@ -168,16 +176,15 @@ export default {
     }
   }
 
-  .promote-button,
-  .view-button,
-  .edit-button,
-  .delete-button {
-    padding: 8px 12px;
-    font-size: 0.9rem;
+  .promote-button, .view-button, .edit-button, .delete-button {
+    padding: 6px 10px;
+    font-size: 14px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.2s;
+    display: flex;
+    align-items: center;
 
     &:hover {
       transform: scale(1.05);
