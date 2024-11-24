@@ -87,36 +87,58 @@ export default {
     <!-- Paginazione -->
     <div class="d-flex justify-content-center">
       <div class="pagination">
+        <!-- 0) button prima pagina -->
         <button class="page-item" :disabled="pagination.currentPage == 1 || paginationClick" @click="getApartments(pagination.currentPage = 1)">
-          <a href="#main-container" class="page-link" :class="pagination.currentPage == 1 ? 'disabled':''">Prima Pagina</a>
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == 1 ? 'disabled':''"><<</a> 
         </button>
-        <button class="page-item" :disabled="pagination.currentPage == 1 || paginationClick" @click="getApartments(pagination.currentPage = pagination.prevPage)">
-          <a href="#main-container" class="page-link" :class="pagination.currentPage == 1 ? 'disabled':''"><i class="fa-solid fa-angle-left"></i></a>
+        <!-- 0) -->
+        <!-- 0.1) si vedono solo sull'ultima pagina -->
+        <button class="page-item" v-show="pagination.currentPage == pagination.lastPage" :disabled="paginationClick"  @click="getApartments(pagination.currentPage = pagination.prevPage - 3)">
+          <a href="#main-container" class="page-link">{{ pagination.currentPage - 4 }}</a>
         </button>
-        <!-- questo button si mostra solo se siamo sull'ultima pagina e verrà visualizzato come primo button -->
-        <button class="page-item" v-show="pagination.nextPage > pagination.lastPage" :disabled="paginationClick" @click="getApartments(pagination.currentPage = pagination.prevPage - 1)">
+        <button  class="page-item" v-show="pagination.currentPage == pagination.lastPage" :disabled="paginationClick" @click="getApartments(pagination.currentPage = pagination.prevPage - 2)">
+          <a href="#main-container" class="page-link">{{ pagination.currentPage - 3 }}</a>
+        </button>
+        <!-- 0.1) -->
+
+       
+        <button class="page-item" v-show="pagination.prevPage > 0 && pagination.prevPage - 1 != 0" :disabled="paginationClick" @click="getApartments(pagination.currentPage = pagination.prevPage - 1)">
           <a href="#main-container" class="page-link">{{ pagination.prevPage - 1 }}</a>
         </button>
-        <!-- se è 0 non viene mostrato in pagina -->
+
+        <!-- 2) se è 0 non viene mostrato in pagina -->
         <button class="page-item" :disabled="paginationClick" v-show="pagination.prevPage > 0" @click="getApartments(pagination.currentPage = pagination.prevPage)">
           <a href="#main-container" class="page-link">{{ pagination.prevPage }}</a>
         </button>
+        <!-- 2) -->
+        <!-- 3) current page -->
         <button disabled class="page-item">
           <a href="#main-container" class="page-link bg-primary text-white" >{{ pagination.currentPage }}</a>
         </button>
+        <!-- 3) -->
+        <!-- 4) non viene mostrato se siamo sull'ultima pagina -->
         <button class="page-item" v-show="pagination.currentPage != pagination.lastPage" :disabled="pagination.currentPage == pagination.lastPage || paginationClick"  @click="getApartments(pagination.currentPage = pagination.nextPage)">
           <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">{{ pagination.nextPage }}</a>
         </button>
-        <!-- se la prevPage è 0 viene mostrato in pagina il button con la pagina num 3  -->
-        <button  class="page-item" :disabled="paginationClick" v-show="pagination.prevPage == 0" @click="getApartments(pagination.currentPage = 3)">
-          <a href="#main-container" class="page-link">3</a>
+        <button  class="page-item" v-show="pagination.currentPage != pagination.lastPage && pagination.currentPage != pagination.lastPage - 1" :disabled="pagination.currentPage == pagination.lastPage || paginationClick" @click="getApartments(pagination.currentPage = pagination.nextPage + 1)">
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">{{ pagination.currentPage + 2 }}</a>
         </button>
-        <button  class="page-item" :disabled="pagination.currentPage == pagination.lastPage || paginationClick" @click="getApartments(pagination.currentPage = pagination.nextPage)">
-          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''"><i class="fa-solid fa-angle-right"></i></a>
+        <!-- 4) -->
+        <!-- 5) si vedono solo sulla prima pagina -->
+        <button class="page-item" v-show="pagination.currentPage == 1" :disabled="pagination.currentPage == pagination.lastPage || paginationClick"  @click="getApartments(pagination.currentPage = pagination.nextPage + 2)">
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">{{ pagination.currentPage + 3 }}</a>
         </button>
+        <button  class="page-item" v-show="pagination.currentPage == 1" :disabled="pagination.currentPage == pagination.lastPage || paginationClick" @click="getApartments(pagination.currentPage = pagination.nextPage + 3)">
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">{{ pagination.currentPage + 4 }}</a>
+        </button>
+        <!-- 5) -->
+
+
+        <!-- button ultima pagina -->
         <button class="page-item" :disabled="pagination.currentPage == pagination.lastPage || paginationClick" @click="getApartments(pagination.currentPage = pagination.lastPage); console.log(paginationClick)">
-          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">Ultima Pagina</a>
+          <a href="#main-container" class="page-link" :class="pagination.currentPage == pagination.lastPage ? 'disabled':''">>></a>
         </button>
+        <!--  -->
       </div>
     </div>
   </div>
