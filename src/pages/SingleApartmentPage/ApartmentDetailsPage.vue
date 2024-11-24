@@ -54,9 +54,16 @@ export default {
                     zoom: 15,
                 }));
 
-                const marker = markRaw(new tt.Marker()
-                    .setLngLat([this.mapCenter.lng, this.mapCenter.lat])
-                    .addTo(this.map));
+                const customMarker = document.createElement('div');
+                customMarker.style.backgroundImage = 'url("https://cdn-icons-png.flaticon.com/512/684/684908.png")'; // URL dell'immagine del marker
+                customMarker.style.backgroundSize = 'cover';
+                customMarker.style.width = '40px'; // Dimensione del marker
+                customMarker.style.height = '40px';
+                customMarker.style.borderRadius = '50%';
+
+                markRaw(new tt.Marker({ element: customMarker })
+                .setLngLat([this.mapCenter.lng, this.mapCenter.lat])
+                .addTo(this.map));
             });
         },
     },
