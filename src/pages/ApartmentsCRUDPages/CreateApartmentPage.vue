@@ -76,6 +76,7 @@ export default {
             .then((result) => {
                 console.log('Risultato:', result);
                 alert('Appartamento creato con successo');
+                this.api.getUserApartments();
                 this.$router.push('/user/dashboard')
             })
             .catch((error) => {
