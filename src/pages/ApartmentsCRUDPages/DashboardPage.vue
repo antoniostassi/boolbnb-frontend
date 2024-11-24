@@ -127,7 +127,8 @@ export default {
   }
 
   .table-container {
-    overflow-x: auto;
+    overflow:auto;
+    max-height:500px;
 
     .table {
       width: 100%;
