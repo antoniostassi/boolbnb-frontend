@@ -47,7 +47,6 @@ export default {
       <table class="table">
         <thead>
           <tr>
-            <th>#</th>
             <th>Titolo</th>
             <th class="address-column">Indirizzo</th>
             <th>Azioni</th>
@@ -55,28 +54,26 @@ export default {
         </thead>
         <tbody>
           <tr v-for="(apartment, index) in this.api.user.apartments" :key="index">
-            <td>{{ index + 1 }}</td>
             <td>{{ apartment.title }}</td>
             <td class="address-column">{{ apartment.address }}</td>
             <td class="actions">
-              <button class="promote-button">Promuovi</button>
               <router-link
                 :to="{ name: 'apartments-details', params: { id: apartment.id } }"
                 class="view-button"
               >
-                Vedi
+                <i class="fa-solid fa-eye"></i>
               </router-link>
               <button
                 @click="editApartment(apartment.id)"
                 class="edit-button"
               >
-                Modifica
+                <i class="fa-solid fa-pencil"></i>
               </button>
               <button
                 @click="deleteApartment(apartment.id)"
                 class="delete-button"
               >
-                Elimina
+                <i class="fa-solid fa-trash-can"></i>
               </button>
             </td>
           </tr>
@@ -136,12 +133,17 @@ export default {
       background: white;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
+      tr {
+        padding: 12px;
+      }
+
       th, td {
         text-align: left;
         padding: 12px;
-        height: 75px;
+        height: 55px;
         border-bottom: 1px solid #ddd;
         color: #555;
+        
       }
 
       th {
