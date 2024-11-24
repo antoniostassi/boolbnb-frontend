@@ -45,14 +45,16 @@ export default {
         bathrooms: this.apartment.bathrooms,
         apartment_size: this.apartment.apartment_size,
         address: this.apartment.address,
-        latitude: 32.2112,
-        longitude: 1.3203,
+        latitude: this.apartment.latitude,
+        longitude: this.apartment.longitude,
         image: this.apartment.image,
         services: this.activeServices,
       })
-      .then((result) => {
-        console.log(result);
-        this.api.getUserApartments();
+        .then((result) => {
+          console.log(result);
+          this.api.getUserApartments();
+          alert('Modifica effettuata con successo');
+          this.$router.push('/user/dashboard');
       })
       .catch((error) => {
         console.log(error);
@@ -68,55 +70,140 @@ export default {
 </script>
 
 <template>
-
-  <button @click="tryLog" class="d-non"> Cliccami </button> <!-- for test purposes -->
-  <h1>
-    {{ apartment.title }}
-  </h1>
-  <form @submit.prevent="editApartment">
-    <label for="title">Titolo della struttura</label>
-    <input type="text" name="title" required v-model="apartment.title">
-
-    <label for="rooms">Numero di stanze</label>
-    <input type="number" name="rooms" required v-model="apartment.rooms">
-
-    <label for="beds">Numero di letti</label>
-    <input type="number" name="beds" required v-model="apartment.beds">
-
-    <label for="bathrooms">Numero di bagni</label>
-    <input type="number" name="bathrooms" required v-model="apartment.bathrooms">
-
-    
-    <label for="apartment_size">Metri quadrati</label>
-    <input type="number" name="apartment_size" required v-model="apartment.apartment_size">
-
-    <label for="address">Indirizzo</label>
-    <input type="text" name="address" required v-model="apartment.address">
-
-    <label for="image">Immagine</label>
-    <input type="text" name="image" required v-model="apartment.image">
-
-    <h1>Services</h1>
-    <div class="row gap-2">
-      <div class="col-2" v-for="(service, index) in this.api.services" :key="index">
-        <input type="checkbox" :checked="activeServices.includes(service.id)" name="services[]" :id="'service-'+service.id" :value="service.id" v-model="activeServices">
-        <label :for="'service-'+index">{{service.title}}</label>        
+  <div class="container my-5">
+    <h1 class="text-center mb-4">Modifica l'appartamento</h1>
+    <form @submit.prevent="editApartment" class="p-4 border rounded shadow">
+      <div class="mb-3">
+        <label class="form-label" for="title">Titolo dell'annuncio</label>
+        <input
+          class="form-control"
+          type="text"
+          name="title"
+          required
+          v-model="apartment.title"
+          placeholder="Modifica il titolo"
+        />
       </div>
-
-    </div>
-
-    <button type="submit">
-      Crea
-    </button>
-
-  </form>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <label class="form-label" for="rooms">Numero di stanze</label>
+          <input
+            class="form-control"
+            type="number"
+            name="rooms"
+            required
+            v-model="apartment.rooms"
+            placeholder="Modifica il numero di stanze"
+          />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label" for="beds">Numero di letti</label>
+          <input
+            class="form-control"
+            type="number"
+            name="beds"
+            required
+            v-model="apartment.beds"
+            placeholder="Modifica il numero di letti"
+          />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label" for="bathrooms">Numero di bagni</label>
+          <input
+            class="form-control"
+            type="number"
+            name="bathrooms"
+            required
+            v-model="apartment.bathrooms"
+            placeholder="Modifica il numero di bagni"
+          />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label class="form-label" for="apartment_size">Metri quadrati</label>
+          <input
+            class="form-control"
+            type="number"
+            name="apartment_size"
+            required
+            v-model="apartment.apartment_size"
+            placeholder="Modifica i metri quadrati"
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="address">Indirizzo</label>
+        <input
+          class="form-control"
+          type="text"
+          name="address"
+          required
+          v-model="apartment.address"
+          placeholder="Modifica l'indirizzo"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Immagine</label>
+        <input
+          class="form-control"
+          type="text"
+          name="image"
+          required
+          v-model="apartment.image"
+          placeholder="Modifica il link dell'immagine"
+        />
+      </div>
+      <h3>Servizi</h3>
+      <div class="row mb-3">
+        <div
+          class="col-md-3 d-flex align-items-center justify-content-center"
+          v-for="(service, index) in api.services"
+          :key="index"
+        >
+          <label :for="'service-'+index" class="ms-1 my-1 w-50">{{ service.title }}</label>
+          <input
+            type="checkbox"
+            name="services[]"
+            :id="'service-'+service.id"
+            v-model="activeServices"
+            :value="service.id"
+          />
+        </div>
+      </div>
+      <button class="btn btn-primary w-100">Salva Modifiche</button>
+    </form>
+  </div>
 </template>
 
-<style scoped>
-  input {
-    display: block;
-    margin:auto;
-    text-align: center;
-  }
 
+<style scoped>
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+input, label {
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #3498db;
+  border-color: #3498db;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
 </style>
