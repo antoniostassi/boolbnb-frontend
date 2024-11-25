@@ -1,12 +1,16 @@
 <script>
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
+import FilterComponent from "../../components/ApartmentsComponents/FilterComponent.vue";
+import SearchComponent from "../../components/ApartmentsComponents/SearchComponent.vue";
+import {api} from '../../store';
 
 export default {
   data() {
     return {
       paginationClick: false,
       apartments: [], // Lista degli appartamenti
+      api,
       pagination: {
         currentPage: 1, // Pagina corrente
         firstPage:1,
@@ -19,11 +23,36 @@ export default {
   },
   components: {
     SingleApartment,
+    FilterComponent,
+    SearchComponent
   },
   mounted() {
     this.getApartments(); // Carica gli appartamenti alla prima renderizzazione
   },
+  computed: {
+    getSelectedFilters() {
+      console.log(this.$refs.filters.selectedFilters.length);
+      return this.$refs.filters.selectedFilters;
+    }
+  },
   methods: {
+    checkFilter(services, apartment) {
+      //console.log(apartment);
+      let aServices = apartment.services.map(function(element){
+        return element.id; // Prendo soltanto gli ID dell'array Services.
+      });
+      //console.log(apartment.title+' : '+this.containsAny(services, aServices));
+      return this.containsAny(services, aServices);
+    },
+    containsAny(activeServices, apartmentServices) {
+      return apartmentServices.some(service => { // Il .some serve a sostituire il ciclo forEach, che altrimenti non verrebbe interrotto dal return true.
+        if (activeServices.includes(service)) {
+          console.log("Filtro presente: " + service);
+          return true; // Interrompe e restituisce true
+        }
+        return false; // Se arriva qui vuol dire che nessun servizio dell'appartamento è presente tra i filtri selezionati.
+      });
+    },
     refreshButtons(){
       setTimeout(() => {
         this.paginationClick = false
@@ -34,7 +63,7 @@ export default {
       axios
         .get(`http://localhost:8000/api/apartments?page=${page}`)
         .then((response) => {
-          console.log("Risposta API:", response.data);
+          console.log("Risposta API:", response.data.data);
 
           // Aggiorna gli appartamenti aggiungendo un'immagine Picsum generata e filtrando l'indirizzo
           this.apartments = response.data.data.map((apartment) => {
@@ -45,6 +74,7 @@ export default {
               address: apartment.address,
               apartment_size: apartment.apartment_size,
               rooms: apartment.rooms,
+              services: apartment.services,
               image: `https://picsum.photos/seed/${apartment.id}/400/400`
             };
           });
@@ -63,29 +93,34 @@ export default {
         });
       this.refreshButtons();
     },
-
   }
 };
 </script>
 
 <template>
   <div class="container my-3">
-    <!-- Lista degli appartamenti -->
-    <div class="row d-flex flex-wrap">
+    <SearchComponent/>
+    <FilterComponent :filters="api.services" :ref="'filters'"/>
+    <!-- Lista degli appartamenti 
+      :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
+     -->
+    <div class="row d-flex flex-wrap m-0">
       <div
         v-for="(apartment, index) in apartments"
         :key="apartment.id"
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
+        :class="getSelectedFilters.length != 0 && !checkFilter(getSelectedFilters, apartment) ? 'd-none' : ''"
+        
       >
+      <!-- {{ console.log(apartment) }} -->
       <div class="apartment-card-wrapper w-100">
         <SingleApartment :apartment="apartment" :index="index" />
       </div>
-        
       </div>
     </div>
 
     <!-- Paginazione -->
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-4">
       <div class="pagination">
         <!-- 0) button prima pagina -->
         <button class="page-item" :disabled="pagination.currentPage == 1 || paginationClick" @click="getApartments(pagination.currentPage = 1)">
