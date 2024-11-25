@@ -1,8 +1,5 @@
 <script>
-
-import { api } from '../../store';
-import { store } from '../../store';
-
+import { api, store } from '../../store';
 import axios from 'axios';
 
 export default {
@@ -17,10 +14,15 @@ export default {
   components: {
   },
   mounted() {
+    this.store.serviceEmpty = false;
     this.getApartment();
   },
   methods: {
-   
+    delayOnAPI(){
+            setTimeout(() => {
+                this.store.formSubmitted = false;
+            }, 2000);
+        },
     getApartment() {
       axios.get(`http://localhost:8000/api/apartments/${this.store.currentApartment}`)
           .then((response) => {
@@ -36,29 +38,37 @@ export default {
                 
     },
     editApartment() {
+      this.formSubmitted = true;
+      this.store.servicesEmpty = false;
+      if(this.activeServices.length != 0){
       axios
-      .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
-        user_id: this.api.user.id,
-        title: this.apartment.title,
-        rooms: this.apartment.rooms,
-        beds: this.apartment.beds,
-        bathrooms: this.apartment.bathrooms,
-        apartment_size: this.apartment.apartment_size,
-        address: this.apartment.address,
-        latitude: this.apartment.latitude,
-        longitude: this.apartment.longitude,
-        image: this.apartment.image,
-        services: this.activeServices,
-      })
-        .then((result) => {
-          console.log(result);
-          this.api.getUserApartments();
-          alert('Modifica effettuata con successo');
-          this.$router.push('/user/dashboard');
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+        .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
+          user_id: this.api.user.id,
+          title: this.apartment.title,
+          rooms: this.apartment.rooms,
+          beds: this.apartment.beds,
+          bathrooms: this.apartment.bathrooms,
+          apartment_size: this.apartment.apartment_size,
+          address: this.apartment.address,
+          latitude: this.apartment.latitude,
+          longitude: this.apartment.longitude,
+          image: this.apartment.image,
+          services: this.activeServices,
+        })
+          .then((result) => {
+            console.log(result);
+            this.api.getUserApartments();
+            alert('Modifica effettuata con successo');
+            this.$router.push('/user/dashboard');
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      }
+      else{
+        this.store.servicesEmpty = true;
+      }
+      this.delayOnAPI();
     },
 
     tryLog() {
@@ -171,6 +181,7 @@ export default {
       <div class="fw-bold mb-3">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</div>
       <hr>
       <h3>Servizi</h3>
+      <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
       <div class="row mb-3">
         <div
           class="col-md-3 d-flex align-items-center justify-content-center"
@@ -183,14 +194,14 @@ export default {
             name="services[]"
             :id="'service-'+service.id"
             v-model="activeServices"
-            required
+            
             :value="service.id"
           />
         </div>
         <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
 
       </div>
-      <button class="btn btn-primary w-100">Salva Modifiche</button>
+      <button :disabled="store.formSubmitted" class="btn btn-primary w-100">Salva Modifiche</button>
     </form>
   </div>
 </template>
