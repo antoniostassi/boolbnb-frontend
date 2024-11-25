@@ -8,7 +8,7 @@ export default {
         return {
             api,
             store,
-            formSubmitted: false,
+            
             apartment : {
                 services: [],
                 address: '',
@@ -27,7 +27,7 @@ export default {
     methods: {
         delayOnAPI(){
             setTimeout(() => {
-                this.formSubmitted = false;
+                this.store.formSubmitted = false;
             }, 2000);
         },
         fetchSuggestions(query) {
@@ -64,7 +64,7 @@ export default {
             this.formSubmitted = true;
             this.store.servicesEmpty = false;
             if(this.apartment.services.length != 0){
-                console.log('entra qui');
+                
                 axios
                 .post('http://localhost:8000/api/apartments', {
                     user_id: this.api.user.id,
@@ -231,7 +231,7 @@ export default {
             </div>
 
             
-            <button href="#main-content" class="btn btn-success w-100" :disabled="formSubmitted">
+            <button href="#main-content" class="btn btn-success w-100" :disabled="store.formSubmitted">
                 Aggiungi Appartamento
             </button>
             
