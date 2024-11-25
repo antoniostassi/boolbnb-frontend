@@ -22,6 +22,11 @@
             const slider = this.$refs.slider;
             slider.scrollBy({ left: 300, behavior: "smooth" });
         },
+        tryFilters() {
+          setTimeout(() => {
+            //console.log(this.selectedFilters);
+          }, 100);
+        }
     },
   };
   </script>
@@ -38,13 +43,14 @@
                 v-for="(filter, index) in filters"
                 :key="index"
                 class="filter-badge"
-                :class="{ active: selectedFilters.includes(filter) }"
+                :class="{ active: selectedFilters.includes(filter.id) }"
                 >
                 <input
                     type="checkbox"
-                    :value="filter"
+                    :value="filter.id"
                     v-model="selectedFilters"
                     class="hidden-checkbox"
+                    @click="tryFilters"
                 />
                 {{ filter.title }}
                 </label>

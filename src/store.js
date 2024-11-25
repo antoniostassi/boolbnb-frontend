@@ -14,6 +14,8 @@ export const api = reactive({
             axios.defaults.headers.common["X-XSRF-TOKEN"] = this.getCsrfTokenFromCookies();
             console.log(axios.defaults.headers.common["X-XSRF-TOKEN"]);
         }, 100); // Ritardo in millisecondi
+        this.getServices(); // Store services
+        this.getPromotions(); // Store promotions
     },
 
     getCsrfTokenFromCookies() {
@@ -38,8 +40,6 @@ export const api = reactive({
             this.user = result.data; // Store user data
             this.isLoggedIn = true; // Set user logged for frontend control
             this.getUserApartments(); // Store user's apartments
-            this.getServices(); // Store services
-            this.getPromotions(); // Store promotions
         }).catch((error) => {
             console.log('Utente non loggato');
         });

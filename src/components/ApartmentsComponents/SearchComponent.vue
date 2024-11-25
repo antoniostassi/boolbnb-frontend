@@ -1,17 +1,15 @@
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <template>
-<form class="search-bar d-flex align-items-center mx-auto mt-4">
-    <input
-    type="text"
-    placeholder="Inserisci destinazione..."
-    class="form-control search-input"
-    />
-</form>
+  <form class="search-bar d-flex align-items-center mx-auto mt-4">
+      <input
+      type="text"
+      placeholder="Inserisci destinazione..."
+      class="form-control search-input"
+      />
+  </form>
 </template>
 
 <style scoped lang="scss">
