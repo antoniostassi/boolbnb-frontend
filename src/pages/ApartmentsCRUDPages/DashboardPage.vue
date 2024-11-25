@@ -24,7 +24,7 @@ export default {
     },
     editApartment(apartmentId) {
       this.store.currentApartment = apartmentId;
-      this.$router.push({ name: "edit-apartment", params: { id: apartmentId } });
+      this.$router.push({ name: "edit-apartment" });
     },
     createApartment() {
       this.$router.push({ name: "create-apartment" });
