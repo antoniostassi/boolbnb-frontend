@@ -13,7 +13,7 @@ export default {
 </script>
 <template>
         <!-- Paginazione -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center my-5">
       <div class="pagination">
         <!-- 0) button prima pagina -->
         <button class="page-item" :disabled="api.pagination.currentPage == 1 || api.paginationClick" @click="api.getApartments(api.pagination.currentPage = 1)">
