@@ -60,41 +60,40 @@ export default {
             this.apartment.longitude = suggestion.position.lng;
             this.suggestions = [];
         },
+
         createApartment() {
-            this.formSubmitted = true;
-            this.store.servicesEmpty = false;
-            if(this.apartment.services.length != 0){
-                
-                axios
-                .post('http://localhost:8000/api/apartments', {
-                    user_id: this.api.user.id,
-                    title: this.apartment.title,
-                    rooms: this.apartment.rooms,
-                    beds: this.apartment.beds,
-                    bathrooms: this.apartment.bathrooms,
-                    apartment_size: this.apartment.apartment_size,
-                    address: this.apartment.address,
-                    latitude: this.apartment.latitude,
-                    longitude: this.apartment.longitude,
-                    image: this.apartment.image,
-                    services: this.apartment.services,
-                    promotions: this.apartment.promotion
-                })
-                .then((result) => {
-                    console.log('Risultato:', result);
-                    alert('Appartamento creato con successo');
-                    this.api.getUserApartments();
-                    this.$router.push('/user/dashboard')
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            }
-            else{
-                this.store.servicesEmpty = true
-            }
+            this.store.formSubmitted = true;
             this.delayOnAPI();
-        }
+            this.store.servicesEmpty = false;
+            if(this.apartment.services.length == 0){
+                this.store.servicesEmpty = true;
+                return
+            }
+            axios
+            .post('http://localhost:8000/api/apartments', {
+                user_id: this.api.user.id,
+                title: this.apartment.title,
+                rooms: this.apartment.rooms,
+                beds: this.apartment.beds,
+                bathrooms: this.apartment.bathrooms,
+                apartment_size: this.apartment.apartment_size,
+                address: this.apartment.address,
+                latitude: this.apartment.latitude,
+                longitude: this.apartment.longitude,
+                image: this.apartment.image,
+                services: this.apartment.services,
+                promotions: this.apartment.promotion
+            })
+            .then((result) => {
+                console.log('Risultato:', result);
+                alert('Appartamento creato con successo');
+                this.api.getUserApartments();
+                this.$router.push('/user/dashboard')
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        },
     },
 }
 </script>
