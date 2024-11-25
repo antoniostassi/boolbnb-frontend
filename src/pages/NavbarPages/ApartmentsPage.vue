@@ -1,12 +1,16 @@
 <script>
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
+import FilterComponent from "../../components/ApartmentsComponents/FilterComponent.vue";
+import SearchComponent from "../../components/ApartmentsComponents/SearchComponent.vue";
+import {api} from '../../store';
 
 export default {
   data() {
     return {
       paginationClick: false,
       apartments: [], // Lista degli appartamenti
+      api,
       pagination: {
         currentPage: 1, // Pagina corrente
         firstPage:1,
@@ -19,6 +23,8 @@ export default {
   },
   components: {
     SingleApartment,
+    FilterComponent,
+    SearchComponent
   },
   mounted() {
     this.getApartments(); // Carica gli appartamenti alla prima renderizzazione
@@ -70,8 +76,10 @@ export default {
 
 <template>
   <div class="container my-3">
+    <SearchComponent/>
+    <FilterComponent :filters="api.services"/>
     <!-- Lista degli appartamenti -->
-    <div class="row d-flex flex-wrap">
+    <div class="row d-flex flex-wrap m-0">
       <div
         v-for="(apartment, index) in apartments"
         :key="apartment.id"
@@ -85,7 +93,7 @@ export default {
     </div>
 
     <!-- Paginazione -->
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-4">
       <div class="pagination">
         <!-- 0) button prima pagina -->
         <button class="page-item" :disabled="pagination.currentPage == 1 || paginationClick" @click="getApartments(pagination.currentPage = 1)">
