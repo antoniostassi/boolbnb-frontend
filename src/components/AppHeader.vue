@@ -192,44 +192,119 @@ export default {
                             <!-- Sezione Registrazione -->
                             <div v-if="store.isRegistration">
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Inserisci il tuo username" v-model="userName" required autocomplete="name">
+                                    <label for="name" class="form-label">Username <span class="text-danger">*</span></label>
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="name" 
+                                    name="name" 
+                                    placeholder="Inserisci il tuo username" 
+                                    v-model="userName" 
+                                    minlength="3"
+                                    maxlength="255"
+                                    required 
+                                    autocomplete="name">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="firstname" class="form-label">Nome</label>
-                                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Inserisci il tuo nome" v-model="userFirstname" required autocomplete="firstname">
+                                    <label for="firstname" class="form-label">Nome <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                    class="form-control" 
+                                    id="firstname" 
+                                    name="firstname" 
+                                    placeholder="Inserisci il tuo nome" 
+                                    v-model="userFirstname" 
+                                    minlength="3"
+                                    maxlength="40"
+                                    required 
+                                    autocomplete="firstname">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="lastname" class="form-label">Cognome</label>
-                                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Inserisci il tuo cognome" v-model="userLastname" required autocomplete="lastname">
+                                    <label for="lastname" class="form-label">Cognome <span class="text-danger">*</span></label>
+                                    <input type="text" 
+                                    class="form-control" 
+                                    id="lastname" 
+                                    name="lastname" 
+                                    placeholder="Inserisci il tuo cognome" 
+                                    v-model="userLastname" 
+                                    required
+                                    minlength="3"
+                                    maxlength="40" 
+                                    autocomplete="lastname">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="dateOfBirth" class="form-label">Data di nascita</label>
-                                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" v-model="userDateOfBirth" required autocomplete="dateOfBirth">
+                                    <label for="dateOfBirth" class="form-label">Data di nascita <span class="text-danger">*</span></label>
+                                    <input type="date" 
+                                    class="form-control" 
+                                    id="dateOfBirth" 
+                                    name="dateOfBirth" 
+                                    v-model="userDateOfBirth" 
+                                    required 
+                                    autocomplete="dateOfBirth">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" 
+                                    class="form-control" 
+                                    id="email" 
+                                    name="email" 
+                                    placeholder="Inserisci la tua email" 
+                                    v-model="userEmail" 
+                                    required
+                                    min="5"
+                                    max="255" 
+                                    autocomplete="email">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
+                                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                    <input type="password" 
+                                    class="form-control" 
+                                    id="password" 
+                                    name="password" 
+                                    placeholder="Inserisci la tua password"
+                                    v-model="userPassword" 
+                                    required
+                                    autocomplete="password">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="passwordConfirm" class="form-label">Conferma Password</label>
-                                    <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Conferma la tua password" v-model="userPasswordConfirm" required autocomplete="passwordConfirm">
+                                    <label for="passwordConfirm" class="form-label">Conferma Password <span class="text-danger">*</span></label>
+                                    <input type="password" 
+                                    class="form-control" 
+                                    id="passwordConfirm" 
+                                    name="passwordConfirm" 
+                                    placeholder="Conferma la tua password" 
+                                    v-model="userPasswordConfirm" 
+                                    required 
+                                    autocomplete="passwordConfirm">
                                 </div>
+                                <p>I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</p>
+
                             </div>
 
                             <!-- Sezione Login -->
                             <div v-else>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
+                                    <input 
+                                    type="email"
+                                    class="form-control"
+                                    name="email" 
+                                    id="email" 
+                                    placeholder="Inserisci la tua email" 
+                                    v-model="userEmail" 
+                                    required 
+                                    utocomplete="email">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
+                                    <label for="password" class="form-label">Password </label>
+                                    <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    name="password" 
+                                    id="password" 
+                                    placeholder="Inserisci la tua password" 
+                                    v-model="userPassword" 
+                                    required 
+                                    autocomplete="password">
                                 </div>
                             </div>
                             <span class="text-danger">{{ errorText }}</span>
@@ -247,6 +322,7 @@ export default {
                                 <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false">Chiudi</button>
                                 <button type="button" class="btn btn-primary" @click="store.isRegistration ? userRegister() : userLogin()">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
+
                         </form>
                     </div>
                 </div>
