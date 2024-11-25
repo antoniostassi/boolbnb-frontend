@@ -79,7 +79,7 @@ export default {
                     name: this.userName,
                     firstname: this.userFirstname,
                     lastname: this.userLastname,
-                    date_of_birth: this.userDateOfBirth,
+                    dob: this.userDateOfBirth,
                     email: this.userEmail,
                     password: trimmedPassword,
                     password_confirmation: trimmedPasswordConfirm,
