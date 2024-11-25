@@ -232,15 +232,6 @@ export default {
         color: white;
         font-weight: bold;
         transition: background 0.3s ease, transform 0.2s;
-
-        &:hover {
-          background: #e352fa;
-          transform: scale(1.05);
-        }
-
-        &:active {
-          background: #e352fa;
-        }
       }
     }
   }
