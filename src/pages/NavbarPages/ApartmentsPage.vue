@@ -61,38 +61,6 @@ export default {
         this.paginationClick = false
       }, 2000);
     },
-    getApartments(page = 1) {
-      this.paginationClick = true;
-      axios
-        .get(`http://localhost:8000/api/apartments?page=${page}`)
-        .then((response) => {
-          console.log("Risposta API:", response.data.data);
-
-          // Aggiorna gli appartamenti aggiungendo un'immagine Picsum generata e filtrando l'indirizzo
-          this.apartments = response.data.data.map((apartment) => {
-          
-            return {
-
-              ...apartment,
-              image: `https://picsum.photos/seed/${apartment.id}/400/400`
-            };
-          });
-
-          // Aggiorna la paginazione con i dati restituiti dall'API
-          this.pagination = {
-            currentPage: response.data.current_page,
-            lastPage: response.data.last_page,
-            total: response.data.total,
-            prevPage: response.data.current_page - 1,
-            nextPage: response.data.current_page + 1,
-          };
-
-        })
-        .catch((error) => {
-          console.error("Errore nel caricamento degli appartamenti:", error);
-        });
-      this.refreshButtons();
-    },
   }
 };
 </script>
