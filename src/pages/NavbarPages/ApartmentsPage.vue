@@ -45,12 +45,12 @@ export default {
       return this.containsAny(services, aServices);
     },
     containsAny(activeServices, apartmentServices) {
-      return apartmentServices.some(service => {
+      return apartmentServices.some(service => { // Il .some serve a sostituire il ciclo forEach, che altrimenti non verrebbe interrotto dal return true.
         if (activeServices.includes(service)) {
           console.log("Filtro presente: " + service);
           return true; // Interrompe e restituisce true
         }
-        return false;
+        return false; // Se arriva qui vuol dire che nessun servizio dell'appartamento è presente tra i filtri selezionati.
       });
     },
     refreshButtons(){
