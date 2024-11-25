@@ -108,7 +108,7 @@ export default {
               <input
                 v-model="searchAddress"
                 type="text"
-                placeholder="Inserisci una città"
+                placeholder="Inserisci un indirizzo o una città"
                 class="form-control search-input"
                 @input="fetchSuggestions(searchAddress)"
                 autocomplete="off"
