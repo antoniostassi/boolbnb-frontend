@@ -1,5 +1,5 @@
 <script>
-import { api } from '../../store';
+import { api, store } from '../../store';
 import axios from 'axios';
 import * as services from '@tomtom-international/web-sdk-services';
 
@@ -7,7 +7,8 @@ export default {
     data() {
         return {
             api,
-            formSubmitted: false,
+            store,
+            
             apartment : {
                 services: [],
                 address: '',
@@ -20,10 +21,13 @@ export default {
     },
     components: {
     },
+    mounted(){
+        this.store.servicesEmpty = false;
+    },
     methods: {
         delayOnAPI(){
             setTimeout(() => {
-                this.formSubmitted = false;
+                this.store.formSubmitted = false;
             }, 2000);
         },
         fetchSuggestions(query) {
@@ -56,8 +60,15 @@ export default {
             this.apartment.longitude = suggestion.position.lng;
             this.suggestions = [];
         },
+
         createApartment() {
-            this.formSubmitted = true;
+            this.store.formSubmitted = true;
+            this.delayOnAPI();
+            this.store.servicesEmpty = false;
+            if(this.apartment.services.length == 0){
+                this.store.servicesEmpty = true;
+                return
+            }
             axios
             .post('http://localhost:8000/api/apartments', {
                 user_id: this.api.user.id,
@@ -82,8 +93,7 @@ export default {
             .catch((error) => {
                 console.log(error);
             })
-            this.delayOnAPI();
-        }
+        },
     },
 }
 </script>
@@ -203,6 +213,7 @@ export default {
             <div class="fw-bold mb-3">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</div>
             <hr>
             <h3>Servizi</h3>
+            <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
             <div class="row mb-3">
                 <div class="col-md-3 d-flex align-items-center justify-content-center" v-for="(service, index) in api.services" :key="index">
                     <label :for="'service-'+index" class="ms-1 my-1 w-50">{{ service.title }}</label>
@@ -213,11 +224,16 @@ export default {
                         v-model="apartment.services"
                         :value="service.id"
                     />
-                    
                 </div>
+                <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
+
             </div>
 
-            <button class="btn btn-success w-100" :disabled="formSubmitted">Aggiungi Appartamento</button>
+            
+            <button href="#main-content" class="btn btn-success w-100" :disabled="store.formSubmitted">
+                Aggiungi Appartamento
+            </button>
+            
         </form>
     </div>
 </template>

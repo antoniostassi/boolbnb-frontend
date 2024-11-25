@@ -1,8 +1,5 @@
 <script>
-
-import { api } from '../../store';
-import { store } from '../../store';
-
+import { api, store } from '../../store';
 import axios from 'axios';
 
 export default {
@@ -17,10 +14,15 @@ export default {
   components: {
   },
   mounted() {
+    this.store.serviceEmpty = false;
     this.getApartment();
   },
   methods: {
-   
+    delayOnAPI(){
+            setTimeout(() => {
+                this.store.formSubmitted = false;
+            }, 2000);
+        },
     getApartment() {
       axios.get(`http://localhost:8000/api/apartments/${this.store.currentApartment}`)
           .then((response) => {
@@ -36,30 +38,38 @@ export default {
                 
     },
     editApartment() {
+      this.store.formSubmitted = true;
+      this.delayOnAPI();
+      this.store.servicesEmpty = false;
+      if (this.activeServices.length == 0){
+        this.store.servicesEmpty = true;
+        return
+      }
       axios
-      .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
-        user_id: this.api.user.id,
-        title: this.apartment.title,
-        rooms: this.apartment.rooms,
-        beds: this.apartment.beds,
-        bathrooms: this.apartment.bathrooms,
-        apartment_size: this.apartment.apartment_size,
-        address: this.apartment.address,
-        latitude: this.apartment.latitude,
-        longitude: this.apartment.longitude,
-        image: this.apartment.image,
-        services: this.activeServices,
-      })
-        .then((result) => {
-          console.log(result);
-          this.api.getUserApartments();
-          alert('Modifica effettuata con successo');
-          this.$router.push('/user/dashboard');
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+        .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
+          user_id: this.api.user.id,
+          title: this.apartment.title,
+          rooms: this.apartment.rooms,
+          beds: this.apartment.beds,
+          bathrooms: this.apartment.bathrooms,
+          apartment_size: this.apartment.apartment_size,
+          address: this.apartment.address,
+          latitude: this.apartment.latitude,
+          longitude: this.apartment.longitude,
+          image: this.apartment.image,
+          services: this.activeServices,
+        })
+          .then((result) => {
+            console.log(result);
+            this.api.getUserApartments();
+            alert('Modifica effettuata con successo');
+            this.$router.push('/user/dashboard');
+        })
+        .catch((error) => {
+          console.log(error);
+        }) 
     },
+    
 
     tryLog() {
        console.log(this.apartment);
@@ -72,13 +82,15 @@ export default {
 <template>
   <div class="container my-5">
     <h1 class="text-center mb-4">Modifica l'appartamento</h1>
-    <form @submit.prevent="editApartment" class="p-4 border rounded shadow">
+    <form @submit.prevent="editApartment" validate class="p-4 border rounded shadow">
       <div class="mb-3">
-        <label class="form-label" for="title">Titolo dell'annuncio</label>
+        <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
         <input
           class="form-control"
           type="text"
           name="title"
+          minlength="5"
+          maxlength="128"
           required
           v-model="apartment.title"
           placeholder="Modifica il titolo"
@@ -86,63 +98,77 @@ export default {
       </div>
       <div class="row">
         <div class="col-md-3 mb-3">
-          <label class="form-label" for="rooms">Numero di stanze</label>
+          <label class="form-label" for="rooms">Numero di stanze <span class="text-danger">*</span></label>
           <input
             class="form-control"
             type="number"
             name="rooms"
             required
+            step="1"
+            min="1"
+            max="20"
             v-model="apartment.rooms"
             placeholder="Modifica il numero di stanze"
           />
         </div>
         <div class="col-md-3 mb-3">
-          <label class="form-label" for="beds">Numero di letti</label>
+          <label class="form-label" for="beds">Numero di letti <span class="text-danger">*</span></label>
           <input
             class="form-control"
             type="number"
             name="beds"
             required
+            step="1"
+            min="1"
+            max="20"
             v-model="apartment.beds"
             placeholder="Modifica il numero di letti"
           />
         </div>
         <div class="col-md-3 mb-3">
-          <label class="form-label" for="bathrooms">Numero di bagni</label>
+          <label class="form-label" for="bathrooms">Numero di bagni <span class="text-danger">*</span></label>
           <input
             class="form-control"
             type="number"
             name="bathrooms"
+            min="1"
+            step="1"
+            max="10"
             required
             v-model="apartment.bathrooms"
             placeholder="Modifica il numero di bagni"
           />
         </div>
         <div class="col-md-3 mb-3">
-          <label class="form-label" for="apartment_size">Metri quadrati</label>
+          <label class="form-label" for="apartment_size">Metri quadrati <span class="text-danger">*</span></label>
           <input
             class="form-control"
             type="number"
             name="apartment_size"
             required
+            min="7"
+            step="1"
+            max="500"
             v-model="apartment.apartment_size"
             placeholder="Modifica i metri quadrati"
           />
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="address">Indirizzo</label>
+        <label class="form-label" for="address">Indirizzo <span class="text-danger">*</span></label>
         <input
           class="form-control"
           type="text"
           name="address"
+          minlength="10"
+          maxlength="128"
           required
           v-model="apartment.address"
           placeholder="Modifica l'indirizzo"
         />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="image">Immagine</label>
+        <label class="form-label" for="image">Immagine <span class="text-danger">*</span></label>
         <input
           class="form-control"
           type="text"
@@ -152,24 +178,30 @@ export default {
           placeholder="Modifica il link dell'immagine"
         />
       </div>
+      <div class="fw-bold mb-3">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</div>
+      <hr>
       <h3>Servizi</h3>
+      <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
       <div class="row mb-3">
         <div
           class="col-md-3 d-flex align-items-center justify-content-center"
           v-for="(service, index) in api.services"
           :key="index"
         >
-          <label :for="'service-'+index" class="ms-1 my-1 w-50">{{ service.title }}</label>
+          <label :for="'service-'+index" class="ms-1 my-1 w-50 ">{{ service.title }}</label>
           <input
             type="checkbox"
             name="services[]"
             :id="'service-'+service.id"
             v-model="activeServices"
+            
             :value="service.id"
           />
         </div>
+        <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
+
       </div>
-      <button class="btn btn-primary w-100">Salva Modifiche</button>
+      <button :disabled="store.formSubmitted" class="btn btn-primary w-100">Salva Modifiche</button>
     </form>
   </div>
 </template>
