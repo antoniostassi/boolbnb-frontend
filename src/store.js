@@ -79,4 +79,6 @@ export const store = reactive({
     showLoginForm: false, // Stato per mostrare/nascondere il form di login
     // Variabili per il form di login e registrazione
     isRegistration: false, // Stato per passare da login a registrazione
+    servicesEmpty: false,
+
 });
