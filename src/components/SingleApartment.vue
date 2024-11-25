@@ -9,7 +9,7 @@ export default {
       type: Number,
       required: true,
     },
-  }
+  },
 };
 </script>
 
@@ -22,6 +22,9 @@ export default {
       class="card animate-card m-auto"
       :style="{ animationDelay: `${index * 0.1}s` }"
     >
+      <div v-if="apartment.promotions && apartment.promotions.length > 0" class="sponsored-badge">
+        ⭐ Sponsorizzato
+      </div>
       <img
         :src="apartment.image"
         :alt="apartment.title"
@@ -67,7 +70,6 @@ export default {
       width: 100%;
       height: 200px;
       object-fit: cover;
-      transition: transform 0.3s ease;
     }
 
     .card-body {
@@ -96,10 +98,6 @@ export default {
     &:hover {
       transform: translateY(-8px);
       box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
-
-      img {
-        transform: scale(1.05);
-      }
     }
 
     &.animate-card {
@@ -114,6 +112,19 @@ export default {
         transform: translateX(0);
       }
     }
+  }
+
+  .sponsored-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #e352fa;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 10;
   }
 }
 </style>
