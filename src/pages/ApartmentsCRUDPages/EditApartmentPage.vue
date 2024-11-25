@@ -40,7 +40,12 @@ export default {
     editApartment() {
       this.formSubmitted = true;
       this.store.servicesEmpty = false;
-      if(this.activeServices.length != 0){
+      
+      if (this.activeServices.length == 0){
+        this.store.servicesEmpty = true;
+        return
+      }
+      
       axios
         .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
           user_id: this.api.user.id,
@@ -64,9 +69,6 @@ export default {
         .catch((error) => {
           console.log(error);
         })
-      }
-      else{
-        this.store.servicesEmpty = true;
       }
       this.delayOnAPI();
     },
