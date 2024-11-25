@@ -40,14 +40,11 @@ export default {
           this.apartments = response.data.data.map((apartment) => {
           
             return {
-              id: apartment.id,
-              title: apartment.title,
-              address: apartment.address,
-              apartment_size: apartment.apartment_size,
-              rooms: apartment.rooms,
+              ...apartment,
               image: `https://picsum.photos/seed/${apartment.id}/400/400`
             };
           });
+
           // Aggiorna la paginazione con i dati restituiti dall'API
           this.pagination = {
             currentPage: response.data.current_page,
