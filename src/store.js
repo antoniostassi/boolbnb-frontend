@@ -6,7 +6,18 @@ export const api = reactive({
     isLoggedIn: false, // Stato per verificare se l'utente è loggato
     user: [],
     services: [],
+    apartments: [], // Lista degli appartamenti
+    paginationClick: false,
     promotions: [],
+    // paginazione
+    pagination: {
+        currentPage: 1, // Pagina corrente
+        firstPage:1,
+        lastPage: 0, // Numero totale di pagine
+        total: 0, // Numero totale di appartamenti
+        prevPage:'',
+        nextPage:'',
+    },
 
     async getCSRF() {
         await axios.get('http://localhost:8000/sanctum/csrf-cookie');
@@ -64,6 +75,44 @@ export const api = reactive({
         } catch (error) {
             console.error('Errore durante il logout:', error.response?.data?.message || error.message);
         }
+    },
+    
+    refreshButtons(){
+        setTimeout(() => {
+          this.paginationClick = false
+        }, 2000);
+    },
+    getApartments(page = 1) {
+    this.paginationClick = true;
+    axios
+        .get(`http://localhost:8000/api/apartments?page=${page}`)
+        .then((response) => {
+        console.log("Risposta API:", response.data);
+        // Aggiorna gli appartamenti aggiungendo un'immagine Picsum generata e filtrando l'indirizzo
+        this.apartments = response.data.data.map((apartment) => {
+            return {
+            id: apartment.id,
+            title: apartment.title,
+            address: apartment.address,
+            apartment_size: apartment.apartment_size,
+            rooms: apartment.rooms,
+            image: `https://picsum.photos/seed/${apartment.id}/400/400`
+            };
+        });
+        // Aggiorna la paginazione con i dati restituiti dall'API
+        this.pagination = {
+            currentPage: response.data.current_page,
+            lastPage: response.data.last_page,
+            total: response.data.total,
+            prevPage: response.data.current_page - 1,
+            nextPage: response.data.current_page + 1,
+        };
+
+        })
+        .catch((error) => {
+        console.error("Errore nel caricamento degli appartamenti:", error);
+        });
+    this.refreshButtons();
     },
 
 });
