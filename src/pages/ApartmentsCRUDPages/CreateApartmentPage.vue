@@ -1,5 +1,5 @@
 <script>
-import { api } from '../../store';
+import { api, store } from '../../store';
 import axios from 'axios';
 import * as services from '@tomtom-international/web-sdk-services';
 
@@ -7,6 +7,7 @@ export default {
     data() {
         return {
             api,
+            store,
             formSubmitted: false,
             apartment : {
                 services: [],
@@ -19,6 +20,9 @@ export default {
         };
     },
     components: {
+    },
+    mounted(){
+        this.store.servicesEmpty = false;
     },
     methods: {
         delayOnAPI(){
@@ -58,30 +62,37 @@ export default {
         },
         createApartment() {
             this.formSubmitted = true;
-            axios
-            .post('http://localhost:8000/api/apartments', {
-                user_id: this.api.user.id,
-                title: this.apartment.title,
-                rooms: this.apartment.rooms,
-                beds: this.apartment.beds,
-                bathrooms: this.apartment.bathrooms,
-                apartment_size: this.apartment.apartment_size,
-                address: this.apartment.address,
-                latitude: this.apartment.latitude,
-                longitude: this.apartment.longitude,
-                image: this.apartment.image,
-                services: this.apartment.services,
-                promotions: this.apartment.promotion
-            })
-            .then((result) => {
-                console.log('Risultato:', result);
-                alert('Appartamento creato con successo');
-                this.api.getUserApartments();
-                this.$router.push('/user/dashboard')
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+            this.store.servicesEmpty = false;
+            if(this.apartment.services.length != 0){
+                console.log('entra qui');
+                axios
+                .post('http://localhost:8000/api/apartments', {
+                    user_id: this.api.user.id,
+                    title: this.apartment.title,
+                    rooms: this.apartment.rooms,
+                    beds: this.apartment.beds,
+                    bathrooms: this.apartment.bathrooms,
+                    apartment_size: this.apartment.apartment_size,
+                    address: this.apartment.address,
+                    latitude: this.apartment.latitude,
+                    longitude: this.apartment.longitude,
+                    image: this.apartment.image,
+                    services: this.apartment.services,
+                    promotions: this.apartment.promotion
+                })
+                .then((result) => {
+                    console.log('Risultato:', result);
+                    alert('Appartamento creato con successo');
+                    this.api.getUserApartments();
+                    this.$router.push('/user/dashboard')
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            }
+            else{
+                this.store.servicesEmpty = true
+            }
             this.delayOnAPI();
         }
     },
@@ -203,6 +214,7 @@ export default {
             <div class="fw-bold mb-3">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</div>
             <hr>
             <h3>Servizi</h3>
+            <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
             <div class="row mb-3">
                 <div class="col-md-3 d-flex align-items-center justify-content-center" v-for="(service, index) in api.services" :key="index">
                     <label :for="'service-'+index" class="ms-1 my-1 w-50">{{ service.title }}</label>
@@ -213,11 +225,16 @@ export default {
                         v-model="apartment.services"
                         :value="service.id"
                     />
-                    
                 </div>
+                <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
+
             </div>
 
-            <button class="btn btn-success w-100" :disabled="formSubmitted">Aggiungi Appartamento</button>
+            
+            <button href="#main-content" class="btn btn-success w-100" :disabled="formSubmitted">
+                Aggiungi Appartamento
+            </button>
+            
         </form>
     </div>
 </template>
