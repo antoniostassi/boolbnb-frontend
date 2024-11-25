@@ -42,7 +42,7 @@ const router = createRouter({
         // ApartmentsCRUDPages
         { path: '/user/dashboard', name: 'your-apartments', component: DashboardPage },
         {  path: '/apartments/create', name: 'create-apartment', component: CreateApartmentPage, props: true },
-        { path: '/apartments/edit/:id', name: 'edit-apartment', component: EditApartmentPage },
+        { path: '/apartments/edit', name: 'edit-apartment', component: EditApartmentPage },
 
         // NotFoundPage
         { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage }
