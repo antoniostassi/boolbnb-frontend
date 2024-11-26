@@ -20,7 +20,7 @@ export default {
   >
     <div
       class="card animate-card m-auto"
-      :style="{ animationDelay: `${index * 0.1}s` }"
+      :style="{ animationDelay: `${1 * 0.1}s` }"
     >
       <div v-if="apartment.promotions && apartment.promotions.length > 0" class="sponsored-badge">
         ⭐ Sponsorizzato

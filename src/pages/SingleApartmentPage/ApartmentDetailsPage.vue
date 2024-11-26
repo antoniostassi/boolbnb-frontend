@@ -7,6 +7,7 @@ import { store } from '../../store';
 export default {
   data() {
     return {
+
         store, // Import dello store
         apartment: null, // Variabile apartment vuota
         map: null, // Variabile map vuota
@@ -14,9 +15,15 @@ export default {
             lat: 0,  // Latitudine settata a 0 di default
             lng: 0 // Longitudine settata a 0 di default
         },
+        showMessageError: false,
+        blockButton: false,
+        messageSent: false,
+        sameEmail: false,
         contactForm: { // Oggetto vuoto del form di contatto del proprietario
-            email: '', // Qui verrà inserito tramite v-model il dato della mail del mittente del messaggio
-            message: '', // Qui verrà inserito tramite v-model il dato del messaggio del mittente del messaggio
+          UserEmail: '', 
+          UserName: '',
+          UserSurname: '',
+          message: '', '', 
         },
     };
   },
@@ -30,6 +37,13 @@ export default {
     this.getApartment(); // Chiamo la funzione prima al "mount" della pagina
   },
   methods: {
+    
+    delayOnAPI(){
+      setTimeout(() => {
+          this.blockButton = false;
+      }, 2000);
+    },
+
     getApartment() {
       axios
         .get(`http://localhost:8000/api/apartments/${this.id}`) // Chiamata verso l'appartamento con l'ID selezionato
@@ -78,14 +92,39 @@ export default {
       });
     },
     sendMessage() {
-      console.log('Email:', this.contactForm.email); // Console.log della mail del mittente
-      console.log('Messaggio:', this.contactForm.message); // Console.log del messaggio del mittente
 
-      // Qui dobbiamo aggiungere la logica back-end per l'invio del messaggio
-
-      alert('Messaggio inviato con successo!'); // Alert (Da modificare in quanto i PM non vogliono Alerts)
-      this.contactForm.email = ''; // All'invio del form, svuota il campo email
-      this.contactForm.message = ''; // All'invio del form, svuota il campo messaggio
+        this.showMessageError = false;
+        this.sameEmail = false;
+        this.blockButton = true;
+        if(this.apartment.user.email == this.contactForm.UserEmail){
+          this.sameEmail = true;
+          this.delayOnAPI();
+          return
+        }
+        axios.post('http://localhost:8000/api/messages', {
+          content: this.contactForm.message,
+          user_email: this.contactForm.UserEmail,
+          firstname: this.contactForm.UserName,
+          lastname: this.contactForm.UserSurname,
+          apartment_id: this.apartment.id
+        })
+        .then((result)=> {
+          console.log('messaggio inviato', result);
+          this.messageSent = true;
+          // svuoto il form dopo il corretto invio
+          this.contactForm.UserEmail = '',
+          this.contactForm.UserName = '',
+          this.contactForm.UserSurname = '',
+          this.contactForm.message = '',
+          setTimeout(() => {
+          this.messageSent = false;
+          }, 10000);
+        })
+        .catch((error)=> {
+          console.log(error);
+          this.showMessageError = true;
+        })
+        this.delayOnAPI();
     },
   },
 };
@@ -164,10 +203,34 @@ export default {
                       <input
                         type="email"
                         id="email"
-                        v-model="contactForm.email"
+                        v-model="contactForm.UserEmail"
                         class="form-control"
                         placeholder="Inserisci la tua email"
                         required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="user_name" class="form-label">Nome</label>
+                      <input
+                        type="text"
+                        id="user_name"
+                        v-model="contactForm.UserName"
+                        class="form-control"
+                        placeholder="Inserisci il tuo nome"
+                        minlength="3"
+                        maxlength="64"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="user_surname" class="form-label">Cognome</label>
+                      <input
+                        type="text"
+                        id="user_surname"
+                        v-model="contactForm.UserSurname"
+                        class="form-control"
+                        placeholder="Inserisci il tuo cognome"
+                        minlength="3"
+                        maxlength="64"
                       />
                     </div>
                     <div class="mb-3">
@@ -179,13 +242,18 @@ export default {
                         rows="4"
                         placeholder="Scrivi il tuo messaggio"
                         required
-                        minlength="7"
+                        minlength="5"
+                        maxlength="2048"
                       ></textarea>
                     </div>
+                    <p v-show="showMessageError" class="text-danger">Errore nell'invio del messaggio: controlla i campi inseriti o riprova più tardi</p>
+                    <p v-show="sameEmail" class="text-danger fw-bold">Errore: Non puoi mandare una mail a te stesso</p>
+                    <p v-show="messageSent" class="text-success fw-bold">Messaggio inviato correttamente.</p>
                     <p>I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori.</p>
-                    <button type="submit" class="btn btn-custom w-100">
+                    <button :disabled="blockButton" type="submit" class="btn btn-custom w-100">
                       Invia Messaggio
                     </button>
+                    
                   </form>
                 </div>
               </div>

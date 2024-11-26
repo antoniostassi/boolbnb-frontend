@@ -1,4 +1,7 @@
 <script>
+
+import tt from '@tomtom-international/web-sdk-maps';
+
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
 import Paginator from "../../components/Paginator.vue"
@@ -9,7 +12,6 @@ import SearchComponent from "../../components/ApartmentsComponents/SearchCompone
 export default {
   data() {
     return {
-      paginationClick: false,
       apartments: [], // Lista degli appartamenti
       api, store,
       pagination: {
@@ -20,6 +22,9 @@ export default {
         prevPage:'',
         nextPage:'',
       },
+      researchAddress: '',
+      researchPosition: [],
+      hiddenPaginate: false,
     };
   },
   components: {
@@ -29,16 +34,40 @@ export default {
     SearchComponent
   },
   mounted() {
-    this.api.getApartments(); // Carica gli appartamenti alla prima renderizzazione
-  },
-  computed: {
-    getSelectedFilters() {
-      console.log(this.$refs.filters.selectedFilters.length);
-      return this.$refs.filters.selectedFilters;
+    if(this.$route.query.address) {
+      this.researchAddress = this.$route.query.address;
+    };
+
+    if(this.$route.query.lng || this.$route.query.lat) {
+      this.researchPosition.lat = this.$route.query.lat;
+      this.researchPosition.lng = this.$route.query.lng;
+    };
+
+    //
+    if (this.researchPosition.lat){ // Se la pagina ha definito una latitudine
+      this.api.getAllApartments(); // Prendi TUTTI gli appartamenti
+      this.hiddenPaginate = true;
+      return
     }
+    console.log("passo qui");
+    this.api.getApartments();
   },
   methods: {
 
+    testingBound(lat, lng) {
+      const center = new tt.LngLat(this.researchPosition.lng, this.researchPosition.lat); // Posizione della ricerca
+      const radiusMeters = 20000; // 20 Kilometers
+      const boundingBox = center.toBounds(radiusMeters); // Creo il raggio di comparazione per le coordinate da confrontare.
+
+      const coordsToCheck = new tt.LngLat(lng, lat); // Coordinata da controllare
+
+      if(boundingBox.contains(coordsToCheck)) { 
+        return true;
+      };
+
+      return false;
+    },
+    
     checkFilter(services, apartment) {
       //console.log(apartment);
       let aServices = apartment.services.map(function(element){
@@ -47,6 +76,7 @@ export default {
       //console.log(apartment.title+' : '+this.containsAny(services, aServices));
       return this.containsAny(services, aServices);
     },
+
     containsAny(activeServices, apartmentServices) {
       return apartmentServices.some(service => { // Il .some serve a sostituire il ciclo forEach, che altrimenti non verrebbe interrotto dal return true.
         if (activeServices.includes(service)) {
@@ -55,19 +85,14 @@ export default {
         }
         return false; // Se arriva qui vuol dire che nessun servizio dell'appartamento è presente tra i filtri selezionati.
       });
-    },
-    refreshButtons(){
-      setTimeout(() => {
-        this.paginationClick = false
-      }, 2000);
-    },
+    }
   }
 };
 </script>
 
 <template>
   <div class="container my-3">
-    <SearchComponent/>
+    <SearchComponent :address="researchAddress"/>
     <FilterComponent :filters="api.services" :ref="'filters'"/>
     <!-- Lista degli appartamenti 
       :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
@@ -77,16 +102,19 @@ export default {
         v-for="(apartment, index) in api.apartments"
         :key="apartment.id"
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
-        :class="getSelectedFilters.length != 0 && !checkFilter(getSelectedFilters, apartment) ? 'd-none' : ''"
-        
+        :class="
+          store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
+          researchPosition.lat && researchPosition.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '' "
       >
+
       <!-- {{ console.log(apartment) }} -->
       <div class="apartment-card-wrapper w-100">
         <SingleApartment :apartment="apartment" :index="index" />
+        {{ refreshApartments }}
       </div>
       </div>
     </div>
-    <Paginator />
+    <Paginator :class="hiddenPaginate ? 'd-none' : ''" />
     
   </div>
 </template>

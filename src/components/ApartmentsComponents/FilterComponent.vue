@@ -1,16 +1,11 @@
   
   <script>
+  import {api, store} from '../../store';
   export default {
     name: "FilterSlider",
-    props: {
-      filters: {
-        type: Array,
-        required: true,
-      },
-    },
     data() {
         return {
-            selectedFilters: [],
+            api, store
         };
     },
     methods: {
@@ -24,7 +19,7 @@
         },
         tryFilters() {
           setTimeout(() => {
-            //console.log(this.selectedFilters);
+            console.log(this.store.filterSelected);
           }, 100);
         }
     },
@@ -32,7 +27,7 @@
   </script>
 
     <template>
-        <div class="filter-slider-container">
+        <div class="filter-slider-container mt-2">
         <!-- Freccia sinistra -->
         <button class="arrow left ms-2" @click="scrollLeft">&#9664;</button>
         
@@ -40,15 +35,15 @@
         <div class="filter-slider rounded-5" ref="slider">
             <div class="filters-wrapper">
                 <label
-                v-for="(filter, index) in filters"
+                v-for="(filter, index) in this.api.services"
                 :key="index"
                 class="filter-badge"
-                :class="{ active: selectedFilters.includes(filter.id) }"
+                :class="{ active: store.filterSelected.includes(filter.id) }"
                 >
                 <input
                     type="checkbox"
                     :value="filter.id"
-                    v-model="selectedFilters"
+                    v-model="store.filterSelected"
                     class="hidden-checkbox"
                     @click="tryFilters"
                 />
@@ -63,7 +58,7 @@
   </template>
 
   
-<style scoped>
+<style scoped lang="scss">
 /* Contenitore principale */
 .filter-slider-container {
   display: flex;
@@ -80,7 +75,7 @@
   overflow-x: scroll;
   scroll-behavior: smooth;
   white-space: nowrap;
-  padding: 10px 0;
+  padding: 10px 5px;
 }
 
 .filter-slider::-webkit-scrollbar {
@@ -91,6 +86,9 @@
   display: flex;
   gap: 12px;
   align-items: center;
+  label {
+    font-size:0.7rem;
+  }
 }
 
 /* Badge per il filtro */
@@ -98,7 +96,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 5px 10px;
   border-radius: 20px;
   background-color: #f3d6fb;
   color: #6a008a;
