@@ -6,71 +6,68 @@ import * as services from '@tomtom-international/web-sdk-services';
 export default {
     data() {
         return {
-            api,
-            store,
-            
-            apartment : {
-                services: [],
-                address: '',
-                latitude: null,
-                longitude: null,
+            api, // Importo API dallo store
+            store, // Importo store dallo store
+            apartment : { // Oggetto apartment con dati vuoti
+                services: [], // Array servizi vuota il quale all'interno verranno pushati i servizi che ha l'appartamento
+                address: '', // Array indirizzo vuoto il quale all'interno verrà pushato l'indirizzo dell'appartamento (Dato da TomTom)
+                latitude: null, // Latitudine dell'apartment settato a 0
+                longitude: null, // Longitudine dell'apartment settato a 0
             },
-            suggestions: [],
-            apiKey: 'Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ',
+            suggestions: [], // Array il quale all'interno verranno pushate i suggerimenti di indirizzo
+            apiKey: 'Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ', // ApiKey di Gaetano (TomTom)
         };
     },
-    components: {
-    },
     mounted(){
-        this.store.servicesEmpty = false;
+        this.store.servicesEmpty = false; // Richiama servicesEmpty dallo store (leggi store)
     },
     methods: {
         delayOnAPI(){
             setTimeout(() => {
-                this.store.formSubmitted = false;
+                this.store.formSubmitted = false; // Funzione per richiamare formSubmitted dallo store con un ritardo di 2 secondi
             }, 2000);
         },
-        fetchSuggestions(query) {
-            if (query.length < 3) {
-                this.suggestions = [];
+        fetchSuggestions(query) { // Funzione che chiama i suggerimenti quando si inserisce l'indirizzo all'interno dell'input
+            if (query.length < 3) { // Se la richiesta dell'indirizzo ha meno di 3 caratteri
+                this.suggestions = []; // L'array dei suggerimenti si svuota e non vengono mostrati suggerimenti
                 return;
             }
 
-            services.services.fuzzySearch({
-                key: this.apiKey,
-                query: query,
-                language: 'it-IT', 
-                limit: 10,
-                countrySet: ['IT']
+            services.services.fuzzySearch({ // Tramite services del pacchetto TomTom, si richiama questa funzione (Sempre di TomTom) per effettuare la ricerca che richiede questi parametri
+                key: this.apiKey, // ApiKey di Gaetano dichiarata precedentemente
+                query: query, // Indirizzo inserito dall'utente
+                language: 'it-IT', // Lingua italiana dei suggerimenti
+                limit: 10, // Limite di suggerimenti inseriti dentro l'array e quindi mostrati all'utente
+                countrySet: ['IT'] // Gli indirizzi fanno parte solo dell'Italia (Limite settato per rendere più semplice la ricerca)
             })
-            .then((response) => {
-                this.suggestions = response.results.map((result) => ({
-                    address: result.address.freeformAddress,
-                    position: result.position,
+            .then((response) => { // Risposta della chiamata API
+                this.suggestions = response.results.map((result) => ({ // I suggerimenti dichiarati precedentemente (e vuoti) vengono riempiti con i parametri (Indirizzo e posizione) forniti dalla risposta della chiamata API verso TomTom
+                    address: result.address.freeformAddress, // Indirizzo suggerito
+                    position: result.position, // Posizione dell'indirizzo suggerito
                 }));
             })
             .catch((error) => {
-                console.error('Errore durante la ricerca:', error);
+                console.error('Errore durante la ricerca:', error); // Nel caso ci fosse un errore, spunterà in console in rosso
             });
         },
 
-        selectSuggestion(suggestion) {
-            this.apartment.address = suggestion.address;
-            this.apartment.latitude = suggestion.position.lat;
-            this.apartment.longitude = suggestion.position.lng;
-            this.suggestions = [];
+        selectSuggestion(suggestion) { // Funzione quando si clicca su un suggerimento con argomento (suggerimento)
+            this.apartment.address = suggestion.address; // L'indirizzo dell'appartamento viene riempito con l'indirizzo selezionato dai suggerimenti
+            this.apartment.latitude = suggestion.position.lat; // La latitudine dell'appartamento viene riempito con la latitudine presa dalla posizione dell'indirizzo dell'appartamento selezionato
+            this.apartment.longitude = suggestion.position.lng; // La longitudine dell'appartamento viene riempito con la longitudine presa dalla posizione dell'indirizzo dell'appartamento selezionato
+            this.suggestions = []; // Una volta selezionato un indirizzo, l'array "Suggerimenti" si svuota e spariscono i suggerimenti
         },
 
-        createApartment() {
-            this.store.formSubmitted = true;
-            this.delayOnAPI();
-            this.store.servicesEmpty = false;
-            if(this.apartment.services.length == 0){
-                this.store.servicesEmpty = true;
+        createApartment() { // Funzione per creare un appartamento
+            this.store.formSubmitted = true; // formSubmitted dallo store diventa true, quindi viene inviato il form
+            this.delayOnAPI(); // Si richiama il ritardo della funzione di 2 secondi
+            this.store.servicesEmpty = false; // serviceEmpty dallo store viene dichiarato false in quanto esistono dei servizi
+            if(this.apartment.services.length == 0){ // Nel caso non dovessero esistere servizi
+                this.store.servicesEmpty = true; // serviceEmpty dallo store viene dichiarato true in quanto non esistono dei servizi
                 return
             }
             axios
-            .post('http://localhost:8000/api/apartments', {
+            .post('http://localhost:8000/api/apartments', { // Chiamata per pushare all'interno dell'apartment i dati richiesti
                 user_id: this.api.user.id,
                 title: this.apartment.title,
                 rooms: this.apartment.rooms,
@@ -84,13 +81,13 @@ export default {
                 services: this.apartment.services,
                 promotions: this.apartment.promotion
             })
-            .then((result) => {
+            .then((result) => { // Dopo la chiamata, se va a buon fine, appare un alert di successo e si viene reindirizzati alla dashboard
                 console.log('Risultato:', result);
                 alert('Appartamento creato con successo');
                 this.api.getUserApartments();
                 this.$router.push('/user/dashboard')
             })
-            .catch((error) => {
+            .catch((error) => { // Se va in errore in console apparirà l'errore
                 console.log(error);
             })
         },

@@ -3,7 +3,7 @@
 export default {
     data() {
         return {
-            careersLinks: [
+            careersLinks: [ // Link da generare nel footer con nome e href
                 { name: "Lavora con noi", href: "/careers" },
                 { name: "Studenti", href: "/students" },
                 { name: "Laureati", href: "/graduates" },
