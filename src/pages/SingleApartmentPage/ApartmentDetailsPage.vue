@@ -11,6 +11,7 @@ export default {
       map: null,
       mapCenter: { lat: 0, lng: 0 },
       store,
+      showMessageError: false,
       blockButton: false,
       messageSent: false,
       sameEmail: false,
@@ -87,6 +88,7 @@ export default {
       });
     },
     sendMessage() {
+        this.showMessageError = false;
         this.sameEmail = false;
         this.blockButton = true;
         if(this.apartment.user.email == this.contactForm.UserEmail){
@@ -114,6 +116,7 @@ export default {
         })
         .catch((error)=> {
           console.log(error);
+          this.showMessageError = true;
         })
         this.delayOnAPI();
     },
@@ -231,6 +234,7 @@ export default {
                         maxlength="2048"
                       ></textarea>
                     </div>
+                    <p v-show="showMessageError" class="text-danger">Errore nell'invio del messaggio: controlla i campi inseriti o riprova più tardi</p>
                     <p v-show="sameEmail" class="text-danger fw-bold">Errore: Non puoi mandare una mail a te stesso</p>
                     <p v-show="messageSent" class="text-success fw-bold">Messaggio inviato correttamente.</p>
                     <p>I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori.</p>
