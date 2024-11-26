@@ -31,12 +31,6 @@ export default {
   mounted() {
     this.api.getApartments(); // Carica gli appartamenti alla prima renderizzazione
   },
-  computed: {
-    getSelectedFilters() {
-      console.log(this.$refs.filters.selectedFilters.length);
-      return this.$refs.filters.selectedFilters;
-    }
-  },
   methods: {
 
     checkFilter(services, apartment) {
@@ -77,12 +71,11 @@ export default {
         v-for="(apartment, index) in api.apartments"
         :key="apartment.id"
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
-        :class="getSelectedFilters.length != 0 && !checkFilter(getSelectedFilters, apartment) ? 'd-none' : ''"
-        
+        :class="store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : ''"
       >
       <!-- {{ console.log(apartment) }} -->
       <div class="apartment-card-wrapper w-100">
-        <SingleApartment :apartment="apartment" :index="index" />
+        <SingleApartment :apartment="apartment" :index="index" @click="console.log(store.selectedFilters)" />
       </div>
       </div>
     </div>

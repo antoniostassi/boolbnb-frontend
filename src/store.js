@@ -126,5 +126,5 @@ export const store = reactive({
     isRegistration: false, // Stato per passare da login a registrazione
     formSubmitted: false, //stato per bloccare i form di submit create/edit
     servicesEmpty: false, // stato per controllare se c'è almeno un servizio nei form di create/edit
-
+    filterSelected: []
 });
