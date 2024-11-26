@@ -79,8 +79,23 @@ export const api = reactive({
     
     refreshButtons(){
         setTimeout(() => {
-          this.paginationClick = false
+            this.paginationClick = false
         }, 2000);
+    },
+    getAllApartments() {
+        axios
+            .get("http://localhost:8000/api/apartments?all=true")
+            .then((response) => {
+                this.apartments = response.data.map((apartment) => {
+                    return {
+                    ...apartment,
+                    image: `https://picsum.photos/seed/${apartment.id}/400/400`
+                    };
+                });
+            })
+            .catch((error) => {
+                console.error("Errore nel caricamento degli appartamenti:", error);
+            });
     },
     getApartments(page = 1) {
     this.paginationClick = true;
