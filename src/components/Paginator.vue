@@ -15,10 +15,13 @@ export default {
 <template>
         <!-- Paginazione -->
         <div class="d-flex justify-content-center my-5">
+
           <div class="pagination">
             <!-- 0) button prima pagina -->
             <button class="page-item" :disabled="api.pagination.currentPage == 1 || api.paginationClick" @click="api.getApartments(api.pagination.currentPage = 1)">
-              <a href="#main-container" class="page-link" :class="api.pagination.currentPage == 1 ? 'disabled':''"><<</a> 
+              <a href="#main-container" class="page-link" :class="api.pagination.currentPage == 1 ? 'disabled':''">
+                <i class="fa-solid fa-angles-left"></i>
+              </a> 
             </button>
             <!-- 0) -->
             <!-- 0.1) si vedono solo sull'ultima pagina -->
@@ -29,7 +32,6 @@ export default {
               <a href="#main-container" class="page-link">{{ api.pagination.currentPage - 3 }}</a>
             </button>
             <!-- 0.1) -->
-
           
             <button class="page-item" v-show="api.pagination.prevPage > 0 && api.pagination.prevPage - 1 != 0" :disabled="api.paginationClick" @click="api.getApartments(api.pagination.currentPage = api.pagination.prevPage - 1)">
               <a href="#main-container" class="page-link">{{ api.pagination.prevPage - 1 }}</a>
@@ -65,10 +67,13 @@ export default {
 
             <!-- button ultima pagina -->
             <button class="page-item" :disabled="api.pagination.currentPage == api.pagination.lastPage || paginationClick" @click="api.getApartments(api.pagination.currentPage = api.pagination.lastPage); console.log(paginationClick)">
-              <a href="#main-container" class="page-link" :class="api.pagination.currentPage == api.pagination.lastPage ? 'disabled':''">>></a>
+              <a href="#main-container" class="page-link" :class="api.pagination.currentPage == api.pagination.lastPage ? 'disabled':''">
+                <i class="fa-solid fa-angles-right"></i>
+              </a>
             </button>
-          <!--  -->
-        </div>
+            <!--  -->
+          </div>
+
     </div>
 </template>
 
