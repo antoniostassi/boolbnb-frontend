@@ -1,5 +1,23 @@
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      research:''
+    }
+  },
+  props:{
+    address: {
+      type: String,
+      required: true
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      console.log(this.address);
+      this.research = this.address // Popola il v-model con la prop ricevuta 
+    }, 100);
+  }
+}
 </script>
 
 <template>
@@ -8,6 +26,7 @@ export default {}
       type="text"
       placeholder="Inserisci destinazione..."
       class="form-control search-input"
+      v-model="research"
       />
   </form>
 </template>

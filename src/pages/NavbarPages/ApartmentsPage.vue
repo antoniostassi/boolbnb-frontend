@@ -9,7 +9,6 @@ import SearchComponent from "../../components/ApartmentsComponents/SearchCompone
 export default {
   data() {
     return {
-      paginationClick: false,
       apartments: [], // Lista degli appartamenti
       api, store,
       pagination: {
@@ -20,6 +19,7 @@ export default {
         prevPage:'',
         nextPage:'',
       },
+      researchAddress: ''
     };
   },
   components: {
@@ -29,6 +29,12 @@ export default {
     SearchComponent
   },
   mounted() {
+    if(this.$route.query.address) {
+      this.researchAddress = this.$route.query.address;
+      console.log(this.researchAddress);
+    }
+
+    //
     this.api.getApartments(); // Carica gli appartamenti alla prima renderizzazione
   },
   methods: {
@@ -49,19 +55,14 @@ export default {
         }
         return false; // Se arriva qui vuol dire che nessun servizio dell'appartamento è presente tra i filtri selezionati.
       });
-    },
-    refreshButtons(){
-      setTimeout(() => {
-        this.paginationClick = false
-      }, 2000);
-    },
+    }
   }
 };
 </script>
 
 <template>
   <div class="container my-3">
-    <SearchComponent/>
+    <SearchComponent :address="researchAddress"/>
     <FilterComponent :filters="api.services" :ref="'filters'"/>
     <!-- Lista degli appartamenti 
       :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
