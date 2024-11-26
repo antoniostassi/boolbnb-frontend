@@ -1,6 +1,7 @@
 <script>
 import { api, store } from '../../store';
 import axios from 'axios';
+import * as services from '@tomtom-international/web-sdk-services';
 
 export default {
   data() {
@@ -8,7 +9,10 @@ export default {
       api,
       store,
       apartment: [],
-      activeServices: []
+      activeServices: [],
+      searchAddress: "",
+      suggestions: [],
+      apiKey: "Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ",
     };
   },
   components: {
@@ -27,15 +31,45 @@ export default {
       axios.get(`http://localhost:8000/api/apartments/${this.store.currentApartment}`)
           .then((response) => {
               //console.log(response.data);
-              this.apartment = response.data[0];
-              this.apartment.services.forEach(element => {
+                this.apartment = response.data[0];
+                this.apartment.services.forEach(element => {
                 this.activeServices.push(element.id);
               });
           })
           .catch((error) => {
               console.error(error);
-          });
-                
+          });       
+    },
+    fetchSuggestions(query) {
+      if (query.length < 3) {
+        this.suggestions = [];
+        return;
+      }
+      services.services
+        .fuzzySearch({
+          key: this.apiKey,
+          query,
+          language: "it-IT",
+          limit: 10,
+          countrySet: ["IT"],
+        })
+        .then((response) => {
+          this.suggestions = response.results.map((result) => ({
+            
+            address: result.address.freeformAddress,
+            position: result.position,
+          }
+        ));
+        })
+        .catch((error) => {
+          console.error("Errore durante la ricerca delle città:", error);
+        });
+    },
+    selectSuggestion(suggestion) {
+        this.apartment.address = suggestion.address;
+        this.apartment.latitude = suggestion.position.lat;
+        this.apartment.longitude = suggestion.position.lng;
+        this.suggestions = [];
     },
     editApartment() {
       this.store.formSubmitted = true;
@@ -164,8 +198,20 @@ export default {
           maxlength="128"
           required
           v-model="apartment.address"
-          placeholder="Modifica l'indirizzo"
+          @input="fetchSuggestions(apartment.address)"
+          placeholder="Inserisci l'indirizzo"
+          autocomplete="off"
         />
+        <ul v-if="suggestions.length" class="list-group mt-2">
+            <li
+                v-for="(suggestion, index) in suggestions"
+                :key="index"
+                @click="selectSuggestion(suggestion)"
+                class="list-group-item list-group-item-action"
+            >
+                {{ suggestion.address }}
+            </li>
+        </ul>
       </div>
       <div class="mb-3">
         <label class="form-label" for="image">Immagine <span class="text-danger">*</span></label>
