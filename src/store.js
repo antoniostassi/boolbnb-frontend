@@ -91,11 +91,7 @@ export const api = reactive({
         // Aggiorna gli appartamenti aggiungendo un'immagine Picsum generata e filtrando l'indirizzo
         this.apartments = response.data.data.map((apartment) => {
             return {
-            id: apartment.id,
-            title: apartment.title,
-            address: apartment.address,
-            apartment_size: apartment.apartment_size,
-            rooms: apartment.rooms,
+            ...apartment,
             image: `https://picsum.photos/seed/${apartment.id}/400/400`
             };
         });
