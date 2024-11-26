@@ -7,81 +7,85 @@ import { store } from '../../store';
 export default {
   data() {
     return {
-      apartment: null,
-      map: null,
-      mapCenter: { lat: 0, lng: 0 },
-      store,
-      contactForm: {
-        email: '',
-        message: '',
-      },
+        store, // Import dello store
+        apartment: null, // Variabile apartment vuota
+        map: null, // Variabile map vuota
+        mapCenter: { // Oggetto vuoto con il centro della mappa
+            lat: 0,  // Latitudine settata a 0 di default
+            lng: 0 // Longitudine settata a 0 di default
+        },
+        contactForm: { // Oggetto vuoto del form di contatto del proprietario
+            email: '', // Qui verrà inserito tramite v-model il dato della mail del mittente del messaggio
+            message: '', // Qui verrà inserito tramite v-model il dato del messaggio del mittente del messaggio
+        },
     };
   },
   props: {
-    id: {
-      type: Number,
-      required: true,
+    id: {   // Prop per il passaggio dell'ID dell'appartamento
+        type: Number, 
+        required: true,
     },
   },
   mounted() {
-    this.getApartment();
+    this.getApartment(); // Chiamo la funzione prima al "mount" della pagina
   },
   methods: {
     getApartment() {
       axios
-        .get(`http://localhost:8000/api/apartments/${this.id}`)
+        .get(`http://localhost:8000/api/apartments/${this.id}`) // Chiamata verso l'appartamento con l'ID selezionato
         .then((response) => {
-          this.apartment = response.data[0];
-          this.apartment.image = `https://picsum.photos/seed/${this.apartment.id}/400/300`;
+          this.apartment = response.data[0]; // Pusho dentro la variabile apartment l'oggetto con i parametri dell'apartment
+          this.apartment.image = `https://picsum.photos/seed/${this.apartment.id}/400/300`; // Genero un'immagine da picsum in quanto mancante nel db
 
-          if (this.apartment.latitude && this.apartment.longitude) {
-            this.mapCenter = {
-              lat: this.apartment.latitude,
-              lng: this.apartment.longitude,
+          if (this.apartment.latitude && this.apartment.longitude) { // Se esistono latitudine e longitudine dell'appartamento
+            this.mapCenter = { // Pusha dentro mapCenter i seguenti valori
+              lat: this.apartment.latitude, // Latitudine dell'appartamento
+              lng: this.apartment.longitude, // Longitudine dell'appartamento
             };
-            this.initializeMap();
+            this.initializeMap(); // Successivamente, esegui la funzione di inizializzazione mappa
           }
 
-          this.store.currentApartment = this.id;
+          this.store.currentApartment = this.id; // CurrentApartment all'interno dello store viene riempito con l'ID dell'appartamento selezionato
         })
         .catch((error) => {
-          console.error(error);
+          console.error(error); // Nel caso dovesse andare in errore, in console uscirà questo errore
         });
     },
     initializeMap() {
-      this.$nextTick(() => {
-        this.map = markRaw(
+      this.$nextTick(() => { // NextTick serve per fare eseguire la funzione subito dopo il caricamento dei dati, altrimenti faila
+        this.map = markRaw( // MarkRaw è un elemento di Vue per rendere statico un elemento dinamico (Serve per far apparire la mappa)
           tt.map({
-            key: 'Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ',
-            container: 'map',
-            center: [this.mapCenter.lng, this.mapCenter.lat],
-            zoom: 15,
+            key: 'Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ', // Api Key dell'account di Gaetano per accedere alla funzione
+            container: 'map', // Il contenitore della mappa ha l'ID della mappa
+            center: [this.mapCenter.lng, this.mapCenter.lat], // Il centro della mappa viene riempito con i valori di mapCenter
+            zoom: 15, // Altezza dal quale vedremo la mappa al caricamento della pagina
           })
         );
 
-        const customMarker = document.createElement('div');
+        const customMarker = document.createElement('div'); // Creazione del marker modificato a nostro piacimento
         customMarker.style.backgroundImage =
-          'url("https://cdn-icons-png.flaticon.com/512/684/684908.png")';
-        customMarker.style.backgroundSize = 'cover';
-        customMarker.style.width = '40px';
-        customMarker.style.height = '40px';
-        customMarker.style.borderRadius = '50%';
+          'url("https://cdn-icons-png.flaticon.com/512/684/684908.png")'; // Icona del marker presa da internet
+        customMarker.style.backgroundSize = 'cover'; // Grandezza del background del marker
+        customMarker.style.width = '40px'; // Larghezza del marker
+        customMarker.style.height = '40px'; // Lunghezza del marker
+        customMarker.style.borderRadius = '50%'; // Border-radius del marker
 
-        markRaw(
-          new tt.Marker({ element: customMarker })
-            .setLngLat([this.mapCenter.lng, this.mapCenter.lat])
-            .addTo(this.map)
+        markRaw( // MarkRaw è un elemento di Vue per rendere statico un elemento dinamico (Serve per far apparire il marker) 
+          new tt.Marker({ element: customMarker })  // Creazione del marker con proprietà di CustomMarker definite sopra
+            .setLngLat([this.mapCenter.lng, this.mapCenter.lat]) // Posizione nel quale il marker dovrà stare, definite dai dati di mapCenter
+            .addTo(this.map) // Aggiunta del marker alla mappa
         );
       });
     },
     sendMessage() {
-      console.log('Email:', this.contactForm.email);
-      console.log('Messaggio:', this.contactForm.message);
+      console.log('Email:', this.contactForm.email); // Console.log della mail del mittente
+      console.log('Messaggio:', this.contactForm.message); // Console.log del messaggio del mittente
 
-      // Simulazione invio messaggio (aggiungi qui la tua logica di backend)
-      alert('Messaggio inviato con successo!');
-      this.contactForm.email = '';
-      this.contactForm.message = '';
+      // Qui dobbiamo aggiungere la logica back-end per l'invio del messaggio
+
+      alert('Messaggio inviato con successo!'); // Alert (Da modificare in quanto i PM non vogliono Alerts)
+      this.contactForm.email = ''; // All'invio del form, svuota il campo email
+      this.contactForm.message = ''; // All'invio del form, svuota il campo messaggio
     },
   },
 };
@@ -90,19 +94,23 @@ export default {
 
 <template>
     <div class="apartment-details p-3">
-      <!-- Caricamento in corso -->
+      <!-- Caricamento in corso, oppure appartamento non trovato -->
       <div v-if="apartment === null" class="loading">
-        <p>Caricamento in corso o appartamento non trovato...</p>
+        <p>
+            Caricamento in corso o appartamento non trovato...
+        </p> 
       </div>
   
       <!-- Dettagli dell'appartamento -->
       <div v-else class="details-container">
-        <h1 class="apartment-title">{{ apartment.title }}</h1>
+        <h1 class="apartment-title">
+            {{ apartment.title }}
+        </h1>
         <img :src="apartment.image" :alt="apartment.title" class="apartment-image w-100">
         <p class="apartment-description">
-          <strong>Indirizzo:</strong> {{ apartment.address }}<br>
-          <strong>N. Stanze:</strong> {{ apartment.rooms }}<br>
-          <strong>Metri Quadrati:</strong> {{ apartment.apartment_size }}<br>
+          <strong>Indirizzo:</strong> {{ apartment.address }} <br>
+          <strong>N. Stanze:</strong> {{ apartment.rooms }} <br>
+          <strong>Metri Quadrati:</strong> {{ apartment.apartment_size }} <br>
           <strong>Letti:</strong> {{ apartment.beds }}
         </p>
   
@@ -119,14 +127,16 @@ export default {
         <!-- Sezione Proprietario -->
         <div class="owner-section">
           <h2>Contatti del Proprietario</h2>
+          <!-- Se nome e cognome nel db esistono (e non sono null), appare la dicitura Nome: Nome Cognome -->
           <p v-if="apartment.user.firstname && apartment.user.lastname">
             <strong>Nome:</strong> {{ apartment.user.firstname }} {{ apartment.user.lastname }}
           </p>
+          <!-- Se l'email esiste (ma è obbligatoria), appare la dicitura Email: Email proprietario -->
           <p v-if="apartment.user.email">
             <strong>Email:</strong> {{ apartment.user.email }}
           </p>
   
-          <!-- Accordion con il form -->
+          <!-- Accordion con il form preso da Bootstrap -->
           <div class="accordion" id="contactAccordion">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingContact">
@@ -184,9 +194,11 @@ export default {
         </div>
   
         <!-- Mappa -->
+        <!-- Se esiste l'appartamento, e latitudine e longitudine di mapCenter sono stati riempiti, appare la mappa -->
         <div v-if="apartment && mapCenter.lat && mapCenter.lng" class="map-section">
-          <h2>Posizione dell'appartamento</h2>
-          <div id="map"></div>
+            <h2>Posizione dell'appartamento</h2>
+            <!-- Container della mappa con ID = map per riprendere il container: map della creazione mappa nello script -->
+            <div id="map"></div>
         </div>
       </div>
     </div>
