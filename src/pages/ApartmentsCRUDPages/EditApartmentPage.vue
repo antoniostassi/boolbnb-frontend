@@ -32,9 +32,8 @@ export default {
     getApartment() {
       axios.get(`http://localhost:8000/api/apartments/${this.store.currentApartment}`)
           .then((response) => {
-              //console.log(response.data);
-              this.apartment = response.data[0];
-              this.apartment.services.forEach(element => {
+                this.apartment = response.data[0];
+                this.apartment.services.forEach(element => {
                 this.activeServices.push(element.id);
               });
           })
@@ -75,14 +74,14 @@ export default {
         }) 
     },
     toggleService(serviceId) {
-      const index = this.activeServices.indexOf(serviceId);
-      if (index === -1) {
-        this.activeServices.push(serviceId);
-      } else {
+      if (this.activeServices.includes(serviceId)) {
+        const index = this.activeServices.indexOf(serviceId);
         this.activeServices.splice(index, 1);
+      } else {
+        this.activeServices.push(serviceId);
       }
     },
-    toggleServices() {
+    showMoreServices() {
       this.showAllServices = !this.showAllServices;
     }
   },
@@ -217,7 +216,7 @@ export default {
       <button 
         type="button" 
         class="btn btn-success p-2 text-light"
-        @click="toggleServices">
+        @click="showMoreServices">
         {{ showAllServices ? 'Mostra Meno' : 'Mostra Tutti' }}
       </button>
       <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
