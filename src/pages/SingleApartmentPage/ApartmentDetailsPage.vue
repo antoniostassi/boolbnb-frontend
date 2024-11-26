@@ -89,7 +89,7 @@ export default {
 </script>
 
 <template>
-    <div class="apartment-details">
+    <div class="apartment-details p-3">
       <!-- Caricamento in corso -->
       <div v-if="apartment === null" class="loading">
         <p>Caricamento in corso o appartamento non trovato...</p>
@@ -98,7 +98,7 @@ export default {
       <!-- Dettagli dell'appartamento -->
       <div v-else class="details-container">
         <h1 class="apartment-title">{{ apartment.title }}</h1>
-        <img :src="apartment.image" :alt="apartment.title" class="apartment-image">
+        <img :src="apartment.image" :alt="apartment.title" class="apartment-image w-100">
         <p class="apartment-description">
           <strong>Indirizzo:</strong> {{ apartment.address }}<br>
           <strong>N. Stanze:</strong> {{ apartment.rooms }}<br>
@@ -150,7 +150,7 @@ export default {
                 <div class="accordion-body">
                   <form @submit.prevent="sendMessage">
                     <div class="mb-3">
-                      <label for="email" class="form-label">La tua Email</label>
+                      <label for="email" class="form-label">La tua Email <span class="text-danger">*</span></label>
                       <input
                         type="email"
                         id="email"
@@ -161,7 +161,7 @@ export default {
                       />
                     </div>
                     <div class="mb-3">
-                      <label for="message" class="form-label">Messaggio</label>
+                      <label for="message" class="form-label">Messaggio <span class="text-danger">*</span></label>
                       <textarea
                         id="message"
                         v-model="contactForm.message"
@@ -169,8 +169,10 @@ export default {
                         rows="4"
                         placeholder="Scrivi il tuo messaggio"
                         required
+                        minlength="7"
                       ></textarea>
                     </div>
+                    <p>I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori.</p>
                     <button type="submit" class="btn btn-custom w-100">
                       Invia Messaggio
                     </button>
@@ -196,7 +198,6 @@ export default {
   font-family: 'Arial', sans-serif;
   margin: 20px auto;
   max-width: 800px;
-  padding: 20px;
   border-radius: 10px;
   background-color: #f9f9f9;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -210,7 +211,6 @@ export default {
 }
 
 .apartment-image {
-  width: 100%;
   height: auto;
   border-radius: 10px;
   margin-bottom: 20px;
