@@ -7,13 +7,12 @@ import { store } from '../../store';
 export default {
   data() {
     return {
-
         store, // Import dello store
         apartment: null, // Variabile apartment vuota
         map: null, // Variabile map vuota
         mapCenter: { // Oggetto vuoto con il centro della mappa
-            lat: 0,  // Latitudine settata a 0 di default
-            lng: 0 // Longitudine settata a 0 di default
+          lat: 0,  // Latitudine settata a 0 di default
+          lng: 0 // Longitudine settata a 0 di default
         },
         showMessageError: false,
         blockButton: false,
@@ -23,13 +22,13 @@ export default {
           UserEmail: '', 
           UserName: '',
           UserSurname: '',
-          message: '', '', 
+          message: '', 
         },
     };
   },
   props: {
     id: {   // Prop per il passaggio dell'ID dell'appartamento
-        type: Number, 
+        type: String, 
         required: true,
     },
   },
