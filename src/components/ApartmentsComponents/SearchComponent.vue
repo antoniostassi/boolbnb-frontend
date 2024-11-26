@@ -13,7 +13,6 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      console.log(this.address);
       this.research = this.address // Popola il v-model con la prop ricevuta 
     }, 100);
   }

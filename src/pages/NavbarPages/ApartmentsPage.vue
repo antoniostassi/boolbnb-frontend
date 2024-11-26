@@ -1,4 +1,7 @@
 <script>
+
+import tt from '@tomtom-international/web-sdk-maps';
+
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
 import Paginator from "../../components/Paginator.vue"
@@ -20,7 +23,11 @@ export default {
         nextPage:'',
       },
       researchAddress: '',
-      researchPosition: []
+      researchPosition: {
+        lat : 0,
+        lng : 0,
+      },
+      radiusMeters: 100000000000 // Raggio by default per catturare TUTTI gli appartamenti. Tornerà a 20KM non appena avrà una destinazione da verificare.
     };
   },
   components: {
@@ -37,12 +44,26 @@ export default {
     if(this.$route.query.lng || this.$route.query.lat) {
       this.researchPosition.lat = this.$route.query.lat;
       this.researchPosition.lng = this.$route.query.lng;
+      this.radiusMeters = 20000; // Una volta prese le coordinate richieste, reinizializzo il radiusMeters a 20km
     }
+
     //
     this.api.getApartments(); // Carica gli appartamenti alla prima renderizzazione
   },
   methods: {
 
+    testingBound(lat, lng) {
+      const center = new tt.LngLat(this.researchPosition.lng, this.researchPosition.lat); // Posizione della ricerca
+      const boundingBox = center.toBounds(this.radiusMeters); // Creo il raggio di comparazione per le coordinate da confrontare.
+
+      const coordsToCheck = new tt.LngLat(lng, lat);
+
+      if(boundingBox.contains(coordsToCheck)) { 
+        return true
+      }
+
+      return false;
+    },
     checkFilter(services, apartment) {
       //console.log(apartment);
       let aServices = apartment.services.map(function(element){
@@ -77,11 +98,13 @@ export default {
         :key="apartment.id"
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
         :class="
-          store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : ''"
+          store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
+          researchPosition.lenght != 0 && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '' "
       >
+
       <!-- {{ console.log(apartment) }} -->
       <div class="apartment-card-wrapper w-100">
-        <SingleApartment :apartment="apartment" :index="index" @click="console.log(store.selectedFilters)" />
+        <SingleApartment :apartment="apartment" :index="index" />
       </div>
       </div>
     </div>
