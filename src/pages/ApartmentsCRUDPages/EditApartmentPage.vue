@@ -8,7 +8,8 @@ export default {
       api,
       store,
       apartment: [],
-      activeServices: []
+      activeServices: [],
+      showAllServices: false,
     };
   },
   components: {
@@ -16,6 +17,11 @@ export default {
   mounted() {
     this.store.serviceEmpty = false;
     this.getApartment();
+  },
+  computed: {
+    visibleServices() {
+      return this.showAllServices ? this.api.services : this.api.services.slice(0, 4);
+    },
   },
   methods: {
     delayOnAPI(){
@@ -34,8 +40,7 @@ export default {
           })
           .catch((error) => {
               console.error(error);
-          });
-                
+          });   
     },
     editApartment() {
       this.store.formSubmitted = true;
@@ -69,11 +74,16 @@ export default {
           console.log(error);
         }) 
     },
-    
-
-    tryLog() {
-       console.log(this.apartment);
-      // 
+    toggleService(serviceId) {
+      const index = this.activeServices.indexOf(serviceId);
+      if (index === -1) {
+        this.activeServices.push(serviceId);
+      } else {
+        this.activeServices.splice(index, 1);
+      }
+    },
+    toggleServices() {
+      this.showAllServices = !this.showAllServices;
     }
   },
 }
@@ -182,60 +192,177 @@ export default {
       <hr>
       <h3>Servizi</h3>
       <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
-      <div class="row mb-3">
+      <div class="row mb-3 services-container">
         <div
-          class="col-md-3 d-flex align-items-center justify-content-center"
-          v-for="(service, index) in api.services"
+          class="service-badge"
+          v-for="(service, index) in visibleServices"
           :key="index"
+          :class="{ selected: activeServices.includes(service.id) }"
+          @click="toggleService(service.id)"
         >
-          <label :for="'service-'+index" class="ms-1 my-1 w-50 ">{{ service.title }}</label>
-          <input
-            type="checkbox"
-            name="services[]"
-            :id="'service-'+service.id"
-            v-model="activeServices"
-            
-            :value="service.id"
-          />
+          <div class="service-content">
+            <!-- Icona del servizio -->
+            <div class="service-icon">
+              <i class="fa-solid fa-mug-saucer"></i>
+            </div>
+            <!-- Titolo del servizio -->
+            <span class="service-title">{{ service.title }}</span>
+            <!-- Spunta verde -->
+            <div v-if="activeServices.includes(service.id)" class="checkmark">
+              <i class="fa-solid fa-check"></i>
+            </div>
+          </div>
         </div>
-        <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
-
       </div>
+      <button 
+        type="button" 
+        class="btn btn-success p-2 text-light"
+        @click="toggleServices">
+        {{ showAllServices ? 'Mostra Meno' : 'Mostra Tutti' }}
+      </button>
+      <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
       <button :disabled="store.formSubmitted" class="btn btn-primary w-100">Salva Modifiche</button>
     </form>
   </div>
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
   max-width: 1000px;
   margin: auto;
+
+  h1 {
+    font-weight: bold;
+    color: #2c3e50;
+  }
 }
 
-h1 {
-  font-weight: bold;
-  color: #2c3e50;
+.service-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+button {
+  &.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+
+  &.btn-link {
+    background: none;
+    border: none;
+    color: #3498db;
+    text-decoration: underline;
+    font-size: 14px;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover {
+      color: #2980b9;
+    }
+  }
 }
 
 .form-label {
   font-weight: 500;
 }
 
-input, label {
+input,
+label {
   margin-bottom: 10px;
 }
 
-button {
-  background-color: #3498db;
-  border-color: #3498db;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 10px;
+
+  .service-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    width: 225px;
+    height: 60px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &.selected {
+      background-color: #7b29883f;
+      border-color: #e352fa;
+      box-shadow: 0 6px 12px #58206144;
+
+      .checkmark {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #28a745;
+        color: #fff;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        animation: pop-in 0.3s forwards;
+      }
+    }
+
+    .service-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .service-icon {
+        font-size: 20px;
+        color: #3498db;
+      }
+
+      .service-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #2c3e50;
+        white-space: nowrap;
+        overflow: hidden; 
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  @keyframes pop-in {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }
 
-button:hover {
-  background-color: #2980b9;
-}
 </style>
