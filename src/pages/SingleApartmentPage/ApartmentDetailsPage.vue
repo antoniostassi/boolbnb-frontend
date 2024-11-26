@@ -28,7 +28,7 @@ export default {
   },
   props: {
     id: {   // Prop per il passaggio dell'ID dell'appartamento
-        type: Number, 
+        type: String, 
         required: true,
     },
   },
