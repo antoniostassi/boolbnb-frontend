@@ -17,7 +17,9 @@ export default {
       <div class="pagination">
         <!-- 0) button prima pagina -->
         <button class="page-item" :disabled="api.pagination.currentPage == 1 || api.paginationClick" @click="api.getApartments(api.pagination.currentPage = 1)">
-          <a href="#main-container" class="page-link" :class="api.pagination.currentPage == 1 ? 'disabled':''"><<</a> 
+          <a href="#main-container" class="page-link" :class="api.pagination.currentPage == 1 ? 'disabled':''">
+            <i class="fa-solid fa-angles-left"></i>
+          </a> 
         </button>
         <!-- 0) -->
         <!-- 0.1) si vedono solo sull'ultima pagina -->
@@ -64,7 +66,9 @@ export default {
 
         <!-- button ultima pagina -->
         <button class="page-item" :disabled="api.pagination.currentPage == api.pagination.lastPage || paginationClick" @click="api.getApartments(api.pagination.currentPage = api.pagination.lastPage); console.log(paginationClick)">
-          <a href="#main-container" class="page-link" :class="api.pagination.currentPage == api.pagination.lastPage ? 'disabled':''">>></a>
+          <a href="#main-container" class="page-link" :class="api.pagination.currentPage == api.pagination.lastPage ? 'disabled':''">
+            <i class="fa-solid fa-angles-right"></i>
+          </a>
         </button>
         <!--  -->
       </div>
