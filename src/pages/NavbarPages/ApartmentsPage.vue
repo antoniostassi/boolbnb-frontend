@@ -19,7 +19,8 @@ export default {
         prevPage:'',
         nextPage:'',
       },
-      researchAddress: ''
+      researchAddress: '',
+      researchPosition: []
     };
   },
   components: {
@@ -31,9 +32,12 @@ export default {
   mounted() {
     if(this.$route.query.address) {
       this.researchAddress = this.$route.query.address;
-      console.log(this.researchAddress);
-    }
+    };
 
+    if(this.$route.query.lng || this.$route.query.lat) {
+      this.researchPosition.lat = this.$route.query.lat;
+      this.researchPosition.lng = this.$route.query.lng;
+    }
     //
     this.api.getApartments(); // Carica gli appartamenti alla prima renderizzazione
   },
@@ -72,7 +76,8 @@ export default {
         v-for="(apartment, index) in api.apartments"
         :key="apartment.id"
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
-        :class="store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : ''"
+        :class="
+          store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : ''"
       >
       <!-- {{ console.log(apartment) }} -->
       <div class="apartment-card-wrapper w-100">

@@ -76,14 +76,18 @@ export default {
     },
     selectSuggestion(suggestion) {
       this.searchAddress = suggestion.address;
+      this.searchPosition = suggestion.position;
       this.suggestions = [];
     },
     searchApartments() {
+      console.log(this.searchPosition);
       // Naviga alla pagina degli appartamenti con il filtro
       this.$router.push({
         path: "/apartments",
         query: {
           address: this.searchAddress.trim() || null,
+          lat: this.searchPosition.lat,
+          lng: this.searchPosition.lng
         },
       });
     },
