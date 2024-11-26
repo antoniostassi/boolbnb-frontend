@@ -18,8 +18,8 @@ export default {
     SingleApartment,
   },
   mounted() {
-        this.getApartments();
-    },
+      this.getApartments(); // Prende tutti gli appartamenti e filtra gli Sponsorizzati.
+  },
 
   methods: {
     getApartments() {
@@ -80,7 +80,6 @@ export default {
       this.suggestions = [];
     },
     searchApartments() {
-      console.log(this.searchPosition);
       // Naviga alla pagina degli appartamenti con il filtro
       this.$router.push({
         path: "/apartments",
@@ -105,8 +104,8 @@ export default {
           <!-- Form di ricerca -->
           <form
             class="search-bar d-flex align-items-center mx-auto flex-wrap"
-            @submit.prevent="searchApartments"
-          >
+            @submit.prevent="searchApartments" 
+          > <!-- All'invio del form, cambia la rotta verso la lista di tutti gli appartamenti, filtrandoli per indirizzo.-->
             <!-- Input città -->
             <div class="position-relative flex-grow-1 me-2">
               <input
