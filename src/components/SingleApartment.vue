@@ -1,11 +1,11 @@
 <script>
 export default {
-  props: {
-    apartment: {
+  props: { // Passaggio di props
+    apartment: { // Serve per prendere l'id dell'apartment da mostrare dentro la card nel router-link
       type: Object,
       required: true,
     },
-    index: {
+    index: { // Serve per il delay dell'animazione per farli uscire uno dopo l'altro
       type: Number,
       required: true,
     },
