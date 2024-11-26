@@ -75,7 +75,7 @@
   overflow-x: scroll;
   scroll-behavior: smooth;
   white-space: nowrap;
-  padding: 10px 0;
+  padding: 10px 5px;
 }
 
 .filter-slider::-webkit-scrollbar {
