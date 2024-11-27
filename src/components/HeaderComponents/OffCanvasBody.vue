@@ -11,7 +11,6 @@ export default {
   components: {
   },
   methods: {
-    
     closeCanvas(){
         document.getElementById("close-canvas").click()
     }
@@ -27,8 +26,8 @@ export default {
                     Menù |
                 </h5>
                 <h5 v-if="!this.api.isLoggedIn" class="text-center ms-1" id="offcanvasRightLabel">
-                    <button @click="store.showLoginForm = true; store.isRegistration = false ; closeCanvas()" class="btn offcanvas-btn-outline-primary">Accedi</button>
-                    <button @click="store.showLoginForm = true; store.isRegistration = true; closeCanvas() " class="btn offcanvas-btn-primary">Registrati</button>
+                    <button @click="store.showLoginForm = true; store.isRegistration = false ; closeCanvas(); this.api.loginError = false;" class="btn offcanvas-btn-outline-primary">Accedi</button>
+                    <button @click="store.showLoginForm = true; store.isRegistration = true; closeCanvas(); this.api.registrationError = false; " class="btn offcanvas-btn-primary">Registrati</button>
                 </h5>
                 <h5 v-else class="text-center ms-1" id="offcanvasRightLabel">
                     Benvenuto {{ api.user.firstname + ' ' + api.user.lastname }}
