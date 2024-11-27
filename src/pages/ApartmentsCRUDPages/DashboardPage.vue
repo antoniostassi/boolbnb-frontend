@@ -75,6 +75,9 @@ export default {
               >
                 <i class="fa-solid fa-trash-can"></i>
               </button>
+              <router-link :to="{ name:'profile-page' }" class="view-button bg-secondary" @click="store.messageFilter = apartment.title; store.apartmentIndex = index">
+                <i class="fa-solid fa-envelope"></i>
+              </router-link>
             </td>
           </tr>
           <tr v-if="!this.api.user.apartments.length">
@@ -115,7 +118,6 @@ export default {
       padding: 10px 20px;
       background-color: #4caf50;
       color: white;
-      font-size: 1rem;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -150,12 +152,7 @@ export default {
         padding: 12px;
         border-bottom: 1px solid #ddd;
         color: #555;
-        word-wrap: break-word;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      th {
+        word-wrap: break-word; 
         font-weight: bold;
         background-color: #f4f4f4;
       }
