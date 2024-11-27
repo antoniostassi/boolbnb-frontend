@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { reactive } from 'vue';
+import { router } from './router'; // Importato Router
 
 export const api = reactive({
     loginCheck: false, // Serve a fare il primo check per vedere se l'utente è loggato
@@ -177,6 +178,20 @@ export const tomtom = reactive({
     selectSuggestion(suggestion) {
         this.address = suggestion.address;
         this.position = suggestion.position;
+        this.changeRoute();
         this.suggestions = [];
     },
+
+    changeRoute() {
+        // Naviga alla pagina degli appartamenti con il filtro
+        router.push({
+            path: "/apartments",
+        });
+    },
+
+    resetResearch() {
+        this.address = '',
+        this.position = {},
+        this.suggestions = []
+    }
 })

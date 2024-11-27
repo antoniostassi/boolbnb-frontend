@@ -11,14 +11,31 @@ export default {
 </script>
 
 <template>
-  <form class="search-bar d-flex align-items-center mx-auto mt-4">
-      <input
-      type="text"
-      placeholder="Inserisci destinazione..."
-      class="form-control search-input"
-      v-model="this.tomtom.address"
-      />
+  <!-- <form class="search-bar d-flex align-items-center mx-auto mt-4">
+    <input v-model="this.tomtom.address" type="text" placeholder="Inserisci un indirizzo o una città" class="form-control search-input" @input="this.tomtom.fetchSuggestions(this.tomtom.address)" autocomplete="off"/>
+    <ul v-if="this.tomtom.suggestions.length" class="suggestions-list">
+      <li v-for="(suggestion, index) in this.tomtom.suggestions" :key="index" @click="this.tomtom.selectSuggestion(suggestion)">
+        {{ suggestion.address }}
+      </li>
+    </ul> -->
+
+    <form class="search-bar d-flex align-items-center mx-auto flex-wrap" @submit.prevent="searchApartments"> 
+      <!-- All'invio del form, cambia la rotta verso la lista di tutti gli appartamenti, filtrandoli per indirizzo.-->
+    <div class="position-relative flex-grow-1 me-2">
+      <!-- Input logic -->
+      <input v-model="this.tomtom.address" type="text" placeholder="Inserisci un indirizzo o una città" class="form-control search-input rounded-5 border"
+        @input="this.tomtom.fetchSuggestions(this.tomtom.address)" autocomplete="off"/>
+
+      <ul v-if="this.tomtom.suggestions.length" class="suggestions-list">
+        <li
+          v-for="(suggestion, index) in this.tomtom.suggestions" :key="index" @click="this.tomtom.selectSuggestion(suggestion)">
+            {{ suggestion.address }}
+        </li>
+      </ul>
+    </div>
   </form>
+
+  
 </template>
 
 <style scoped lang="scss">
@@ -26,14 +43,11 @@ export default {
       width: 100%;
       max-width: 700px;
       display: flex;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 50px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      align-items: center;
 
       .search-input {
-        flex: 1;
+        flex-grow: 1;
         border: none;
-        border-radius: 50px;
         padding: 0.75rem 1rem;
         font-size: 1rem;
         outline: none;
@@ -44,23 +58,28 @@ export default {
         }
       }
 
-      .search-button {
-        border: none;
-        border-radius: 0 50px 50px 0;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        background: #e352fa;
-        color: white;
-        font-weight: bold;
-        transition: background 0.3s ease, transform 0.2s;
+      .suggestions-list {
+        position: absolute;
+        z-index: 10;
+        list-style: none;
+        padding: 0;
+        background-color: white;
+        margin: 0;
+        width: 100%;
+        max-height: 150px;
+        overflow-y: auto;
+        border-radius: 5px;
 
-        &:hover {
-          background: #e352fa;
-          transform: scale(1.05);
-        }
+        li {
+          padding: 10px;
+          cursor: pointer;
+          color: black;
+          text-align: start;
+          
 
-        &:active {
-          background: #e352fa;
+          &:hover {
+            background: #eee;
+          }
         }
       }
     }

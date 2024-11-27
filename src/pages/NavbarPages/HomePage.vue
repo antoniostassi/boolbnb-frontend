@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
+import SearchComponent from "../../components/ApartmentsComponents/SearchComponent.vue";
 import * as services from "@tomtom-international/web-sdk-services";
 import { tomtom } from "../../store";
 
@@ -14,6 +15,7 @@ export default {
   },
   components: {
     SingleApartment,
+    SearchComponent
   },
   mounted() {
       this.getApartments(); // Prende tutti gli appartamenti e filtra gli Sponsorizzati.
@@ -47,12 +49,7 @@ export default {
           console.error("Errore nel caricamento degli appartamenti:", error);
         });
     },
-    searchApartments() {
-      // Naviga alla pagina degli appartamenti con il filtro
-      this.$router.push({
-        path: "/apartments",
-      });
-    },
+
   },
 };
 </script>
@@ -65,35 +62,7 @@ export default {
           <p class="subtitle">Scopri le migliori strutture in pochi click.</p>
   
           <!-- Form di ricerca -->
-          <form
-            class="search-bar d-flex align-items-center mx-auto flex-wrap"
-            @submit.prevent="searchApartments" 
-          > <!-- All'invio del form, cambia la rotta verso la lista di tutti gli appartamenti, filtrandoli per indirizzo.-->
-            <!-- Input città -->
-            <div class="position-relative flex-grow-1 me-2">
-              <input
-                v-model="this.tomtom.address"
-                type="text"
-                placeholder="Inserisci un indirizzo o una città"
-                class="form-control search-input"
-                @input="this.tomtom.fetchSuggestions(this.tomtom.address)"
-                autocomplete="off"
-              />
-              <ul v-if="this.tomtom.suggestions.length" class="suggestions-list">
-                <li
-                  v-for="(suggestion, index) in this.tomtom.suggestions"
-                  :key="index"
-                  @click="this.tomtom.selectSuggestion(suggestion)"
-                >
-                  {{ suggestion.address }}
-                </li>
-              </ul>
-            </div>
-            <!-- Button Cerca -->
-            <button type="submit" class="btn search-button">
-              Cerca
-            </button>
-          </form>
+          <SearchComponent/>
   
           <!-- Card sponsorizzate -->
           <div class="row d-flex justify-content-center align-items-center my-5">
