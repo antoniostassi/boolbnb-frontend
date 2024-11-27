@@ -10,8 +10,6 @@ export default {
       apartments: [],
       promotedApartments: [],
       tomtom,
-      searchAddress: "",
-      suggestions: [],
     };
   },
   components: {
@@ -53,11 +51,6 @@ export default {
       // Naviga alla pagina degli appartamenti con il filtro
       this.$router.push({
         path: "/apartments",
-        query: {
-          address: this.searchAddress.trim() || null,
-          lat: this.tomtom.position.lat,
-          lng: this.tomtom.position.lng
-        },
       });
     },
   },

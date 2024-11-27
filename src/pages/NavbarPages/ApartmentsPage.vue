@@ -5,7 +5,7 @@ import tt from '@tomtom-international/web-sdk-maps';
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
 import Paginator from "../../components/Paginator.vue"
-import { store, api } from '../../store'
+import { store, api, tomtom } from '../../store'
 import FilterComponent from "../../components/ApartmentsComponents/FilterComponent.vue";
 import SearchComponent from "../../components/ApartmentsComponents/SearchComponent.vue";
 
@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       apartments: [], // Lista degli appartamenti
-      api, store,
+      api, store, tomtom,
       pagination: {
         currentPage: 1, // Pagina corrente
         firstPage:1,
@@ -22,8 +22,6 @@ export default {
         prevPage:'',
         nextPage:'',
       },
-      researchAddress: '',
-      researchPosition: [],
       hiddenPaginate: false,
     };
   },
@@ -34,28 +32,20 @@ export default {
     SearchComponent
   },
   mounted() {
-    if(this.$route.query.address) {
-      this.researchAddress = this.$route.query.address;
-    };
-
-    if(this.$route.query.lng || this.$route.query.lat) {
-      this.researchPosition.lat = this.$route.query.lat;
-      this.researchPosition.lng = this.$route.query.lng;
-    };
 
     //
-    if (this.researchPosition.lat){ // Se la pagina ha definito una latitudine
-      this.api.getAllApartments(); // Prendi TUTTI gli appartamenti
+    if (this.tomtom.position.lat){ // Se esiste una latitudine da cercare
+      this.api.getAllApartments(); // Prendi TUTTI gli appartamenti senza paginazione
       this.hiddenPaginate = true;
       return
     }
-    console.log("passo qui");
+    // Altrimenti prenti gli appartamenti paginated
     this.api.getApartments();
   },
   methods: {
 
     testingBound(lat, lng) {
-      const center = new tt.LngLat(this.researchPosition.lng, this.researchPosition.lat); // Posizione della ricerca
+      const center = new tt.LngLat(this.tomtom.position.lng, this.tomtom.position.lat); // Posizione della ricerca
       const radiusMeters = 20000; // 20 Kilometers
       const boundingBox = center.toBounds(radiusMeters); // Creo il raggio di comparazione per le coordinate da confrontare.
 
@@ -104,14 +94,13 @@ export default {
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
         :class="
           store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
-          researchPosition.lat && researchPosition.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '' "
+          this.tomtom.position.lat && this.tomtom.position.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '' "
       >
 
       <!-- {{ console.log(apartment) }} -->
-      <div class="apartment-card-wrapper w-100">
-        <SingleApartment :apartment="apartment" :index="index" />
-        {{ refreshApartments }}
-      </div>
+        <div class="apartment-card-wrapper w-100">
+          <SingleApartment :apartment="apartment" :index="index" />
+        </div>
       </div>
     </div>
     <Paginator :class="hiddenPaginate ? 'd-none' : ''" />
