@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { reactive } from 'vue';
+import { router } from './router'; // Importato Router
 
 export const api = reactive({
     loginCheck: false, // Serve a fare il primo check per vedere se l'utente è loggato
@@ -143,3 +144,55 @@ export const store = reactive({
     servicesEmpty: false, // stato per controllare se c'è almeno un servizio nei form di create/edit
     filterSelected: []
 });
+
+import * as services from "@tomtom-international/web-sdk-services";
+export const tomtom = reactive({
+
+    address:'',
+    position:{},
+    suggestions: [],
+    apiKey: "Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ",
+
+    fetchSuggestions(query) {
+        console.log(query);
+        if (query.length < 3) {
+            this.suggestions = [];
+            return;
+        }
+        services.services.fuzzySearch({
+            key: this.apiKey, query, language: "it-IT",limit: 10,countrySet: ["IT"]})
+            .then((response) => {
+                console.log(response);
+                this.suggestions = response.results.map((result) => ({
+                    address: result.address.freeformAddress,
+                    position: result.position,
+                }));
+                console.log(this.suggestions);
+
+            })
+            .catch((error) => {
+                console.error("Errore durante la ricerca delle città:", error);
+            });
+    },
+    
+    selectSuggestion(suggestion) {
+        this.address = suggestion.address;
+        this.position = suggestion.position;
+        this.changeRoute();
+        this.suggestions = [];
+    },
+
+    changeRoute() {
+        // Naviga alla pagina degli appartamenti con il filtro
+        router.push({
+            path: "/apartments",
+        });
+    },
+
+    resetResearch() {
+        this.address = '',
+        this.position = {},
+        this.suggestions = [],
+        store.filterSelected = []
+    }
+})
