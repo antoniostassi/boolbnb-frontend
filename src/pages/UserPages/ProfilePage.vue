@@ -47,6 +47,11 @@ export default {
         <p class="fw-bold">
           Clicca sull'appartamento per leggere i messaggi ricevuti.
         </p>
+      
+        <div class="input-group py-3">
+          <span class="input-group-text" id="inputGroup-sizing-default">Cerca un appartamento...</span>
+          <input type="text" v-model="store.messageFilter" class="form-control">
+        </div>
         <!-- Contenitore scrollabile -->
         <div class="accordion-container overflow-auto border rounded p-3" style="max-height: 500px;">
 
@@ -54,10 +59,10 @@ export default {
             Nessun messaggio disponibile
           </div>
           <div v-else class="accordion" id="apartmentMessagesAccordion">
-            <div
-              v-for="(apartment, index) in api.user.apartments"
+            <div v-for="(apartment, index) in api.user.apartments"
               :key="index"
-              v-show="apartment.messages.length > 0"
+              v-show="apartment.messages.length > 0 && apartment.title.toLowerCase().includes(store.messageFilter.toLowerCase())">
+              <div
               class="accordion-item"
             >
               <!-- Header dell'accordion -->
@@ -103,6 +108,7 @@ export default {
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
