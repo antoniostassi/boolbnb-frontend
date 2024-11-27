@@ -20,6 +20,7 @@ export default {
   components: {
   },
   mounted() {
+    this.api.redirectIfNotAuth();
     this.store.serviceEmpty = false;
     this.getApartment();
   },

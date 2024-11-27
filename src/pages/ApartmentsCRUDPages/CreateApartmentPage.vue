@@ -27,6 +27,7 @@ export default {
     },
     mounted(){
         this.store.servicesEmpty = false; // Richiama servicesEmpty dallo store (leggi store)
+        this.api.redirectIfNotAuth();
     },
     methods: {
         toggleService(serviceId) {
