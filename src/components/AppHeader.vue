@@ -48,7 +48,6 @@ export default {
             this.api.loginError = false;
             this.store.formSubmitted = true;
             // controlla se i campi sono stati riempiti
-            
             await axios.post('http://localhost:8000/login', {  
                 email: this.userEmail,
                 password: this.userPassword
@@ -72,28 +71,17 @@ export default {
         async userRegister() {
             this.api.registrationError = false;
             this.store.formSubmitted = true;
-            // check se gli input sono riempiti
-            if (!this.userName || !this.userFirstname || !this.userLastname || 
-                !this.userDateOfBirth || !this.userEmail || 
-                !this.userPassword || !this.userPasswordConfirm) 
-                {
-                
-                this.api.registrationError = true;
+            // Rimuovi spazi extra dalle password
+            const trimmedPassword = this.userPassword.trim();
+            const trimmedPasswordConfirm = this.userPasswordConfirm.trim();
+            // Controllo se le password corrispondono
+            if (trimmedPassword !== trimmedPasswordConfirm) {
+                this.errorText = 'Le password non corrispondono.';
                 setTimeout(() => {
                     this.store.formSubmitted = false;
                 }, 2000);
                 return;
             }
-            // Rimuovi spazi extra dalle password
-            const trimmedPassword = this.userPassword.trim();
-            const trimmedPasswordConfirm = this.userPasswordConfirm.trim();
-
-            // Controllo se le password corrispondono
-            if (trimmedPassword !== trimmedPasswordConfirm) {
-                this.errorText = 'Le password non corrispondono.';
-                return;
-            }
-
             try {
                 await axios.get('http://localhost:8000/sanctum/csrf-cookie');
                 await axios.post('http://localhost:8000/register', {
@@ -105,7 +93,6 @@ export default {
                     password: trimmedPassword,
                     password_confirmation: trimmedPasswordConfirm,
                 });
-                
                 // Effettua il login automaticamente dopo la registrazione
                 await this.userLogin();
 
@@ -166,7 +153,7 @@ export default {
                     <!-- Se l'utente NON è loggato -->
                     <div v-if="!this.api.isLoggedIn" class="auth-buttons d-flex gap-2 d-none d-lg-block">
                         <button @click="store.showLoginForm = true; store.isRegistration = false; this.api.loginError = false;" class="btn btn-outline-primary">Accedi</button>
-                        <button @click="store.showLoginForm = true; store.isRegistration = true ; this.api.api.registrationError = false;" class="btn btn-primary">Registrati</button>
+                        <button @click="store.showLoginForm = true; store.isRegistration = true ; this.api.registrationError = false;" class="btn btn-primary">Registrati</button>
                     </div>
 
                     <!-- Se l'utente è loggato -->
@@ -209,10 +196,10 @@ export default {
                 <div class="card login-card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">{{ store.isRegistration ? 'Registrazione' : 'Login' }}</h5>
-                        <button type="button" class="btn-close" aria-label="Close" @click="store.showLoginForm = false"></button>
+                        <button type="button" class="btn-close" aria-label="Close" @click="store.showLoginForm = false; resetForm()"></button>
                     </div>
                     <div class="card-body">
-                        <form  @keyup.enter="store.isRegistration ? userRegister() : userLogin()" validate>
+                        <form  @submit.prevent="store.isRegistration ? userRegister() : userLogin()">
                             <!-- Sezione Registrazione -->
                             <div v-if="store.isRegistration">
                                 <div class="mb-2">
@@ -274,8 +261,8 @@ export default {
                                     placeholder="Inserisci la tua email" 
                                     v-model="userEmail" 
                                     required
-                                    min="5"
-                                    max="255" 
+                                    minlength="5"
+                                    maxlength="255" 
                                     autocomplete="email">
                                 </div>
                                 <div class="mb-2">
@@ -287,6 +274,8 @@ export default {
                                     placeholder="Inserisci la tua password"
                                     v-model="userPassword" 
                                     required
+                                    minlength="8"
+                                    maxlength="50"
                                     autocomplete="password">
                                 </div>
                                 <div class="mb-2">
@@ -298,9 +287,11 @@ export default {
                                     placeholder="Conferma la tua password" 
                                     v-model="userPasswordConfirm" 
                                     required 
+                                    minlength="8"
+                                    maxlength="50"
                                     autocomplete="passwordConfirm">
                                 </div>
-                                <p v-show="this.api.registrationError" class="text-danger fw-bold">Inserisci tutti i campi obbligatori!</p>
+                                
 
                                 <p>I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</p>
 
@@ -332,24 +323,23 @@ export default {
                                     required 
                                     autocomplete="password">
                                 </div>
-                                <p v-show="this.api.loginError" class="text-danger fw-bold">Errore nell'inserimento dell'email o della password.</p>
+                                <p v-show="this.api.loginError" class="text-danger fw-bold">Email o password errata</p>
                             </div>
                             <span class="text-danger">{{ errorText }}</span>
 
                             <!-- Cambia tra Login e Registrazione -->
                             <div>
                                 <span v-if="store.isRegistration">
-                                    Sei già registrato? <a href="#" @click="store.isRegistration = false">Accedi</a>
+                                    Sei già registrato? <a href="#" @click="store.isRegistration = false; resetForm()">Accedi</a>
                                 </span>
                                 <span v-else>
-                                    Non sei ancora registrato? <a href="#" @click="store.isRegistration = true">Registrati</a>
+                                    Non sei ancora registrato? <a href="#" @click="store.isRegistration = true; resetForm()">Registrati</a>
                                 </span>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false">Chiudi</button>
-                                <button type="button" class="btn btn-primary" :disabled="store.formSubmitted" @click="store.isRegistration ? userRegister() : userLogin()">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
+                                <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false; resetForm()">Chiudi</button>
+                                <button type="submit" class="btn btn-primary" :disabled="store.formSubmitted">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
-
                         </form>
                     </div>
                 </div>
