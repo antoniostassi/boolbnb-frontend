@@ -8,10 +8,13 @@ export default {
       store,
     };
   },
+  mounted() {
+    this.api.redirectIfNotAuth();
+  },
   computed: {
     hasMessages() {
       // Controlla per ogni appartamento se esiste un messaggio e quindi la length è maggiore di 0, se sì, il return è TRUE
-      return this.api.user.apartments.some((apartment) => apartment.messages.length > 0);
+      return this.api.user?.apartments?.some((apartment) => apartment.messages.length > 0);
     },
   },
 };
@@ -29,11 +32,11 @@ export default {
         </h1>
         <!-- Lista dei dati dell'utente -->
         <ul class="list-unstyled text-justify">
-          <li><strong>Email:</strong> {{ api.user.email }}</li>
-          <li><strong>Numero di appartamenti:</strong> {{ api.user.apartments.length }}</li>
-          <li v-if="api.user.firstname"><strong>Nome:</strong> {{ api.user.firstname }}</li>
-          <li v-if="api.user.lastname"><strong>Cognome:</strong> {{ api.user.lastname }}</li>
-          <li v-if="api.user.name"><strong>Nome utente:</strong> {{ api.user.name }}</li>
+          <li><strong>Email:</strong> {{ api.user?.email }}</li>
+          <li><strong>Numero di appartamenti:</strong> {{ api.user?.apartments?.length }}</li>
+          <li v-if="api.user.firstname"><strong>Nome:</strong> {{ api.user?.firstname }}</li>
+          <li v-if="api.user.lastname"><strong>Cognome:</strong> {{ api.user?.lastname }}</li>
+          <li v-if="api.user.name"><strong>Nome utente:</strong> {{ api.user?.name }}</li>
 
         </ul>
       </div>

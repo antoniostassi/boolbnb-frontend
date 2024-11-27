@@ -20,9 +20,13 @@ export const api = reactive({
         nextPage:'',
     },
     loginError: false,
-    
-
-
+     
+    redirectIfNotAuth() {
+        if (!this.isLogged) {
+            router.push('/');
+            store.showLoginForm = true;
+        }
+    },
 
     async getCSRF() {
         await axios.get('http://localhost:8000/sanctum/csrf-cookie');

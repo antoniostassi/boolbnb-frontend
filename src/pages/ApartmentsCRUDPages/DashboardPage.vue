@@ -8,7 +8,9 @@ export default {
       store, api,
     };
   },
-
+  mounted() {
+    this.api.redirectIfNotAuth();
+  },
   methods: {
     deleteApartment(apartmentId) {
       if (confirm("Sei sicuro di voler eliminare questo appartamento?")) {
