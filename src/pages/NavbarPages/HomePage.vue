@@ -108,67 +108,6 @@ export default {
       margin-bottom: 2rem;
       text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
     }
-
-    .search-bar {
-      width: 100%;
-      max-width: 700px;
-      display: flex;
-      align-items: center;
-      background: #e352fa;
-      border-radius: 50px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-
-      .search-input {
-        flex-grow: 1;
-        border: none;
-        border-radius: 50px 0 0 50px;
-        padding: 0.75rem 1rem;
-        font-size: 1rem;
-        outline: none;
-        color: #333;
-
-        &::placeholder {
-          color: #999;
-        }
-      }
-
-      .suggestions-list {
-        position: absolute;
-        background: white;
-        z-index: 10;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        border: 1px solid #ddd;
-        width: 100%;
-        max-height: 150px;
-        overflow-y: auto;
-        border-radius: 5px;
-
-        li {
-          padding: 10px;
-          cursor: pointer;
-          color: black;
-          text-align: start;
-          
-
-          &:hover {
-            background: #eee;
-          }
-        }
-      }
-
-      .search-button {
-        border: none;
-        border-radius: 50px;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        background: #e352fa;
-        color: white;
-        font-weight: bold;
-        transition: background 0.3s ease, transform 0.2s;
-      }
-    }
   }
 }
 
