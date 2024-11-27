@@ -82,8 +82,14 @@ export default {
 
 <template>
   <div class="container my-3">
-    <SearchComponent/>
-    <FilterComponent :filters="api.services" :ref="'filters'"/>
+
+    <div class="d-flex justify-content-center align-items-center">
+      <SearchComponent/>
+      <div class="btn btn-info" @click="tomtom.resetResearch()"> <i class="fa-solid fa-retweet"></i> </div>
+    </div>
+    
+    <FilterComponent :filters="api.services" :ref="'filters'"/> 
+
     <!-- Lista degli appartamenti 
       :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
      -->

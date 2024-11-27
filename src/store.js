@@ -192,6 +192,7 @@ export const tomtom = reactive({
     resetResearch() {
         this.address = '',
         this.position = {},
-        this.suggestions = []
+        this.suggestions = [],
+        store.filterSelected = []
     }
 })

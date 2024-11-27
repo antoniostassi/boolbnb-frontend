@@ -11,13 +11,6 @@ export default {
 </script>
 
 <template>
-  <!-- <form class="search-bar d-flex align-items-center mx-auto mt-4">
-    <input v-model="this.tomtom.address" type="text" placeholder="Inserisci un indirizzo o una città" class="form-control search-input" @input="this.tomtom.fetchSuggestions(this.tomtom.address)" autocomplete="off"/>
-    <ul v-if="this.tomtom.suggestions.length" class="suggestions-list">
-      <li v-for="(suggestion, index) in this.tomtom.suggestions" :key="index" @click="this.tomtom.selectSuggestion(suggestion)">
-        {{ suggestion.address }}
-      </li>
-    </ul> -->
 
     <form class="search-bar d-flex align-items-center mx-auto flex-wrap" @submit.prevent="searchApartments"> 
       <!-- All'invio del form, cambia la rotta verso la lista di tutti gli appartamenti, filtrandoli per indirizzo.-->
@@ -27,15 +20,14 @@ export default {
         @input="this.tomtom.fetchSuggestions(this.tomtom.address)" autocomplete="off"/>
 
       <ul v-if="this.tomtom.suggestions.length" class="suggestions-list">
-        <li
-          v-for="(suggestion, index) in this.tomtom.suggestions" :key="index" @click="this.tomtom.selectSuggestion(suggestion)">
+        <li v-for="(suggestion, index) in this.tomtom.suggestions" :key="index" @click="this.tomtom.selectSuggestion(suggestion)">
             {{ suggestion.address }}
         </li>
       </ul>
+
     </div>
   </form>
-
-  
+ 
 </template>
 
 <style scoped lang="scss">
