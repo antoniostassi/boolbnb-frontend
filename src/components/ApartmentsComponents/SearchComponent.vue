@@ -1,20 +1,11 @@
 <script>
+import { tomtom } from '../../store';
+
 export default {
   data() {
     return {
-      research:''
+      tomtom,
     }
-  },
-  props:{
-    address: {
-      type: String,
-      required: true
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.research = this.address // Popola il v-model con la prop ricevuta 
-    }, 100);
   }
 }
 </script>
@@ -25,7 +16,7 @@ export default {
       type="text"
       placeholder="Inserisci destinazione..."
       class="form-control search-input"
-      v-model="research"
+      v-model="this.tomtom.address"
       />
   </form>
 </template>

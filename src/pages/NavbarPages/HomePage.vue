@@ -2,16 +2,16 @@
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
 import * as services from "@tomtom-international/web-sdk-services";
-import { api } from "../../store";
+import { tomtom } from "../../store";
 
 export default {
   data() {
     return {
       apartments: [],
       promotedApartments: [],
+      tomtom,
       searchAddress: "",
       suggestions: [],
-      apiKey: "Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ",
     };
   },
   components: {
@@ -49,44 +49,14 @@ export default {
           console.error("Errore nel caricamento degli appartamenti:", error);
         });
     },
-    fetchSuggestions(query) {
-      if (query.length < 3) {
-        this.suggestions = [];
-        return;
-      }
-      services.services
-        .fuzzySearch({
-          key: this.apiKey,
-          query,
-          language: "it-IT",
-          limit: 10,
-          countrySet: ["IT"],
-        })
-        .then((response) => {
-          this.suggestions = response.results.map((result) => ({
-            
-            address: result.address.freeformAddress,
-            position: result.position,
-          }
-        ));
-        })
-        .catch((error) => {
-          console.error("Errore durante la ricerca delle città:", error);
-        });
-    },
-    selectSuggestion(suggestion) {
-      this.searchAddress = suggestion.address;
-      this.searchPosition = suggestion.position;
-      this.suggestions = [];
-    },
     searchApartments() {
       // Naviga alla pagina degli appartamenti con il filtro
       this.$router.push({
         path: "/apartments",
         query: {
           address: this.searchAddress.trim() || null,
-          lat: this.searchPosition.lat,
-          lng: this.searchPosition.lng
+          lat: this.tomtom.position.lat,
+          lng: this.tomtom.position.lng
         },
       });
     },
@@ -109,18 +79,18 @@ export default {
             <!-- Input città -->
             <div class="position-relative flex-grow-1 me-2">
               <input
-                v-model="searchAddress"
+                v-model="this.tomtom.address"
                 type="text"
                 placeholder="Inserisci un indirizzo o una città"
                 class="form-control search-input"
-                @input="fetchSuggestions(searchAddress)"
+                @input="this.tomtom.fetchSuggestions(this.tomtom.address)"
                 autocomplete="off"
               />
-              <ul v-if="suggestions.length" class="suggestions-list">
+              <ul v-if="this.tomtom.suggestions.length" class="suggestions-list">
                 <li
-                  v-for="(suggestion, index) in suggestions"
+                  v-for="(suggestion, index) in this.tomtom.suggestions"
                   :key="index"
-                  @click="selectSuggestion(suggestion)"
+                  @click="this.tomtom.selectSuggestion(suggestion)"
                 >
                   {{ suggestion.address }}
                 </li>

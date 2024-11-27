@@ -92,7 +92,7 @@ export default {
 
 <template>
   <div class="container my-3">
-    <SearchComponent :address="researchAddress"/>
+    <SearchComponent/>
     <FilterComponent :filters="api.services" :ref="'filters'"/>
     <!-- Lista degli appartamenti 
       :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
