@@ -8,6 +8,12 @@ export default {
       store,
     };
   },
+  computed: {
+    hasMessages() {
+      // Controlla per ogni appartamento se esiste un messaggio e quindi la length è maggiore di 0, se sì, il return è TRUE
+      return this.api.user.apartments.some((apartment) => apartment.messages.length > 0);
+    },
+  },
 };
 </script>
 
@@ -35,15 +41,19 @@ export default {
       <!-- Colonna dei messaggi ricevuti -->
       <div class="col-12 col-lg-8 ps-4">
         <h1 class="text-center">Messaggi ricevuti</h1>
-        <p class="pb-3 fst-italic">
+        <p class="fst-italic">
           Rispondi ai messaggi inviando una mail tramite la tua casella di posta personale.
         </p>
-        <p class="pt-3 fw-bold">
+        <p class="fw-bold">
           Clicca sull'appartamento per leggere i messaggi ricevuti.
         </p>
         <!-- Contenitore scrollabile -->
-        <div class="accordion-container overflow-auto border rounded p-3" style="max-height: 400px;">
-          <div class="accordion" id="apartmentMessagesAccordion">
+        <div class="accordion-container overflow-auto border rounded p-3" style="max-height: 500px;">
+
+          <div v-if="!hasMessages" class="text-center">
+            Nessun messaggio disponibile
+          </div>
+          <div v-else class="accordion" id="apartmentMessagesAccordion">
             <div
               v-for="(apartment, index) in api.user.apartments"
               :key="index"
