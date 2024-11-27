@@ -18,6 +18,10 @@ export const api = reactive({
         prevPage:'',
         nextPage:'',
     },
+    loginError: false,
+    registrationError: false,
+
+
 
     async getCSRF() {
         await axios.get('http://localhost:8000/sanctum/csrf-cookie');
