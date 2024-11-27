@@ -19,7 +19,7 @@ export const api = reactive({
         nextPage:'',
     },
     loginError: false,
-    registrationError: false,
+    
 
 
 
