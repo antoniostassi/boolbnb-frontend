@@ -53,12 +53,12 @@ export default {
                 password: this.userPassword
             })
             .then((response) => {
+                this.api.isLoggedIn = true;
                 this.api.getCSRF();
                 this.api.getUserData();
-                this.api.isLoggedIn = true;
                 this.resetForm();
                 this.store.showLoginForm = false; // Chiudi il form di login al successo
-                this.$router.push('/'); // Reindirizza alla home
+                // this.$router.push('/'); // Reindirizza alla home
                 
             }).catch((error) =>{
                 this.api.loginError = true;

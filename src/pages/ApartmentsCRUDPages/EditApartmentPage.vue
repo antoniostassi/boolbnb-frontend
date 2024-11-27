@@ -14,7 +14,6 @@ export default {
       searchAddress: "",
       suggestions: [],
       apiKey: "Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ",
-
     };
   },
   components: {
@@ -30,7 +29,7 @@ export default {
     },
   },
   methods: {
-    delayOnAPI(){
+    delayOnAPI() {
             setTimeout(() => {
                 this.store.formSubmitted = false;
             }, 2000);
@@ -40,13 +39,12 @@ export default {
           .then((response) => {
 
                 this.apartment = response.data[0];
-                this.apartment.services.forEach(element => {
+                this.apartment?.services?.forEach(element => {
                 this.activeServices.push(element.id);
               });
           })
           .catch((error) => {
               console.error(error);
-
           });       
     },
     fetchSuggestions(query) {

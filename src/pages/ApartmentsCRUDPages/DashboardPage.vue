@@ -82,7 +82,7 @@ export default {
               </router-link>
             </td>
           </tr>
-          <tr v-if="!this.api.user.apartments.length">
+          <tr v-if="!this.api.user?.apartments?.length">
             <td colspan="4" class="no-apartments">
               Nessun appartamento disponibile
             </td>

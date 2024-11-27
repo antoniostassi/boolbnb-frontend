@@ -22,7 +22,7 @@ export const api = reactive({
     loginError: false,
      
     redirectIfNotAuth() {
-        if (!this.isLogged) {
+        if (!this.isLoggedIn) {
             router.push('/');
             store.showLoginForm = true;
         }
@@ -152,6 +152,7 @@ export const store = reactive({
     servicesEmpty: false, // stato per controllare se c'è almeno un servizio nei form di create/edit
     filterSelected: [],
     messageFilter: '',
+    hiddenPaginate: false,
 });
 
 import * as services from "@tomtom-international/web-sdk-services";
@@ -163,7 +164,6 @@ export const tomtom = reactive({
     apiKey: "Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ",
 
     fetchSuggestions(query) {
-        console.log(query);
         if (query.length < 3) {
             this.suggestions = [];
             return;
@@ -171,12 +171,10 @@ export const tomtom = reactive({
         services.services.fuzzySearch({
             key: this.apiKey, query, language: "it-IT",limit: 10,countrySet: ["IT"]})
             .then((response) => {
-                console.log(response);
                 this.suggestions = response.results.map((result) => ({
                     address: result.address.freeformAddress,
                     position: result.position,
                 }));
-                console.log(this.suggestions);
 
             })
             .catch((error) => {
@@ -185,23 +183,29 @@ export const tomtom = reactive({
     },
     
     selectSuggestion(suggestion) {
+        api.getAllApartments();
         this.address = suggestion.address;
         this.position = suggestion.position;
         this.changeRoute();
         this.suggestions = [];
+        store.hiddenPaginate = true;
     },
 
     changeRoute() {
         // Naviga alla pagina degli appartamenti con il filtro
-        router.push({
-            path: "/apartments",
-        });
+        if (router.currentRoute.value.href != '/apartments'){
+            router.push({
+                path: "/apartments",
+            });
+            
+        }
     },
-
     resetResearch() {
         this.address = '',
         this.position = {},
         this.suggestions = [],
-        store.filterSelected = []
+        store.filterSelected = [],
+        api.getApartments(),
+        store.hiddenPaginate = false
     }
 })

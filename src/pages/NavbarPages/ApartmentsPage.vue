@@ -22,7 +22,6 @@ export default {
         prevPage:'',
         nextPage:'',
       },
-      hiddenPaginate: false,
     };
   },
   components: {
@@ -32,15 +31,15 @@ export default {
     SearchComponent
   },
   mounted() {
-
     //
     if (this.tomtom.position.lat){ // Se esiste una latitudine da cercare
-      this.api.getAllApartments(); // Prendi TUTTI gli appartamenti senza paginazione
-      this.hiddenPaginate = true;
+      // this.api.getAllApartments(); // Prendi TUTTI gli appartamenti senza paginazione
+      this.store.hiddenPaginate = true;
       return
     }
     // Altrimenti prenti gli appartamenti paginated
     this.api.getApartments();
+    
   },
   methods: {
 
@@ -109,7 +108,7 @@ export default {
         </div>
       </div>
     </div>
-    <Paginator :class="hiddenPaginate ? 'd-none' : ''" />
+    <Paginator :class="store.hiddenPaginate ? 'd-none' : ''" />
     
   </div>
 </template>
