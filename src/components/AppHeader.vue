@@ -45,7 +45,10 @@ export default {
             this.lastScrollY = currentScrollY;
         },
         async userLogin() {
-
+            this.api.loginError = false;
+            this.store.formSubmitted = true;
+            // controlla se i campi sono stati riempiti
+            
             await axios.post('http://localhost:8000/login', {  
                 email: this.userEmail,
                 password: this.userPassword
@@ -59,10 +62,28 @@ export default {
                 this.$router.push('/'); // Reindirizza alla home
                 
             }).catch((error) =>{
+                this.api.loginError = true;
                 this.testoErrore = error.response?.data?.message || 'Errore durante il login.';
             });
+            setTimeout(() => {
+                this.store.formSubmitted = false;
+            }, 2000);
         },
         async userRegister() {
+            this.api.registrationError = false;
+            this.store.formSubmitted = true;
+            // check se gli input sono riempiti
+            if (!this.userName || !this.userFirstname || !this.userLastname || 
+                !this.userDateOfBirth || !this.userEmail || 
+                !this.userPassword || !this.userPasswordConfirm) 
+                {
+                
+                this.api.registrationError = true;
+                setTimeout(() => {
+                    this.store.formSubmitted = false;
+                }, 2000);
+                return;
+            }
             // Rimuovi spazi extra dalle password
             const trimmedPassword = this.userPassword.trim();
             const trimmedPasswordConfirm = this.userPasswordConfirm.trim();
@@ -91,6 +112,9 @@ export default {
             } catch (error) {
                 this.testoErrore = error.response?.data?.message || 'Errore durante la registrazione.';
             }
+            setTimeout(() => {
+                this.store.formSubmitted = false;
+            }, 2000);
         },
         
         resetForm() {
@@ -141,8 +165,8 @@ export default {
                 <div>
                     <!-- Se l'utente NON è loggato -->
                     <div v-if="!this.api.isLoggedIn" class="auth-buttons d-flex gap-2 d-none d-lg-block">
-                        <button @click="store.showLoginForm = true; store.isRegistration = false" class="btn btn-outline-primary">Accedi</button>
-                        <button @click="store.showLoginForm = true; store.isRegistration = true" class="btn btn-primary">Registrati</button>
+                        <button @click="store.showLoginForm = true; store.isRegistration = false; this.api.loginError = false;" class="btn btn-outline-primary">Accedi</button>
+                        <button @click="store.showLoginForm = true; store.isRegistration = true ; this.api.api.registrationError = false;" class="btn btn-primary">Registrati</button>
                     </div>
 
                     <!-- Se l'utente è loggato -->
@@ -188,10 +212,10 @@ export default {
                         <button type="button" class="btn-close" aria-label="Close" @click="store.showLoginForm = false"></button>
                     </div>
                     <div class="card-body">
-                        <form @keyup.enter="store.isRegistration ? userRegister() : userLogin()">
+                        <form  @keyup.enter="store.isRegistration ? userRegister() : userLogin()" validate>
                             <!-- Sezione Registrazione -->
                             <div v-if="store.isRegistration">
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="name" class="form-label">Username <span class="text-danger">*</span></label>
                                     <input 
                                     type="text" 
@@ -202,10 +226,10 @@ export default {
                                     v-model="userName" 
                                     minlength="3"
                                     maxlength="255"
-                                    required 
+                                    required
                                     autocomplete="name">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="firstname" class="form-label">Nome <span class="text-danger">*</span></label>
                                     <input type="text"
                                     class="form-control" 
@@ -218,7 +242,7 @@ export default {
                                     required 
                                     autocomplete="firstname">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="lastname" class="form-label">Cognome <span class="text-danger">*</span></label>
                                     <input type="text" 
                                     class="form-control" 
@@ -231,7 +255,7 @@ export default {
                                     maxlength="40" 
                                     autocomplete="lastname">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="dateOfBirth" class="form-label">Data di nascita <span class="text-danger">*</span></label>
                                     <input type="date" 
                                     class="form-control" 
@@ -241,7 +265,7 @@ export default {
                                     required 
                                     autocomplete="dateOfBirth">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                     <input type="email" 
                                     class="form-control" 
@@ -254,7 +278,7 @@ export default {
                                     max="255" 
                                     autocomplete="email">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                     <input type="password" 
                                     class="form-control" 
@@ -265,7 +289,7 @@ export default {
                                     required
                                     autocomplete="password">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="passwordConfirm" class="form-label">Conferma Password <span class="text-danger">*</span></label>
                                     <input type="password" 
                                     class="form-control" 
@@ -276,13 +300,15 @@ export default {
                                     required 
                                     autocomplete="passwordConfirm">
                                 </div>
+                                <p v-show="this.api.registrationError" class="text-danger fw-bold">Inserisci tutti i campi obbligatori!</p>
+
                                 <p>I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</p>
 
                             </div>
 
                             <!-- Sezione Login -->
                             <div v-else>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="email" class="form-label">Email</label>
                                     <input 
                                     type="email"
@@ -294,7 +320,7 @@ export default {
                                     required 
                                     utocomplete="email">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="password" class="form-label">Password </label>
                                     <input 
                                     type="password" 
@@ -306,6 +332,7 @@ export default {
                                     required 
                                     autocomplete="password">
                                 </div>
+                                <p v-show="this.api.loginError" class="text-danger fw-bold">Errore nell'inserimento dell'email o della password.</p>
                             </div>
                             <span class="text-danger">{{ errorText }}</span>
 
@@ -320,7 +347,7 @@ export default {
                             </div>
                             <div class="card-footer d-flex justify-content-end">
                                 <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false">Chiudi</button>
-                                <button type="button" class="btn btn-primary" @click="store.isRegistration ? userRegister() : userLogin()">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
+                                <button type="button" class="btn btn-primary" :disabled="store.formSubmitted" @click="store.isRegistration ? userRegister() : userLogin()">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
 
                         </form>
