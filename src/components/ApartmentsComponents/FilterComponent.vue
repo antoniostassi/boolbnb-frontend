@@ -47,7 +47,7 @@
                     class="hidden-checkbox"
                     @click="tryFilters"
                 />
-                {{ filter.title }}
+                <i :class="filter.image" class="fa-lg me-2"></i> <span>{{ filter.title }}</span>
                 </label>
             </div>
         </div>
