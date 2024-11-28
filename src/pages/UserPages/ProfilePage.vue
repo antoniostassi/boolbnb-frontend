@@ -37,8 +37,8 @@ export default {
             return this.selectedApartment.messages.filter(
                 (message) =>
                     message.user_email.toLowerCase().includes(filter) || // Controlla l'email
-                    (message.user_firstname?.toLowerCase().includes(filter) || false) || // Controlla il nome
-                    (message.user_lastname?.toLowerCase().includes(filter) || false) // Controlla il cognome
+                    (message.firstname.toLowerCase().includes(filter) || false) || // Controlla il nome
+                    (message.lastname.toLowerCase().includes(filter) || false) // Controlla il cognome
             );
         },
     },
@@ -135,15 +135,16 @@ export default {
                             class="card mb-3"
                         >
                             <div class="card-body">
-                                <p v-if="message.user_firstname || message.user_lastname">
+                                <p v-if="message.firstname || message.lastname" class="mb-1">
                                     <strong>Mittente:</strong>
-                                    {{ message.user_firstname || '' }} {{ message.user_lastname || '' }}
+                                    {{ message.firstname || '' }} {{ message.lastname || '' }}
                                 </p>
-                                <p>
+                                <p class="mb-1">
                                     <strong>Email del mittente:</strong>
                                     {{ message.user_email }}
+                                    
                                 </p>
-                                <p>{{ message.content }}</p>
+                                <p class="mt-3">{{ message.content }}</p>
                             </div>
                         </div>
                     </div>
