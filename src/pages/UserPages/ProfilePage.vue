@@ -85,7 +85,7 @@ export default {
                 </div>
 
                 <!-- Elenco appartamenti -->
-                <div class="list-group">
+                <div class="list-group message-container">
                     <button
                         v-for="apartment in filteredApartments"
                         :key="apartment.id"
@@ -161,6 +161,11 @@ export default {
 .list-group-item {
     cursor: pointer; /* Mostra il cursore a mano */
     transition: all 0.3s ease-in-out; /* Transizione per hover */
+}
+
+.message-container {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .list-group-item.active {
