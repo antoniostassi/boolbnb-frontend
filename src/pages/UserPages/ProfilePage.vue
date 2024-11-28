@@ -2,154 +2,177 @@
 import { api, store } from "../../store";
 
 export default {
-  data() {
-    return {
-      api,
-      store,
-    };
-  },
-  mounted() {
-    this.api.redirectIfNotAuth();
-  },
-  computed: {
-    hasMessages() {
-      // Controlla per ogni appartamento se esiste un messaggio e quindi la length è maggiore di 0, se sì, il return è TRUE
-      return this.api.user?.apartments?.some((apartment) => apartment.messages.length > 0);
+    data() {
+        return {
+            api, // Accesso all'API globale
+            store, // Accesso allo store globale
+            selectedApartment: null, // Salva l'appartamento selezionato
+        };
     },
-  },
+    mounted() {
+        // Reindirizza l'utente se non è autenticato
+        this.api.redirectIfNotAuth();
+    },
+    computed: {
+        hasMessages() {
+            // Controlla se esiste almeno un messaggio tra tutti gli appartamenti
+            return this.api.user?.apartments?.some(
+                (apartment) => apartment.messages.length > 0
+            );
+        },
+        filteredApartments() {
+            // Filtra gli appartamenti che hanno messaggi e corrispondono al filtro di ricerca
+            return this.api.user?.apartments?.filter(
+                (apartment) =>
+                    apartment.messages.length > 0 && // Include solo gli appartamenti che hanno almeno un messaggio
+                    apartment.title
+                        .toLowerCase() // Converte il titolo tutto in minuscolo per non renderlo case-sensitive
+                        .includes(this.store.messageFilter.toLowerCase()) // Controlla se il titolo contiene il testo scritto nel campo di ricerca
+            );
+        },
+        filteredMessages() {
+            // Filtra i messaggi dell'appartamento selezionato in base al filtro email o nome
+            if (!this.selectedApartment) return []; // Se non c'è un appartamento selezionato, restituisce un array vuoto
+            const filter = this.store.emailFilter?.toLowerCase() || ""; // Converte l'email tutto in minuscolo per non renderla case-sensitive
+            return this.selectedApartment.messages.filter(
+                (message) =>
+                    message.user_email.toLowerCase().includes(filter) || // Controlla l'email
+                    (message.user_firstname?.toLowerCase().includes(filter) || false) || // Controlla il nome
+                    (message.user_lastname?.toLowerCase().includes(filter) || false) // Controlla il cognome
+            );
+        },
+    },
+    methods: {
+        selectApartment(apartment) {
+            // Se l'utente clicca sull'appartamento già selezionato, chiudi la sezione messaggi
+            if (this.selectedApartment === apartment) {
+                this.selectedApartment = null; // Deseleziona l'appartamento
+            } else {
+                this.selectedApartment = apartment; // Seleziona un nuovo appartamento
+            }
+        },
+    },
 };
 </script>
 
 <template>
-  <div class="container py-5">
-    <div class="row">
-      <!-- Colonna sinistra: Dati utente -->
-      <div class="col-12 col-lg-4 border-end pe-4">
-        <h1 class="text-center pb-3">
-          Benvenuto
-          <!-- Se l'utente ha inserito il nome uscirà la scritta "Benvenuto NomeUtente" -->
-          <span v-show="api.user.firstname != null">{{ api.user.firstname }}</span> 
-        </h1>
-        <!-- Lista dei dati dell'utente -->
-        <ul class="list-unstyled text-justify">
-          <li><strong>Email:</strong> {{ api.user?.email }}</li>
-          <li><strong>Numero di appartamenti:</strong> {{ api.user?.apartments?.length }}</li>
-          <li v-if="api.user.firstname"><strong>Nome:</strong> {{ api.user?.firstname }}</li>
-          <li v-if="api.user.lastname"><strong>Cognome:</strong> {{ api.user?.lastname }}</li>
-          <li v-if="api.user.name"><strong>Nome utente:</strong> {{ api.user?.name }}</li>
+    <div class="container py-5">
+        <div class="row">
+            <!-- Colonna sinistra: Dati utente e lista appartamenti -->
+            <div class="col-12 col-lg-4 border-end">
+                <h1 class="text-center pb-3">
+                    Benvenuto
+                    <span v-if="api.user.firstname">{{ api.user.firstname }}</span>
+                </h1>
+                <!-- Lista dei dati utente -->
+                <ul class="list-unstyled">
+                    <li><strong>Email:</strong> {{ api.user?.email }}</li>
+                    <li><strong>Numero di appartamenti:</strong> {{ filteredApartments.length }}</li>
+                    <li v-if="api.user.firstname"><strong>Nome:</strong> {{ api.user?.firstname }}</li>
+                    <li v-if="api.user.lastname"><strong>Cognome:</strong> {{ api.user?.lastname }}</li>
+                    <li v-if="api.user.name"><strong>Nome utente:</strong> {{ api.user?.name }}</li>
+                </ul>
 
-        </ul>
-      </div>
-
-      <!-- Colonna dei messaggi ricevuti -->
-      <div class="col-12 col-lg-8 ps-4">
-        <h1 class="text-center">Messaggi ricevuti</h1>
-        <p class="fst-italic">
-          Rispondi ai messaggi inviando una mail tramite la tua casella di posta personale.
-        </p>
-        <p class="fw-bold">
-          Clicca sull'appartamento per leggere i messaggi ricevuti.
-        </p>
-      
-        <div class="input-group py-3">
-          <span class="input-group-text" id="inputGroup-sizing-default">Cerca un appartamento...</span>
-          <input type="text" v-model="store.messageFilter" class="form-control">
-        </div>
-        <!-- Contenitore scrollabile -->
-        <div class="accordion-container overflow-auto border rounded p-3" style="max-height: 500px;">
-
-          <div v-if="!hasMessages" class="text-center">
-            Nessun messaggio disponibile
-          </div>
-          <div v-else class="accordion" id="apartmentMessagesAccordion">
-            <div v-for="(apartment, index) in api.user.apartments"
-              :key="index"
-              v-show="apartment.messages.length > 0 && apartment.title.toLowerCase().includes(store.messageFilter.toLowerCase())">
-              <div
-              class="accordion-item"
-            >
-              <!-- Header dell'accordion -->
-              <h2 class="accordion-header" :id="'heading' + index">
-                <button
-                  class="accordion-button"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  :data-bs-target="'#collapse' + index"
-                  aria-expanded="false"
-                  :aria-controls="'collapse' + index"
-                >
-                  {{ apartment.title }}
-                </button>
-              </h2>
-
-              <!-- Body dell'accordion -->
-              <div
-                :id="'collapse' + index"
-                class="accordion-collapse collapse"
-                :aria-labelledby="'heading' + index"
-                data-bs-parent="#apartmentMessagesAccordion"
-              >
-                <div class="accordion-body">
-                  <div
-                    class="message-box overflow-auto"
-                    style="max-height: 200px;"
-                  >
-                    <div
-                      v-for="(message, i) in apartment.messages"
-                      :key="i"
-                      class="card mb-3"
-                    >
-                      <div class="card-body">
-                        <p>{{ message.content }}</p>
-                        <br />
-                        <p>
-                          <strong>Email del mittente:</strong>
-                          {{ message.user_email }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                <!-- Barra di ricerca per appartamenti -->
+                <div class="input-group py-3">
+                    <span class="input-group-text">Cerca un appartamento...</span>
+                    <input
+                        type="text"
+                        v-model="store.messageFilter"
+                        class="form-control"
+                        placeholder="Scrivi qui..."
+                    />
                 </div>
-              </div>
+
+                <!-- Elenco appartamenti -->
+                <div class="list-group">
+                    <button
+                        v-for="apartment in filteredApartments"
+                        :key="apartment.id"
+                        class="list-group-item list-group-item-action"
+                        :class="{ active: selectedApartment === apartment }"
+                        @click="selectApartment(apartment)"
+                    >
+                        {{ apartment.title }}
+                    </button>
+                </div>
+                <p v-if="filteredApartments.length === 0" class="text-center fst-italic mt-3">
+                    Nessun appartamento con messaggi trovato.
+                </p>
             </div>
+
+            <!-- Colonna destra: Messaggi -->
+            <div class="col-12 col-lg-8">
+                <h1 class="text-center">Messaggi ricevuti</h1>
+                <p class="fst-italic text-center">
+                    Rispondi ai messaggi inviando una mail tramite la tua casella di posta personale.
+                </p>
+
+                <!-- Nessun appartamento selezionato -->
+                <div v-if="!selectedApartment || selectedApartment.messages.length === 0" class="text-center">
+                    <p v-if="!selectedApartment">Seleziona un appartamento per vedere i messaggi.</p>
+                    <p v-else>Nessun messaggio per questo appartamento.</p>
+                </div>
+
+                <!-- Messaggi dell'appartamento selezionato -->
+                <div v-else>
+                    <h3 class="text-center">{{ selectedApartment.title }}</h3>
+                    <!-- Barra di ricerca email -->
+                    <div class="input-group py-3 mx-auto" style="width: 50%;">
+                        <span class="input-group-text">Cerca una mail</span>
+                        <input
+                            type="text"
+                            v-model="store.emailFilter"
+                            class="form-control"
+                            placeholder="Scrivi qui..."
+                        />
+                    </div>
+                    <!-- Lista messaggi -->
+                    <div class="overflow-auto border rounded p-3" style="max-height: 500px;">
+                        <div
+                            v-for="(message, index) in filteredMessages"
+                            :key="index"
+                            class="card mb-3"
+                        >
+                            <div class="card-body">
+                                <p v-if="message.user_firstname || message.user_lastname">
+                                    <strong>Mittente:</strong>
+                                    {{ message.user_firstname || '' }} {{ message.user_lastname || '' }}
+                                </p>
+                                <p>
+                                    <strong>Email del mittente:</strong>
+                                    {{ message.user_email }}
+                                </p>
+                                <p>{{ message.content }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .border-end {
-  border-right: 1px solid #e0e0e0 !important;
+    border-right: 1px solid #e0e0e0 !important; /* Separazione visiva */
 }
 
-.accordion-container {
-  background-color: #f9f9f9;
+.list-group-item {
+    cursor: pointer; /* Mostra il cursore a mano */
+    transition: all 0.3s ease-in-out; /* Transizione per hover */
 }
 
-.accordion-button {
-  background-color: #979797bd;
-  color: #fff;
-  font-weight: bold;
-  margin: 1px 0;
-}
-
-.accordion-button:not(.collapsed) {
-  color: #fff;
-  background-color: #979797bd;
+.list-group-item.active {
+    background-color: #007bff; /* Colore di selezione */
+    color: white; /* Testo in bianco */
+    font-weight: bold; /* Evidenziazione */
 }
 
 .card {
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.message-box {
-  max-height: 200px;
-  overflow-y: auto;
+    border: 1px solid #e0e0e0; /* Bordo per i messaggi */
+    border-radius: 5px; /* Angoli arrotondati */
+    background-color: #f9f9f9; /* Sfondo chiaro */
 }
 </style>
 
