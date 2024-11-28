@@ -129,7 +129,7 @@ export default {
 <template>
   <div class="container my-5">
     <h1 class="text-center mb-4">Modifica l'appartamento</h1>
-    <form @submit.prevent="editApartment" validate class="p-4 border rounded shadow">
+    <form @submit.prevent="editApartment" class="p-4 border rounded shadow">
       <div class="mb-3">
         <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
         <input
