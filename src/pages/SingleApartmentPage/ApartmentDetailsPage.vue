@@ -166,12 +166,12 @@ export default {
         <div class="owner-section">
           <h2>Contatti del Proprietario</h2>
           <!-- Se nome e cognome nel db esistono (e non sono null), appare la dicitura Nome: Nome Cognome -->
-          <p v-if="apartment.user.firstname && apartment.user.lastname">
-            <strong>Nome:</strong> {{ apartment.user.firstname }} {{ apartment.user.lastname }}
+          <p v-if="apartment.user?.firstname && apartment.user?.lastname">
+            <strong>Nome:</strong> {{ apartment.user?.firstname }} {{ apartment.user.lastname }}
           </p>
           <!-- Se l'email esiste (ma è obbligatoria), appare la dicitura Email: Email proprietario -->
-          <p v-if="apartment.user.email">
-            <strong>Email:</strong> {{ apartment.user.email }}
+          <p v-if="apartment.user?.email">
+            <strong>Email:</strong> {{ apartment.user?.email }}
           </p>
   
           <!-- Accordion con il form preso da Bootstrap -->
