@@ -153,6 +153,7 @@ export const store = reactive({
     filterSelected: [],
     messageFilter: '',
     hiddenPaginate: false,
+    emailFilter: ''
 });
 
 import * as services from "@tomtom-international/web-sdk-services";
