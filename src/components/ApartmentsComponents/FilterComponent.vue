@@ -29,7 +29,7 @@
     <template>
         <div class="filter-slider-container mt-2">
         <!-- Freccia sinistra -->
-        <button class="arrow left ms-2" @click="scrollLeft">&#9664;</button>
+        <button class="arrow left ms-2" @click="scrollLeft"><i class="fa-solid fa-angle-left"></i></button>
         
         <!-- Contenitore dei filtri -->
         <div class="filter-slider rounded-5" ref="slider">
@@ -53,7 +53,7 @@
         </div>
         
         <!-- Freccia destra -->
-        <button class="arrow right me-2" @click="scrollRight">&#9654;</button>
+        <button class="arrow right me-2" @click="scrollRight"><i class="fa-solid fa-angle-right"></i></button>
     </div>
   </template>
 

@@ -84,7 +84,7 @@ export default {
 
     <div class="d-flex justify-content-center align-items-center">
       <SearchComponent/>
-      <div class="btn btn-info" @click="tomtom.resetResearch()"> <i class="fa-solid fa-retweet"></i> </div>
+      <div class="btn btn-info" @click="tomtom.resetResearch()"> <i class="fa-solid fa-trash-can" title="Resetta filtri"></i> </div>
     </div>
     
     <FilterComponent :filters="api.services" :ref="'filters'"/> 
