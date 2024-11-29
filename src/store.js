@@ -28,6 +28,12 @@ export const api = reactive({
         }
     },
 
+    redirectIfNotCreated() {
+        if (store.storedApartment === null) {
+            router.push('/');
+        }
+    },
+
     async getCSRF() {
         await axios.get('http://localhost:8000/sanctum/csrf-cookie');
         setTimeout(async () => {
@@ -143,7 +149,8 @@ export const store = reactive({
     filterSelected: [],
     messageFilter: '',
     hiddenPaginate: false,
-    emailFilter: ''
+    emailFilter: '',
+    storedApartment: null,
 });
 
 import * as services from "@tomtom-international/web-sdk-services";
