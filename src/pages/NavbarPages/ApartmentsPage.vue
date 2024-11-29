@@ -8,6 +8,7 @@ import Paginator from "../../components/Paginator.vue"
 import { store, api, tomtom } from '../../store'
 import FilterComponent from "../../components/ApartmentsComponents/FilterComponent.vue";
 import SearchComponent from "../../components/ApartmentsComponents/SearchComponent.vue";
+import AdditionalFilterComponent from '../../components/ApartmentsComponents/AdditionalFilterComponent.vue';
 
 export default {
   data() {
@@ -28,7 +29,8 @@ export default {
     SingleApartment,
     Paginator,
     FilterComponent,
-    SearchComponent
+    SearchComponent,
+    AdditionalFilterComponent
   },
   mounted() {
     //
@@ -45,7 +47,7 @@ export default {
 
     testingBound(lat, lng) {
       const center = new tt.LngLat(this.tomtom.position.lng, this.tomtom.position.lat); // Posizione della ricerca
-      const radiusMeters = 20000; // 20 Kilometers
+      const radiusMeters = tomtom.rangeFilter * 1000; // la variabile viene presa dall'input range e moltiplicata * 1000
       const boundingBox = center.toBounds(radiusMeters); // Creo il raggio di comparazione per le coordinate da confrontare.
 
       const coordsToCheck = new tt.LngLat(lng, lat); // Coordinata da controllare
@@ -88,7 +90,7 @@ export default {
     </div>
     
     <FilterComponent :filters="api.services" :ref="'filters'"/> 
-
+    <AdditionalFilterComponent />
     <!-- Lista degli appartamenti 
       :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
      -->
