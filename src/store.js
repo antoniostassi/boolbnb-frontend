@@ -148,7 +148,7 @@ export const store = reactive({
 
 import * as services from "@tomtom-international/web-sdk-services";
 export const tomtom = reactive({
-
+    rangeFilter: 20,
     address:'',
     position:{},
     suggestions: [],
