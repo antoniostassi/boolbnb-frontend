@@ -7,9 +7,21 @@
             api, 
             store,
             tomtom,
-            active: false
+            selectedKM: 20,
+            active: false,
+            rooms: 1,
+            beds: 1
         };
     },
+    methods: {
+        setAdditionalFilters(){
+            this.store.additionalFilters.beds = this.beds;
+            this.store.additionalFilters.rooms = this.rooms;
+            this.tomtom.rangeFilter = this.selectedKM
+            this.store.hiddenPaginate = true
+            this.api.getAllApartments();
+        }
+    }
 }
 </script>
 
@@ -23,24 +35,27 @@
             <div class="row my-2 d-flex align-items-center justify-content-center">
                 <div class="col-12 col-md-6">
                     <label for="customRange2" class="form-label fw-bold px-3">Inserisci il range di km</label>
-                    <input type="range" v-model="tomtom.rangeFilter" class="form-range px-3" min="1" max="50" id="customRange2">
+                    <div class="form-text px-3">
+                        Questo filtro funziona solo se hai selezionato una città
+                    </div>
+                    <input type="range" v-model="selectedKM" class="form-range px-3" min="1" max="50" id="customRange2">
                     <span class="px-3">
-                       Distanza selezionata: <span class="fw-bold"> {{ tomtom.rangeFilter }} KM</span>
+                       Distanza selezionata: <span class="fw-bold"> {{ selectedKM }} KM</span>
                     </span>
                 </div>
                 <div class="col-12 col-md-6 d-flex flex-wrap p-3">
                     <div class="col-12 col-md-6 px-3 mb-3">
-                        <label for="rooms" class="form-label">Stanze:</label>
-                        <input type="number" class="form-control" id="rooms" value="1">
+                        <label for="rooms" class="form-label fw-bold">Stanze:</label>
+                        <input v-model="rooms" type="number" class="form-control" id="rooms" value="1">
                     </div>
                     <div class="col-12 col-md-6 px-3">
-                        <label for="beds" class="form-label">Letti:</label>
-                        <input type="number" class="form-control" id="beds" value="1">
+                        <label for="beds" class="form-label fw-bold">Letti:</label>
+                        <input v-model="beds" type="number" class="form-control" id="beds" value="1">
                     </div>
                 </div>
-                <div class="col-12 col-sm-4 text-center p-3">
+                <div class="col-12 col-md-8 text-center p-3">
                     <div class="px-3">
-                        <button class="w-100 btn custom-bg-color text-white fw-bold ">Filtra</button>
+                        <button @click="setAdditionalFilters()" class="w-100 btn custom-bg-color text-white fw-bold ">Filtra</button>
                     </div>
                 </div>
             </div>
