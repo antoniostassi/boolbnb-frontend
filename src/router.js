@@ -18,6 +18,9 @@ import DashboardPage from './pages/ApartmentsCRUDPages/DashboardPage.vue'; // Sh
 import CreateApartmentPage from './pages/ApartmentsCRUDPages/CreateApartmentPage.vue'; // Create
 import EditApartmentPage from './pages/ApartmentsCRUDPages/EditApartmentPage.vue'; // Edit
 
+// PromotionsChoicePages
+import PromotionsChoicePage from './pages/Check-out Pages/PromotionsChoicePage.vue'
+
 // NotFoundPage
 import NotFoundPage from './pages/NotFoundPage.vue';
 
@@ -43,6 +46,9 @@ const router = createRouter({
         { path: '/user/dashboard', name: 'your-apartments', component: DashboardPage },
         {  path: '/apartments/create', name: 'create-apartment', component: CreateApartmentPage, props: true },
         { path: '/apartments/edit', name: 'edit-apartment', component: EditApartmentPage },
+
+        // PromotionsChoicePages
+        { path: '/apartments/create/promotion', name: 'PromotionsChoice', component: PromotionsChoicePage },
 
         // NotFoundPage
         { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage }

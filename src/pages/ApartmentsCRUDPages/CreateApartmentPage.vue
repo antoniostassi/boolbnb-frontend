@@ -76,40 +76,20 @@ export default {
             this.apartment.longitude = suggestion.position.lng; // La longitudine dell'appartamento viene riempito con la longitudine presa dalla posizione dell'indirizzo dell'appartamento selezionato
             this.suggestions = []; // Una volta selezionato un indirizzo, l'array "Suggerimenti" si svuota e spariscono i suggerimenti
         },
+        prepareApartment() {
+          if (this.apartment.services.length == 0) { // Se l'array servizi di apartment ha 0 dati
+              this.store.servicesEmpty = true; // La variabile di services empty dentro lo store si setta a True
+              return;
+          }
 
-        createApartment() { // Funzione per creare un appartamento
-            this.store.formSubmitted = true; // formSubmitted dallo store diventa true, quindi viene inviato il form
-            this.delayOnAPI(); // Si richiama il ritardo della funzione di 2 secondi
-            this.store.servicesEmpty = false; // serviceEmpty dallo store viene dichiarato false in quanto esistono dei servizi
-            if(this.apartment.services.length == 0){ // Nel caso non dovessero esistere servizi
-                this.store.servicesEmpty = true; // serviceEmpty dallo store viene dichiarato true in quanto non esistono dei servizi
-                return
-            }
-            axios
-            .post('http://localhost:8000/api/apartments', { // Chiamata per pushare all'interno dell'apartment i dati richiesti
-                user_id: this.api.user.id,
-                title: this.apartment.title,
-                rooms: this.apartment.rooms,
-                beds: this.apartment.beds,
-                bathrooms: this.apartment.bathrooms,
-                apartment_size: this.apartment.apartment_size,
-                address: this.apartment.address,
-                latitude: this.apartment.latitude,
-                longitude: this.apartment.longitude,
-                image: this.apartment.image,
-                services: this.apartment.services,
-                promotions: this.apartment.promotion
-            })
-            .then((result) => { // Dopo la chiamata, se va a buon fine, appare un alert di successo e si viene reindirizzati alla dashboard
-                console.log('Risultato:', result);
-                alert('Appartamento creato con successo');
-                this.api.getUserApartments();
-                this.$router.push('/user/dashboard')
-            })
-            .catch((error) => { // Se va in errore in console apparirà l'errore
-                console.log(error);
-            })
+          this.store.storedApartment = { // Memorizza i dati dell'appartamento nello store
+            user_id: this.api.user.id,  // Prende l'id dell'utente che sta creando l'appartamento dalla chiamata API
+            ...this.apartment // Operatore ... per prendere tutti i dati senza scriverli ad uno ad uno
+          }; 
+          
+          this.$router.push('/apartments/create/promotion'); // Reindirizzamento verso la scelta della promotion
         },
+        
     },
 }
 </script>
@@ -117,7 +97,7 @@ export default {
 <template>
     <div class="container my-5">
       <h1 class="text-center mb-4">Aggiungi un nuovo appartamento</h1>
-      <form @submit.prevent="createApartment" class="p-4 border rounded shadow">
+      <form @submit.prevent="prepareApartment" class="p-4 border rounded shadow">
         <div class="mb-3">
           <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
           <input

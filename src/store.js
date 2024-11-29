@@ -28,6 +28,12 @@ export const api = reactive({
         }
     },
 
+    redirectIfNotCreated() {
+        if (store.storedApartment === null) {
+            router.push('/apartments/create');
+        }
+    },
+
     async getCSRF() {
         await axios.get('http://localhost:8000/sanctum/csrf-cookie');
         setTimeout(async () => {
@@ -96,6 +102,7 @@ export const api = reactive({
             .get("http://localhost:8000/api/apartments?all=true")
             .then((response) => {
                 this.apartments = response.data.map((apartment) => {
+                    console.log(this.apartments);
                     return {
                     ...apartment,
                     image: `https://picsum.photos/seed/${apartment.id}/400/400`
@@ -153,7 +160,8 @@ export const store = reactive({
     filterSelected: [],
     messageFilter: '',
     hiddenPaginate: false,
-    emailFilter: ''
+    emailFilter: '',
+    storedApartment: null,
 });
 
 import * as services from "@tomtom-international/web-sdk-services";
