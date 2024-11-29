@@ -234,27 +234,11 @@ export default {
                             <div v-else>
                                 <div class="mb-2">
                                     <label for="email" class="form-label">Email</label>
-                                    <input 
-                                    type="email"
-                                    class="form-control"
-                                    name="email" 
-                                    id="email" 
-                                    placeholder="Inserisci la tua email" 
-                                    v-model="userEmail" 
-                                    required 
-                                    utocomplete="email">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
                                 </div>
                                 <div class="mb-2">
                                     <label for="password" class="form-label">Password </label>
-                                    <input 
-                                    type="password" 
-                                    class="form-control" 
-                                    name="password" 
-                                    id="password" 
-                                    placeholder="Inserisci la tua password" 
-                                    v-model="userPassword" 
-                                    required 
-                                    autocomplete="password">
+                                    <input  type="password" class="form-control" name="password" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
                                 </div>
                                 <p v-show="this.api.loginError" class="text-danger fw-bold">Email o password errata</p>
                             </div>
