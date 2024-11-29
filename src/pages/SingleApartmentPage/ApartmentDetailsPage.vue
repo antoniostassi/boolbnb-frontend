@@ -48,7 +48,6 @@ export default {
         .get(`http://localhost:8000/api/apartments/${this.id}`) // Chiamata verso l'appartamento con l'ID selezionato
         .then((response) => {
           this.apartment = response.data[0]; // Pusho dentro la variabile apartment l'oggetto con i parametri dell'apartment
-          this.apartment.image = `https://picsum.photos/seed/${this.apartment.id}/400/300`; // Genero un'immagine da picsum in quanto mancante nel db
 
           if (this.apartment.latitude && this.apartment.longitude) { // Se esistono latitudine e longitudine dell'appartamento
             this.mapCenter = { // Pusha dentro mapCenter i seguenti valori
