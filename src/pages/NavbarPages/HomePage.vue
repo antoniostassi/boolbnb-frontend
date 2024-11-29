@@ -35,8 +35,8 @@ export default {
           );
 
           // Assegna un'immagine casuale a ogni appartamento
+          // Questa funzione adesso è totalmente inutile
           this.promotedApartments = promoted.map((apartment) => {
-            apartment.image = `https://picsum.photos/seed/${apartment.id}/400/300`;
             return apartment;
           });
 

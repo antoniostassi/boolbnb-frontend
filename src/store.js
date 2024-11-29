@@ -95,12 +95,7 @@ export const api = reactive({
         axios
             .get("http://localhost:8000/api/apartments?all=true")
             .then((response) => {
-                this.apartments = response.data.map((apartment) => {
-                    return {
-                    ...apartment,
-                    image: `https://picsum.photos/seed/${apartment.id}/400/400`
-                    };
-                });
+                this.apartments = response.data;
             })
             .catch((error) => {
                 console.error("Errore nel caricamento degli appartamenti:", error);
@@ -113,12 +108,7 @@ export const api = reactive({
         .then((response) => {
         console.log("Risposta API:", response.data);
         // Aggiorna gli appartamenti aggiungendo un'immagine Picsum generata e filtrando l'indirizzo
-        this.apartments = response.data.data.map((apartment) => {
-            return {
-            ...apartment,
-            image: `https://picsum.photos/seed/${apartment.id}/400/400`
-            };
-        });
+        this.apartments = response.data.data;
         // Aggiorna la paginazione con i dati restituiti dall'API
         this.pagination = {
             currentPage: response.data.current_page,

@@ -85,39 +85,57 @@ export default {
                 this.store.servicesEmpty = true; // serviceEmpty dallo store viene dichiarato true in quanto non esistono dei servizi
                 return
             }
-            axios
-            .post('http://localhost:8000/api/apartments', { // Chiamata per pushare all'interno dell'apartment i dati richiesti
-                user_id: this.api.user.id,
-                title: this.apartment.title,
-                rooms: this.apartment.rooms,
-                beds: this.apartment.beds,
-                bathrooms: this.apartment.bathrooms,
-                apartment_size: this.apartment.apartment_size,
-                address: this.apartment.address,
-                latitude: this.apartment.latitude,
-                longitude: this.apartment.longitude,
-                image: this.apartment.image,
-                services: this.apartment.services,
-                promotions: this.apartment.promotion
+
+            const formData = new FormData();
+            formData.append('user_id', this.api.user.id);
+            formData.append('title', this.apartment.title);
+            formData.append('rooms', this.apartment.rooms);
+            formData.append('beds', this.apartment.beds);
+            formData.append('bathrooms', this.apartment.bathrooms);
+            formData.append('apartment_size', this.apartment.apartment_size);
+            formData.append('address', this.apartment.address);
+            formData.append('latitude', this.apartment.latitude);
+            formData.append('longitude', this.apartment.longitude);
+            formData.append('image', this.apartment.image); // Includi l'immagine nel form
+            
+            this.apartment.services.forEach((service) => {
+              formData.append('services[]', service);
             })
-            .then((result) => { // Dopo la chiamata, se va a buon fine, appare un alert di successo e si viene reindirizzati alla dashboard
+            
+            if (this.apartment.promotion) {
+              formData.append('promotions', this.apartment.promotion);
+            }
+            
+            axios
+            .post('http://localhost:8000/api/apartments', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Specifica l'header per il form
+                },
+            })
+            .then((result) => {
                 console.log('Risultato:', result);
                 alert('Appartamento creato con successo');
                 this.api.getUserApartments();
-                this.$router.push('/user/dashboard')
+                this.$router.push('/user/dashboard'); // Reindirizza alla dashboard
             })
-            .catch((error) => { // Se va in errore in console apparirà l'errore
-                console.log(error);
-            })
-        },
-    },
-}
+            .catch((error) => {
+                console.error('Errore:', error);
+                alert('Errore durante la creazione dell\'appartamento');
+            });
+            },
+            uploadImage(event) {
+              const image = event.target.files[0]; 
+              if (image) {
+                this.apartment.image = image;
+              }
+            },  
+}}
 </script>
 
 <template>
     <div class="container my-5">
       <h1 class="text-center mb-4">Aggiungi un nuovo appartamento</h1>
-      <form @submit.prevent="createApartment" class="p-4 border rounded shadow">
+      <form @submit.prevent="createApartment" class="p-4 border rounded shadow" enctype='multipart/form-data'>
         <div class="mb-3">
           <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
           <input
@@ -219,11 +237,12 @@ export default {
           <label class="form-label" for="image">Immagine <span class="text-danger">*</span></label>
           <input
             class="form-control"
-            type="text"
+            type="file"
             name="image"
+            accept="image/png, image/jpeg"
             required
-            v-model="apartment.image"
-            placeholder="Inserisci il link dell'immagine"
+            placeholder="Inserisci l'immagine"
+            @change="uploadImage"
           />
         </div>
   
