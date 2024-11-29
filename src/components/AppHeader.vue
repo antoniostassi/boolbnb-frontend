@@ -97,7 +97,7 @@ export default {
                 await this.userLogin();
 
             } catch (error) {
-                this.testoErrore = error.response?.data?.message || 'Errore durante la registrazione.';
+                this.testoErrore = error.response?.data?.message;
             }
             setTimeout(() => {
                 this.store.formSubmitted = false;
@@ -158,13 +158,7 @@ export default {
 
                     <!-- Se l'utente è loggato -->
                     <div v-else class="dropdown profile-menu d-none d-lg-inline-block">
-                        <a
-                            href="#"
-                            class="d-flex align-items-center"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
+                        <a href="#" class="d-flex align-items-center" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg" alt="User Avatar" class="rounded-circle avatar" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
@@ -204,124 +198,47 @@ export default {
                             <div v-if="store.isRegistration">
                                 <div class="mb-2">
                                     <label for="name" class="form-label">Username <span class="text-danger">*</span></label>
-                                    <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    id="name" 
-                                    name="name" 
-                                    placeholder="Inserisci il tuo username" 
-                                    v-model="userName" 
-                                    minlength="3"
-                                    maxlength="255"
-                                    required
-                                    autocomplete="name">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Inserisci il tuo username" v-model="userName" minlength="3" maxlength="255" required autocomplete="name">
                                 </div>
                                 <div class="mb-2">
                                     <label for="firstname" class="form-label">Nome <span class="text-danger">*</span></label>
-                                    <input type="text"
-                                    class="form-control" 
-                                    id="firstname" 
-                                    name="firstname" 
-                                    placeholder="Inserisci il tuo nome" 
-                                    v-model="userFirstname" 
-                                    minlength="3"
-                                    maxlength="40"
-                                    required 
-                                    autocomplete="firstname">
+                                    <input type="text" class="form-control"  id="firstname"  name="firstname" placeholder="Inserisci il tuo nome" v-model="userFirstname" minlength="3" maxlength="40" required autocomplete="firstname">
                                 </div>
                                 <div class="mb-2">
                                     <label for="lastname" class="form-label">Cognome <span class="text-danger">*</span></label>
-                                    <input type="text" 
-                                    class="form-control" 
-                                    id="lastname" 
-                                    name="lastname" 
-                                    placeholder="Inserisci il tuo cognome" 
-                                    v-model="userLastname" 
-                                    required
-                                    minlength="3"
-                                    maxlength="40" 
-                                    autocomplete="lastname">
+                                    <input type="text"  class="form-control" id="lastname" name="lastname" placeholder="Inserisci il tuo cognome" v-model="userLastname"  required minlength="3" maxlength="40" autocomplete="lastname">
                                 </div>
                                 <div class="mb-2">
                                     <label for="dateOfBirth" class="form-label">Data di nascita <span class="text-danger">*</span></label>
-                                    <input type="date" 
-                                    class="form-control" 
-                                    id="dateOfBirth" 
-                                    name="dateOfBirth" 
-                                    v-model="userDateOfBirth" 
-                                    required 
-                                    autocomplete="dateOfBirth">
+                                    <input type="date" class="form-control"  id="dateOfBirth"  name="dateOfBirth" v-model="userDateOfBirth" required autocomplete="dateOfBirth">
                                 </div>
                                 <div class="mb-2">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" 
-                                    class="form-control" 
-                                    id="email" 
-                                    name="email" 
-                                    placeholder="Inserisci la tua email" 
-                                    v-model="userEmail" 
-                                    required
-                                    minlength="5"
-                                    maxlength="255" 
-                                    autocomplete="email">
+                                    <input type="email" class="form-control"  id="email"  name="email" placeholder="Inserisci la tua email" v-model="userEmail" required minlength="5" maxlength="255" autocomplete="email">
                                 </div>
+                                
                                 <div class="mb-2">
                                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                     <input type="password" 
-                                    class="form-control" 
-                                    id="password" 
-                                    name="password" 
-                                    placeholder="Inserisci la tua password"
-                                    v-model="userPassword" 
-                                    required
-                                    minlength="8"
-                                    maxlength="50"
-                                    autocomplete="password">
+                                    class="form-control" id="password" name="password" placeholder="Inserisci la tua password" v-model="userPassword" required minlength="8" maxlength="50" autocomplete="password">
                                 </div>
                                 <div class="mb-2">
                                     <label for="passwordConfirm" class="form-label">Conferma Password <span class="text-danger">*</span></label>
-                                    <input type="password" 
-                                    class="form-control" 
-                                    id="passwordConfirm" 
-                                    name="passwordConfirm" 
-                                    placeholder="Conferma la tua password" 
-                                    v-model="userPasswordConfirm" 
-                                    required 
-                                    minlength="8"
-                                    maxlength="50"
-                                    autocomplete="passwordConfirm">
+                                    <input type="password" class="form-control"  id="passwordConfirm" name="passwordConfirm" placeholder="Conferma la tua password" v-model="userPasswordConfirm" required minlength="8" maxlength="50" autocomplete="passwordConfirm">
                                 </div>
-                                
-
-                                <p>I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</p>
-
+                                <p class="mb-0">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</p>
+                                <p class="text-danger fw-bold mb-0">{{ testoErrore }}</p>
                             </div>
 
                             <!-- Sezione Login -->
                             <div v-else>
                                 <div class="mb-2">
                                     <label for="email" class="form-label">Email</label>
-                                    <input 
-                                    type="email"
-                                    class="form-control"
-                                    name="email" 
-                                    id="email" 
-                                    placeholder="Inserisci la tua email" 
-                                    v-model="userEmail" 
-                                    required 
-                                    utocomplete="email">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Inserisci la tua email" v-model="userEmail" required autocomplete="email">
                                 </div>
                                 <div class="mb-2">
                                     <label for="password" class="form-label">Password </label>
-                                    <input 
-                                    type="password" 
-                                    class="form-control" 
-                                    name="password" 
-                                    id="password" 
-                                    placeholder="Inserisci la tua password" 
-                                    v-model="userPassword" 
-                                    required 
-                                    autocomplete="password">
+                                    <input  type="password" class="form-control" name="password" id="password" placeholder="Inserisci la tua password" v-model="userPassword" required autocomplete="password">
                                 </div>
                                 <p v-show="this.api.loginError" class="text-danger fw-bold">Email o password errata</p>
                             </div>
