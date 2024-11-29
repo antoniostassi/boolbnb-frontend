@@ -77,13 +77,13 @@ export default {
             this.suggestions = []; // Una volta selezionato un indirizzo, l'array "Suggerimenti" si svuota e spariscono i suggerimenti
         },
 
-        createApartment() { // Funzione per creare un appartamento
+        prepareApartment() { // Funzione per preparare l'appartamento per la creazione
             this.store.formSubmitted = true; // formSubmitted dallo store diventa true, quindi viene inviato il form
             this.delayOnAPI(); // Si richiama il ritardo della funzione di 2 secondi
             this.store.servicesEmpty = false; // serviceEmpty dallo store viene dichiarato false in quanto esistono dei servizi
             if(this.apartment.services.length == 0){ // Nel caso non dovessero esistere servizi
                 this.store.servicesEmpty = true; // serviceEmpty dallo store viene dichiarato true in quanto non esistono dei servizi
-                return
+                return;
             }
 
             const formData = new FormData();
@@ -105,37 +105,25 @@ export default {
             if (this.apartment.promotion) {
               formData.append('promotions', this.apartment.promotion);
             }
-            
-            axios
-            .post('http://localhost:8000/api/apartments', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data', // Specifica l'header per il form
-                },
-            })
-            .then((result) => {
-                console.log('Risultato:', result);
-                alert('Appartamento creato con successo');
-                this.api.getUserApartments();
-                this.$router.push('/user/dashboard'); // Reindirizza alla dashboard
-            })
-            .catch((error) => {
-                console.error('Errore:', error);
-                alert('Errore durante la creazione dell\'appartamento');
-            });
-            },
-            uploadImage(event) {
-              const image = event.target.files[0]; 
-              if (image) {
+
+            this.store.storedApartment = formData; // Salva il formData nello store per l'utilizzo successivo nella pagina di scelta promozione
+            this.$router.push('/apartments/create/promotion'); // Reindirizza alla pagina di scelta della promozione
+        },
+
+        uploadImage(event) {
+            const image = event.target.files[0]; 
+            if (image) {
                 this.apartment.image = image;
-              }
-            },  
-}}
+            }
+        },  
+    }
+}
 </script>
 
 <template>
     <div class="container my-5">
       <h1 class="text-center mb-4">Aggiungi un nuovo appartamento</h1>
-      <form @submit.prevent="createApartment" class="p-4 border rounded shadow" enctype='multipart/form-data'>
+      <form @submit.prevent="prepareApartment" class="p-4 border rounded shadow" enctype='multipart/form-data'>
         <div class="mb-3">
           <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
           <input
@@ -283,9 +271,8 @@ export default {
         <button class="btn btn-success w-100" :disabled="store.formSubmitted">Aggiungi Appartamento</button>
       </form>
     </div>
-  </template>
+</template>
   
-
 <style lang="scss" scoped>
 .container {
     max-width: 1000px;
