@@ -30,7 +30,7 @@ export const api = reactive({
 
     redirectIfNotCreated() {
         if (store.storedApartment === null) {
-            router.push('/apartments/create');
+            router.push('/');
         }
     },
 

@@ -17,7 +17,6 @@ export default {
     };
   },
   mounted() {
-    this.api.redirectIfNotAuth();
     this.api.redirectIfNotCreated();
   },
   methods: {
