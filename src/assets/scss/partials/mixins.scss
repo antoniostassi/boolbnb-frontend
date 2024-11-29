@@ -1,2 +1,7 @@
+// Mixin for border box styling
+@mixin border-box($radius, $border) {
+    border-radius: $radius;
+    border: $border;
+}
 
 
