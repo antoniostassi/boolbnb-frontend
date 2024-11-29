@@ -239,6 +239,7 @@ export default {
             class="form-control"
             type="file"
             name="image"
+            accept="image/png, image/jpeg"
             required
             placeholder="Inserisci l'immagine"
             @change="uploadImage"
