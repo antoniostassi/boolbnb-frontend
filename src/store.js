@@ -143,7 +143,11 @@ export const store = reactive({
     filterSelected: [],
     messageFilter: '',
     hiddenPaginate: false,
-    emailFilter: ''
+    emailFilter: '',
+    additionalFilters:{
+        beds: null,
+        rooms: null,
+    }
 });
 
 import * as services from "@tomtom-international/web-sdk-services";
@@ -181,7 +185,6 @@ export const tomtom = reactive({
         this.suggestions = [];
         store.hiddenPaginate = true;
     },
-
     changeRoute() {
         // Naviga alla pagina degli appartamenti con il filtro
         if (router.currentRoute.value.href != '/apartments'){
@@ -196,6 +199,9 @@ export const tomtom = reactive({
         this.position = {},
         this.suggestions = [],
         store.filterSelected = [],
+        store.additionalFilters.beds = null,
+        store.additionalFilters.rooms = null,
+        this.rangeFilter = 20,
         api.getApartments(),
         store.hiddenPaginate = false
     }
