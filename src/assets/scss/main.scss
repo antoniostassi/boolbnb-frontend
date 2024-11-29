@@ -1,5 +1,4 @@
 @use '../scss/partials/reset.scss' as *;
-@use '../scss/partials/utilities.scss' as *;
 @use '../scss/partials/mixins.scss' as *;
 @use '../scss/partials/variables.scss' as *;
 
@@ -16,11 +15,9 @@
     flex-wrap: wrap;
 }
 
-
 /* 
     APP
 */
 main {
-  text-align: center;
+    text-align: center;
 }
-
