@@ -49,9 +49,7 @@ export default {
       const center = new tt.LngLat(this.tomtom.position.lng, this.tomtom.position.lat); // Posizione della ricerca
       const radiusMeters = tomtom.rangeFilter * 1000; // la variabile viene presa dall'input range e moltiplicata * 1000
       const boundingBox = center.toBounds(radiusMeters); // Creo il raggio di comparazione per le coordinate da confrontare.
-
       const coordsToCheck = new tt.LngLat(lng, lat); // Coordinata da controllare
-
       if(boundingBox.contains(coordsToCheck)) { 
         return true;
       };
@@ -67,7 +65,6 @@ export default {
       //console.log(apartment.title+' : '+this.containsAny(services, aServices));
       return this.containsAny(services, aServices);
     },
-
     containsAny(activeServices, apartmentServices) {
       return apartmentServices.some(service => { // Il .some serve a sostituire il ciclo forEach, che altrimenti non verrebbe interrotto dal return true.
         if (activeServices.includes(service)) {
@@ -76,7 +73,14 @@ export default {
         }
         return false; // Se arriva qui vuol dire che nessun servizio dell'appartamento è presente tra i filtri selezionati.
       });
-    }
+    },
+    additionalFiltersCheck(beds, rooms){
+      if(beds >= this.store.additionalFilters.beds && rooms >= this.store.additionalFilters.rooms){
+        return true
+      }
+      return false
+    },
+
   }
 };
 </script>
@@ -88,7 +92,7 @@ export default {
       <SearchComponent/>
       <div class="btn btn-info" @click="tomtom.resetResearch()"> <i class="fa-solid fa-trash-can" title="Resetta filtri"></i> </div>
     </div>
-    
+
     <FilterComponent :filters="api.services" :ref="'filters'"/> 
     <AdditionalFilterComponent />
     <!-- Lista degli appartamenti 
@@ -101,7 +105,8 @@ export default {
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
         :class="
           store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
-          this.tomtom.position.lat && this.tomtom.position.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '' "
+          this.tomtom.position.lat && this.tomtom.position.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '',
+          additionalFiltersCheck(apartment.beds, apartment.rooms)? '' : 'd-none'"
       >
 
       <!-- {{ console.log(apartment) }} -->
