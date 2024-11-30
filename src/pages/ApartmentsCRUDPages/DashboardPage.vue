@@ -13,17 +13,16 @@ export default {
   },
   methods: {
     deleteApartment(apartmentId) {
-      if (confirm("Sei sicuro di voler eliminare questo appartamento?")) {
-        axios
-          .delete(`http://localhost:8000/api/apartments/${apartmentId}`)
-          .then(() => {
-            this.api.getUserApartments();
-          })
-          .catch((error) => {
-            console.error("Errore durante l'eliminazione dell'appartamento:", error);
-          });
-      }
+      axios
+        .delete(`http://localhost:8000/api/apartments/${apartmentId}`)
+        .then(() => {
+          this.api.getUserApartments();
+        })
+        .catch((error) => {
+          console.error("Errore durante l'eliminazione dell'appartamento:", error);
+        }); 
     },
+
     editApartment(apartmentId) {
       this.store.currentApartment = apartmentId;
       this.$router.push({ name: "edit-apartment" });
@@ -46,6 +45,9 @@ export default {
 
     <!-- Tabella -->
     <div class="table-container">
+      <p class="fw-bold text-success custom-bg rounded-3 p-1" v-show="store.editedApartmentCheck">Appartamento modificato con successo</p>
+      <p class="fw-bold text-success custom-bg rounded-3 p-1" v-show="store.createdApartmentCheck">Appartamento creato con successo</p>
+
       <table class="table">
         <thead>
           <tr>
@@ -65,18 +67,22 @@ export default {
               >
                 <i class="fa-solid fa-eye"></i>
               </router-link>
+              <div class="dropup-center dropup ">
+                <button class="delete-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                <div class="dropdown-menu p-2">
+                  <p>Sei sicuro di voler eliminare questo appartamento?</p>
+                  <button @click="deleteApartment(apartment.id)" class="delete-button" data-bs-toggle="dropdown">Cancella</button>
+                </div>
+              </div>
               <button
                 @click="editApartment(apartment.id)"
                 class="edit-button"
               >
                 <i class="fa-solid fa-pencil"></i>
               </button>
-              <button
-                @click="deleteApartment(apartment.id)"
-                class="delete-button"
-              >
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
+              
               <router-link :to="{ name:'profile-page' }" class="view-button bg-secondary" @click="store.messageFilter = apartment.title; store.apartmentIndex = index">
                 <i class="fa-solid fa-envelope"></i>
               </router-link>
@@ -94,6 +100,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.custom-bg{
+  background-color:#aaffd7;
+  max-width:fit-content;
+}
 .dashboard-page {
   font-family: 'Arial', sans-serif;
   padding: 20px;

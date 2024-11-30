@@ -104,7 +104,10 @@ export default {
           .then((result) => {
             console.log(result);
             this.api.getUserApartments();
-            alert('Modifica effettuata con successo');
+            this.store.editedApartmentCheck = true;
+            setTimeout(() => {
+              this.store.editedApartmentCheck = false;
+            }, 5000);
             this.$router.push('/user/dashboard');
         })
         .catch((error) => {

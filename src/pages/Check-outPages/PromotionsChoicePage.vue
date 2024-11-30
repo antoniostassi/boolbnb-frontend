@@ -36,7 +36,12 @@ export default {
                 }) // Chiamata API che passa i dati in post dell'oggetto apartment
                 .then((response) => {
                     console.log(response.data);
+                    this.store.createdApartmentCheck = true;
+                    setTimeout(() => {
+                    this.store.createdApartmentCheck = false;
+                    }, 5000);
                     this.$router.push('/user/dashboard'); // Reindirizzamento a user/dashboard
+                    
                     this.api.getUserApartments();
                 })
                 .catch((error) => {
