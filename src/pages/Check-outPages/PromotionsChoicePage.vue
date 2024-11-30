@@ -17,17 +17,19 @@ export default {
     methods: {
         choosePromotion(promotionId) { // Al click sul pulsante di scelta promozione si esegue questa funzione
             this.selectedPromotionId = promotionId; // La variabile selectedPromotionId viene riempita con l'ID della promozione scelta
+            
             if (promotionId === null) { // Se la promozione è Standard, si esegue la funzione che crea l'apartment senza promozione
                 this.createApartment(); // Funzione di creazione apartment
             } else {
+                this.store.storedApartment.append('promotions', this.selectedPromotionId)
                 console.log('Promotion scelta con ID:', promotionId); // Console.log di altre promozioni (Da gestire in seguito con redirect e checkout)
             }
+
         },
         createApartment() { // Funzione di creazione apartment
-            const formData = this.store.storedApartment; // Ottieni i dati dell'appartamento salvati nello store
-            formData.append('promotion_id', this.selectedPromotionId); // Aggiungi l'ID della promozione selezionata
+            
             axios
-                .post('http://localhost:8000/api/apartments', formData, {
+                .post('http://localhost:8000/api/apartments', this.store.storedApartment, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -57,14 +59,8 @@ export default {
                 :key="index"
                 class="col-12 col-md-6 col-lg-3"
             >
-                <div 
-                    class="promotion-box d-flex flex-column justify-content-between align-items-center p-4 h-100" 
-                    :class="{
-                        'bronze': promotion.id === 3,
-                        'silver': promotion.id === 2,
-                        'gold': promotion.id === 1
-                    }"
-                >
+                <div class="promotion-box d-flex flex-column justify-content-between align-items-center p-4 h-100" 
+                    :class="{'bronze': promotion.id === 3, 'silver': promotion.id === 2, 'gold': promotion.id === 1}">
                     <h2 class="promotion-title text-uppercase fw-bold mb-3">
                         {{ promotion.title }}
                     </h2>
@@ -74,10 +70,7 @@ export default {
                     <p class="promotion-price fw-bold">
                         Prezzo: €{{ promotion.price }}
                     </p>
-                    <button
-                        class="btn promotion-button mt-3"
-                        @click="choosePromotion(promotion.id)"
-                    >
+                    <button class="btn promotion-button mt-3" @click="choosePromotion(promotion.id)">
                         Acquista {{ promotion.title }}
                     </button>
                 </div>
@@ -89,10 +82,7 @@ export default {
                         Standard
                     </h2>
                     <p class="promotion-description text-muted text-center flex-grow-1">Nessun costo aggiuntivo</p>
-                    <button
-                        class="btn promotion-button mt-3"
-                        @click="choosePromotion(null)"
-                    >
+                    <button class="btn promotion-button mt-3" @click="choosePromotion(null)">
                         Scegli Standard
                     </button>
                 </div>
