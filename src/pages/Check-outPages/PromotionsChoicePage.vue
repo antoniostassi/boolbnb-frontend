@@ -7,7 +7,6 @@ export default {
         return {
             api,
             store,
-            selectedPromotionId: null, // ID della promozione selezionata
         };
     },
     mounted() {
@@ -16,14 +15,14 @@ export default {
     },
     methods: {
         choosePromotion(promotionId) { // Al click sul pulsante di scelta promozione si esegue questa funzione
-            this.selectedPromotionId = promotionId; // La variabile selectedPromotionId viene riempita con l'ID della promozione scelta
-            
-            if (promotionId === null) { // Se la promozione è Standard, si esegue la funzione che crea l'apartment senza promozione
-                this.createApartment(); // Funzione di creazione apartment
-            } else {
-                this.store.storedApartment.append('promotions', this.selectedPromotionId)
-                console.log('Promotion scelta con ID:', promotionId); // Console.log di altre promozioni (Da gestire in seguito con redirect e checkout)
+            if (promotionId == null) {
+                this.createApartment();
+                return;
             }
+            this.$router.push({
+                name: 'CheckOutPage',
+                query: { price: api.promotions.price }
+            })
 
         },
         createApartment() { // Funzione di creazione apartment
