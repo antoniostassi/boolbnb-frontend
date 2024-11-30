@@ -153,7 +153,7 @@ export const store = reactive({
     additionalFilters:{
         beds: null,
         rooms: null,
-    }
+    },
     storedApartment: null,
 
 });
