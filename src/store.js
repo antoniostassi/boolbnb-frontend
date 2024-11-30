@@ -156,8 +156,8 @@ export const store = reactive({
         rooms: null,
     },
     storedApartment: null,
-    
-
+    editedApartmentCheck: false,
+    createdApartmentCheck: false,
 });
 
 import * as services from "@tomtom-international/web-sdk-services";
