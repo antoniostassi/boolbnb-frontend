@@ -1,6 +1,12 @@
 // Import all of Bootstrap's CSS
+$form-range-thumb-bg: #ec72ff;
+$form-range-thumb-active-bg: #dd00ff;
+
+
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
 
 html {
     font-family: "Baumans", system-ui !important;
 }
+
