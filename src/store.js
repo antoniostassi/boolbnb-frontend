@@ -134,6 +134,7 @@ export const api = reactive({
 });
 
 export const store = reactive({
+
     navbarLinks: [
         { name: "Strutture", href: "/apartments" },
         { name: "Piani promozionali", href: "/promotions" },
@@ -155,6 +156,7 @@ export const store = reactive({
         rooms: null,
     },
     storedApartment: null,
+    
 
 });
 
@@ -165,6 +167,7 @@ export const tomtom = reactive({
     position:{},
     suggestions: [],
     apiKey: "Wuj8g5xvkgHJPaT4SjFEwshVAT3SbkVQ",
+    filterStarted: false,
 
     fetchSuggestions(query) {
         if (query.length < 3) {
@@ -186,13 +189,14 @@ export const tomtom = reactive({
     },
     
     selectSuggestion(suggestion) {
-        api.getAllApartments();
+        if (api.apartments.length >= 8) { api.getApartments(); store.hiddenPaginate = false;};
+        this.filterStarted = false;
         this.address = suggestion.address;
         this.position = suggestion.position;
         this.changeRoute();
         this.suggestions = [];
-        store.hiddenPaginate = true;
     },
+    
     changeRoute() {
         // Naviga alla pagina degli appartamenti con il filtro
         if (router.currentRoute.value.href != '/apartments'){
@@ -202,15 +206,22 @@ export const tomtom = reactive({
             
         }
     },
+
     resetResearch() {
-        this.address = '',
-        this.position = {},
-        this.suggestions = [],
-        store.filterSelected = [],
-        store.additionalFilters.beds = null,
-        store.additionalFilters.rooms = null,
-        this.rangeFilter = 20,
-        api.getApartments(),
-        store.hiddenPaginate = false
+        this.address = '';
+        this.position = {};
+        this.suggestions = [];
+        store.filterSelected = [];
+        store.additionalFilters.beds = null;
+        store.additionalFilters.rooms = null;
+        this.rangeFilter = 20;
+        api.getApartments();
+        store.hiddenPaginate = false;
+        this.filterStarted = false;
+    },
+
+    startResearch() {
+        api.getAllApartments();
+        this.filterStarted = true;
     }
 })

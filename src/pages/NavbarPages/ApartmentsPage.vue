@@ -88,13 +88,11 @@ export default {
 <template>
   <div class="container my-3">
 
-    <div class="d-flex justify-content-center align-items-center">
       <SearchComponent/>
-      <div class="btn btn-info" @click="tomtom.resetResearch()"> <i class="fa-solid fa-trash-can" title="Resetta filtri"></i> </div>
-    </div>
-
-    <FilterComponent :filters="api.services" :ref="'filters'"/> 
-    <AdditionalFilterComponent />
+      <FilterComponent :filters="api.services" :ref="'filters'"/> 
+      <AdditionalFilterComponent />
+    <hr class="pb-3" style="display:block; width:96%; margin: 0 auto;">
+    
     <!-- Lista degli appartamenti 
       :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
      -->
@@ -104,8 +102,8 @@ export default {
         :key="apartment.id"
         class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
         :class="
-          store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
-          this.tomtom.position.lat && this.tomtom.position.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '',
+          tomtom.filterStarted == true && store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
+          tomtom.filterStarted == true && tomtom.position.lat && tomtom.position.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '',
           additionalFiltersCheck(apartment.beds, apartment.rooms)? '' : 'd-none'"
       >
 
