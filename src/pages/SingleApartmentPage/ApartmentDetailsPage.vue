@@ -2,12 +2,13 @@
 import axios from 'axios';
 import tt from '@tomtom-international/web-sdk-maps';
 import { markRaw } from 'vue';
-import { store } from '../../store';
+import { store, api } from '../../store';
 
 export default {
   data() {
     return {
         store, // Import dello store
+        api,
         apartment: null, // Variabile apartment vuota
         map: null, // Variabile map vuota
         mapCenter: { // Oggetto vuoto con il centro della mappa
@@ -34,15 +35,22 @@ export default {
   },
   mounted() {
     this.getApartment(); // Chiamo la funzione prima al "mount" della pagina
+
   },
   methods: {
-    
+    checkUserEmail(){
+      setTimeout(() => {
+        if(this.api.isLoggedIn){
+          this.contactForm.UserEmail = this.api.user.email
+          
+        }
+      }, 100);
+    },
     delayOnAPI(){
       setTimeout(() => {
           this.blockButton = false;
       }, 2000);
     },
-
     getApartment() {
       axios
         .get(`http://localhost:8000/api/apartments/${this.id}`) // Chiamata verso l'appartamento con l'ID selezionato
@@ -172,9 +180,10 @@ export default {
           <p v-if="apartment.user?.email">
             <strong>Email:</strong> {{ apartment.user?.email }}
           </p>
-  
+          
           <!-- Accordion con il form preso da Bootstrap -->
-          <div class="accordion" id="contactAccordion">
+          <p v-if="api.user.id == apartment.user_id" class="fw-bold">Sei il proprietario di questo appartamento.</p>
+          <div v-else class="accordion" id="contactAccordion" @click="checkUserEmail()">
             <div class="accordion-item">
               <h2 class="accordion-header" id="headingContact">
                 <button
@@ -199,12 +208,14 @@ export default {
                     <div class="mb-3">
                       <label for="email" class="form-label">La tua Email <span class="text-danger">*</span></label>
                       <input
+                        :disabled="api.isLoggedIn"
                         type="email"
                         id="email"
                         v-model="contactForm.UserEmail"
                         class="form-control"
                         placeholder="Inserisci la tua email"
                         required
+                        
                       />
                     </div>
                     <div class="mb-3">
