@@ -33,12 +33,6 @@ export default {
     AdditionalFilterComponent
   },
   mounted() {
-    //
-    if (this.tomtom.position.lat){ // Se esiste una latitudine da cercare
-      // this.api.getAllApartments(); // Prendi TUTTI gli appartamenti senza paginazione
-      this.store.hiddenPaginate = true;
-      return
-    }
     // Altrimenti prenti gli appartamenti paginated
     this.api.getApartments();
     
