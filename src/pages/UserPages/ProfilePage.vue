@@ -12,6 +12,7 @@ export default {
     mounted() {
         // Reindirizza l'utente se non è autenticato
         this.api.redirectIfNotAuth();
+        this.api.getUserApartments();
     },
     computed: {
         hasMessages() {

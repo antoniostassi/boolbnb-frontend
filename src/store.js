@@ -189,8 +189,6 @@ export const tomtom = reactive({
     },
     
     selectSuggestion(suggestion) {
-        if (api.apartments.length >= 8) { api.getApartments(); store.hiddenPaginate = false;};
-        this.filterStarted = false;
         this.address = suggestion.address;
         this.position = suggestion.position;
         this.changeRoute();
@@ -215,7 +213,6 @@ export const tomtom = reactive({
         store.additionalFilters.beds = null;
         store.additionalFilters.rooms = null;
         this.rangeFilter = 20;
-        api.getApartments();
         store.hiddenPaginate = false;
         this.filterStarted = false;
     },

@@ -4,7 +4,6 @@ import tt from '@tomtom-international/web-sdk-maps';
 
 import axios from "axios";
 import SingleApartment from "../../components/SingleApartment.vue";
-import Paginator from "../../components/Paginator.vue"
 import { store, api, tomtom } from '../../store'
 import FilterComponent from "../../components/ApartmentsComponents/FilterComponent.vue";
 import SearchComponent from "../../components/ApartmentsComponents/SearchComponent.vue";
@@ -27,15 +26,9 @@ export default {
   },
   components: {
     SingleApartment,
-    Paginator,
     FilterComponent,
     SearchComponent,
     AdditionalFilterComponent
-  },
-  mounted() {
-    // Altrimenti prenti gli appartamenti paginated
-    this.api.getApartments();
-    
   },
   methods: {
 
@@ -107,7 +100,6 @@ export default {
         </div>
       </div>
     </div>
-    <Paginator :class="store.hiddenPaginate ? 'd-none' : ''" />
     
   </div>
 </template>
@@ -116,8 +108,8 @@ export default {
 .container {
   max-width: 1400px;
   margin: 0 auto;
-
 }
+
 .row {
   margin: 30px 0;
 
