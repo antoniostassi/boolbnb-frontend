@@ -20,5 +20,6 @@ createApp(App).use(router).mount('#app'); // Utilizzo di router nella navigazion
 if (!api.loginCheck) {
     api.getCSRF();
     api.getUserData();
+    api.getAllApartments();
     api.loginCheck = true;
 };
