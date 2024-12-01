@@ -57,7 +57,7 @@ export default {
 </script>
 
 <template>
-    <div class="container-xxl py-5">
+    <div class="container py-5">
         <div class="row">
             <!-- Colonna sinistra: Dati utente e lista appartamenti -->
             <div class="col-12 col-lg-4 border-end">
