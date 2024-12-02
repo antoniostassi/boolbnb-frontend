@@ -18,6 +18,7 @@ createApp(App).use(router).mount('#app'); // Utilizzo di router nella navigazion
 //console.log(axios.defaults.headers.common);
 
 if (!api.loginCheck) {
+    api.getUserIp();
     api.getCSRF();
     api.getUserData();
     api.getAllApartments();
