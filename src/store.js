@@ -142,7 +142,7 @@ export const api = reactive({
 
     async storeVisualization(apartmentId) {
 
-        if (this.seenApartments.includes(apartmentId)) { // Serve ad evitare la chiamata API, se è già stato visto ( Ulteriore controllo, oltre a quello del backend )
+        if (!this.seenApartments.includes(apartmentId)) { // Serve ad evitare la chiamata API, se è già stato visto ( Ulteriore controllo, oltre a quello del backend )
             const data = {'ip_address' : this.userIp, 'apartment_id' : apartmentId};
             axios.post('http://localhost:8000/api/visualizations', data);
             this.seenApartments.push(apartmentId);
