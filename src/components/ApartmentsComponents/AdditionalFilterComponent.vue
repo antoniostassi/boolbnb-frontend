@@ -32,7 +32,7 @@
         <div class="col-12 col-md-6">
             <label for="customRange2" class="form-label fw-bold px-3">Inserisci il range di km</label>
             <div class="form-text px-3 text-danger" :class ="tomtom.position.lat ? 'd-none': ''">
-                Questo filtro funziona solo se hai selezionato una città
+                Questo filtro funziona solo se hai selezionato un indirizzo o una città
             </div>
             <input type="range" :disabled="!tomtom.position.lat" v-model="selectedKM" class="form-range px-3" min="1" max="50" id="customRange2">
             <span class="px-3">

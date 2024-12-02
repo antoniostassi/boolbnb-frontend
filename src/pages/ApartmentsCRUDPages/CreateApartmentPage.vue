@@ -239,7 +239,7 @@ export default {
         <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
         <div class="row mb-3 services-container">
           <div
-            class="service-badge"
+            class="service-badge justify-space-between d-flex"
             v-for="(service, index) in visibleServices"
             :key="index"
             :class="{ selected: apartment.services.includes(service.id) }"
@@ -247,7 +247,7 @@ export default {
           >
             <div class="service-content">
               <div class="service-icon">
-                <i class="fa-solid fa-mug-saucer"></i>
+                <i :class="service.image" class="fa-lg me-2"></i>
               </div>
               <span class="service-title">{{ service.title }}</span>
               <div v-if="apartment.services.includes(service.id)" class="checkmark">
@@ -274,6 +274,8 @@ export default {
 </template>
   
 <style lang="scss" scoped>
+@import '@/assets/scss/partials/variables.scss';
+@import '@/assets/scss/partials/mixins.scss';
 .container {
     max-width: 1000px;
 
@@ -329,7 +331,7 @@ export default {
 
     &.selected {
       background-color: #7b29883f;
-      border-color: #e352fa;
+      border-color: $color-violet;
       box-shadow: 0 6px 12px #58206144;
 
       .checkmark {
@@ -353,7 +355,7 @@ export default {
 
       .service-icon {
         font-size: 20px;
-        color: #3498db;
+        color: $color-violet;
       }
 
       .service-title {
