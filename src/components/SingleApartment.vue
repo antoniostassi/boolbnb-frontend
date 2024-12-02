@@ -34,15 +34,18 @@ export default {
         <h5 class="card-title">
           {{ apartment.title }}
         </h5>
-        <p class="card-text">
+        <p class="card-text fs-6">
           {{ apartment.address }}
         </p>
         <div class="row">
-          <small class="col my-1 card-info">
-            {{ apartment.apartment_size }} m²
+          <small class="col my-1 card-info d-flex align-items-center w-100">
+            <img src="/icons/squareMeters.png" alt="SquareMeters" class="mx-2" style="height: 25px; width: 25px;"><strong>{{ apartment.apartment_size }}</strong>
           </small>
-          <small class="col my-1 card-info">
-            {{ apartment.rooms }} stanze
+          <small class="col my-1 card-info d-flex align-items-center justify-content-end me-2">
+            <img src="/icons/room.png" alt="Rooms" class="mx-2" style="height: 25px; width: 25px;"><strong>{{ apartment.rooms }}</strong>
+          </small>
+          <small class="col my-1 card-info d-flex align-items-center justify-content-end me-2">
+            <i class="fa-solid fa-bed fa-xl mx-2"></i><strong>{{ apartment.beds }}</strong>
           </small>
         </div>
       </div>
