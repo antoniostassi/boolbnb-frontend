@@ -20,7 +20,7 @@ export const api = reactive({
         nextPage:'',
     },
     loginError: false,
-     
+    selectedPromotionId: null, // ID della promozione selezionata
     seenApartments: [],
 
     redirectIfNotAuth() {
@@ -81,7 +81,28 @@ export const api = reactive({
             console.log(error);
         })
     },
-
+    createApartment() { // Funzione di creazione apartment
+        axios
+            .post('http://localhost:8000/api/apartments', 
+            store.storedApartment,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }) // Chiamata API che passa i dati in post dell'oggetto apartment
+            .then((response) => {
+                console.log(response.data);
+                store.createdApartmentCheck = true;
+                setTimeout(() => {
+                store.createdApartmentCheck = false;
+                }, 5000);
+                router.push('/user/dashboard'); // Reindirizzamento a user/dashboard
+                this.getUserApartments();
+            })
+            .catch((error) => {
+                console.error('Errore durante la creazione', error); // In caso di errore
+            });
+        },
 
     async userLogout(param) {
         try {
@@ -220,7 +241,6 @@ export const tomtom = reactive({
             router.push({
                 path: "/apartments",
             });
-            
         }
     },
 
