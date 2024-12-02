@@ -7,87 +7,22 @@ export default {
         return {
             api,
             store,
-            selectedPromotionId: null, // ID della promozione selezionata
-            today: null,
-            showPayment: false,
         };
     },
     mounted() {
         // this.api.redirectIfNotCreated();
         this.api.getPromotions(); // Ottieni tutte le promozioni dal backend
-        this.takeTodayDate();
     },
     methods: {
-
-        takeTodayDate(){
-            const date = new Date();
-            let day = ''
-            let month = ''
-            if(date.getDate() < 10){
-                day = '0' + date.getDate();
-            }
-            else{
-               day = date.getDate();
-            }
-            if(date.getMonth() < 10){
-                month = '0' + date.getMonth();
-            }
-            else{
-               month = date.getMonth();
-            }
-            const year = date.getFullYear(); 
-            this.today = `${year}-${month}-${day}`;
-        },
         choosePromotion(promotionId) { // Al click sul pulsante di scelta promozione si esegue questa funzione
-            this.selectedPromotionId = promotionId; // La variabile selectedPromotionId viene riempita con l'ID della promozione scelta
+            this.api.selectedPromotionId = promotionId; // La variabile selectedPromotionId viene riempita con l'ID della promozione scelta
             if (promotionId === null) { // Se la promozione è Standard, si esegue la funzione che crea l'apartment senza promozione
-                this.createApartment(); // Funzione di creazione apartment
+                this.store.storedApartment.append('promotions', 'null')
+                this.api.createApartment(); // Funzione di creazione apartment
             } 
             else {
-                this.store.storedApartment.append('promotions', this.selectedPromotionId)
-                this.store.storedApartment.append('promotion_days', this.api.promotions.duration_time )
-            // braintree payment
-            axios.post('https://payments.sandbox.braintree-api.com/graphql',
-            {
-                query: `query { ping }` 
-            },
-            {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer sandbox_9qq3yksf_58rry6f7bkwwx3gq', 
-                'Braintree-Version': '2023-01-01' 
-            },
-            withCredentials: false
-            })
-            .then(response => {
-                this.createApartment();
-            })
-            .catch(error => {
-                console.log(error);
-            });
+                this.store.storedApartment.append('promotions', this.api.selectedPromotionId)
             }
-        },
-        createApartment() { // Funzione di creazione apartment
-            axios
-                .post('http://localhost:8000/api/apartments', 
-                this.store.storedApartment,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }) // Chiamata API che passa i dati in post dell'oggetto apartment
-                .then((response) => {
-                    console.log(response.data);
-                    this.store.createdApartmentCheck = true;
-                    setTimeout(() => {
-                    this.store.createdApartmentCheck = false;
-                    }, 5000);
-                    this.$router.push('/user/dashboard'); // Reindirizzamento a user/dashboard
-                    this.api.getUserApartments();
-                })
-                .catch((error) => {
-                    console.error('Errore durante la creazione', error); // In caso di errore
-                });
         },
     },
 };
@@ -116,9 +51,9 @@ export default {
                     <p class="promotion-price fw-bold">
                         Prezzo: €{{ promotion.price }}
                     </p>
-                    <button class="btn promotion-button mt-3" @click="showPayment = true; selectedPromotionId = promotion.id">
+                    <router-link :to="{name: 'PromotionsCheckout'}" class="btn promotion-button mt-3" @click="choosePromotion(promotion.id) ">
                         Acquista {{ promotion.title }}
-                    </button>
+                    </router-link>
                 </div>
             </div>
             <!-- Aggiungi l'opzione per la promozione standard -->
@@ -135,44 +70,7 @@ export default {
             </div>
         </div>
         <!-- checkout -->
-        <div class="row py-4" v-show="selectedPromotionId">
-            <div class="col-12">
-                <button @click="console.log(store.storedApartment)">test</button>
-                <h3 class="fw-bold">
-                    Hai scelto
-                    <span v-if="selectedPromotionId == 3">Bronze</span>
-                    <span v-else-if="selectedPromotionId == 2">Silver</span>
-                    <span v-else="selectedPromotionId == 1">Gold</span>
-                </h3>
-                <div class="payment">
-                    <div class="py-2">
-                        <label for="name">Nome:</label>
-                        <input id="name" class="form-control" type="text" disabled :value="api.user.firstname">
-                    </div>
-                    <div class="py-2">
-                        <label for="surname">Cognome:</label>
-                        <input id="surname" class="form-control" type="text" disabled :value="api.user.lastname">
-                    </div>
-                    <div class="py-2">
-                        <label for="email">E-mail:</label>
-                        <input id="email" class="form-control" type="email" disabled :value="api.user.email">
-                    </div>
-                    <div class="py-2">
-                        <label for="card">Numero carta:</label>
-                        <input id="card" class="form-control" type="number" minlength="16" maxlength="16" placeholder="Inserisci il numero della tua carta..." required>
-                    </div>
-                    <div class="py-2">
-                        <label for="expiring_date">Data di scadenza:</label>
-                        <input id="expiring_date" :min="today" :value="today" required class="form-control" type="date">
-                    </div>
-                    <div class="py-2">
-                        <label for="name">CVV:</label>
-                        <input class="form-control" type="number" minlength="3" maxlength="3" required>
-                    </div>
-                    <button @click=choosePromotion(selectedPromotionId)>Procedi al pagamento</button>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </template>
 
