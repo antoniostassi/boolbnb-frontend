@@ -20,7 +20,6 @@ export const api = reactive({
         nextPage:'',
     },
     loginError: false,
-     
     seenApartments: [],
 
     redirectIfNotAuth() {
