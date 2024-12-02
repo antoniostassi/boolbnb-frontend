@@ -35,7 +35,6 @@ export default {
   },
   mounted() {
     this.getApartment(); // Chiamo la funzione prima al "mount" della pagina
-
   },
   methods: {
     checkUserEmail(){
@@ -66,6 +65,7 @@ export default {
           }
 
           this.store.currentApartment = this.id; // CurrentApartment all'interno dello store viene riempito con l'ID dell'appartamento selezionato
+          this.api.storeVisualization(this.apartment.id, this.api.getUserIp());
         })
         .catch((error) => {
           console.error(error); // Nel caso dovesse andare in errore, in console uscirà questo errore

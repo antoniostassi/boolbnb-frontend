@@ -21,6 +21,8 @@ export const api = reactive({
     },
     loginError: false,
      
+    seenApartments: [],
+
     redirectIfNotAuth() {
         if (!this.isLoggedIn) {
             router.push('/');
@@ -130,6 +132,23 @@ export const api = reactive({
         });
     this.refreshButtons();
     },
+
+    async getUserIp() {
+        await axios.get('http://ip-api.com/json/', { withCredentials: false })
+        .then((response) => {
+            this.userIp = response.data.query;
+        })
+    },
+
+    async storeVisualization(apartmentId) {
+
+        if (this.seenApartments.includes(apartmentId)) { // Serve ad evitare la chiamata API, se è già stato visto ( Ulteriore controllo, oltre a quello del backend )
+            const data = {'ip_address' : this.userIp, 'apartment_id' : apartmentId};
+            axios.post('http://localhost:8000/api/visualizations', data);
+            this.seenApartments.push(apartmentId);
+        }
+
+    }
 
 });
 
