@@ -57,7 +57,7 @@
         </div>
         <div class="col-12 col-md-2 text-center mb-2">
             <div class="px-3">
-                <button @click="tomtom.resetResearch()" class="w-100 btn bg-danger text-white fw-bold ">Reset filtri</button>
+                <button @click="tomtom.resetResearch(); rooms = 1; beds = 1" class="w-100 btn bg-danger text-white fw-bold ">Reset filtri</button>
             </div>
         </div>
             
