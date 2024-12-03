@@ -358,7 +358,7 @@ export default {
             }
             &:not(.collapsed) {
                 color: #E8F4FA;
-                background-color: #e352fa;
+                background-color: #360000;
                 box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
             }
         }
@@ -369,7 +369,7 @@ export default {
         border-radius: 5px;
 
         .btn-custom {
-            background-color: #e352fa;
+            background-color: #360000;
             color: white;
             font-weight: 700;
         }

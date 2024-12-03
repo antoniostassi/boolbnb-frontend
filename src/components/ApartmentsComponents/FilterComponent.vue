@@ -98,8 +98,8 @@
   justify-content: center;
   padding: 5px 10px;
   border-radius: 20px;
-  background-color: #f3d6fb;
-  color: #6a008a;
+  background-color: #641405;
+  color: white;
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
@@ -108,14 +108,14 @@
 }
 
 .filter-badge.active {
-  background-color: #e352fa;
+  background-color: #360000;
   color: #fff;
-  box-shadow: 0 4px 8px rgba(227, 82, 250, 0.5);
+  box-shadow: 0 4px 8px rgba(82, 0, 0, 0.5);
   transform: scale(1.05);
 }
 
 .filter-badge:hover {
-  background-color: #e352fa;
+  background-color: #360000;
   color: #fff;
 }
 
@@ -126,7 +126,7 @@
 
 /* Stile delle frecce */
 .arrow {
-  background-color: #e352fa;
+  background-color: #360000;
   border: none;
   color: #fff;
   font-size: 18px;

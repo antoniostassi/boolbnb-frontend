@@ -69,7 +69,7 @@
 
 <style scoped lang="scss">
     .custom-bg-color{
-        background-color:#E352FA;
+        background-color:#360000;
     }
     i{
         transition: transform .2s linear;
