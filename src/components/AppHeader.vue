@@ -21,6 +21,7 @@ export default {
             userLastname: '', // Cognome per la registrazione
             userDateOfBirth: '', // Data di nascita per la registrazione
             errorText: '', // Errore visualizzato in caso di fallimento login/registrazione
+
         };
     },
     mounted() {
@@ -254,7 +255,7 @@ export default {
                                 </span>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false; resetForm()">Chiudi</button>
+                                <button type="button" class="btn btn-danger me-2" @click="store.showLoginForm = false; resetForm()">Chiudi</button>
                                 <button type="submit" class="btn btn-primary" :disabled="store.formSubmitted">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
                         </form>
@@ -324,19 +325,8 @@ export default {
                     color: white;
                 }
             }
-
-            .btn-primary {
-                background: #360000;
-                border: 2px solid #360000;
-                color: white;
-                transition: all 0.3s;
-
-                &:hover {
-                    background: #e057a3;
-                    border-color: #e057a3;
-                }
-            }
         }
+        
 
         
         #dropdownMenuButton{
@@ -358,8 +348,6 @@ export default {
             }
         }
         .profile-menu {
-            
-
             .dropdown-menu {
                 border-radius: 0.5rem;
                 .dropdown-item {
@@ -399,4 +387,14 @@ export default {
             padding: 20px;
         }
     }
+    .btn-primary {
+                background: #360000;
+                border: 2px solid #360000;
+                color: white;
+                transition: all 0.3s;
+                &:hover {
+                    background: #6b2222;
+                    border-color: #8a3535;
+                }
+            }
 </style>
