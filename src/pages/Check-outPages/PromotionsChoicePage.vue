@@ -7,7 +7,6 @@ export default {
         return {
             api,
             store,
-            selectedPromotionId: null, // ID della promozione selezionata
         };
     },
     mounted() {
@@ -16,37 +15,13 @@ export default {
     },
     methods: {
         choosePromotion(promotionId) { // Al click sul pulsante di scelta promozione si esegue questa funzione
-            this.selectedPromotionId = promotionId; // La variabile selectedPromotionId viene riempita con l'ID della promozione scelta
-            
+            this.api.selectedPromotionId = promotionId; // La variabile selectedPromotionId viene riempita con l'ID della promozione scelta
             if (promotionId === null) { // Se la promozione è Standard, si esegue la funzione che crea l'apartment senza promozione
-                this.createApartment(); // Funzione di creazione apartment
-            } else {
-                this.store.storedApartment.append('promotions', this.selectedPromotionId)
-                console.log('Promotion scelta con ID:', promotionId); // Console.log di altre promozioni (Da gestire in seguito con redirect e checkout)
+                this.api.createApartment(); // Funzione di creazione apartment
+            } 
+            else {
+                this.store.storedApartment.append('promotions', this.api.selectedPromotionId)
             }
-
-        },
-        createApartment() { // Funzione di creazione apartment
-            
-            axios
-                .post('http://localhost:8000/api/apartments', this.store.storedApartment, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }) // Chiamata API che passa i dati in post dell'oggetto apartment
-                .then((response) => {
-                    console.log(response.data);
-                    this.store.createdApartmentCheck = true;
-                    setTimeout(() => {
-                    this.store.createdApartmentCheck = false;
-                    }, 5000);
-                    this.$router.push('/user/dashboard'); // Reindirizzamento a user/dashboard
-                    
-                    this.api.getUserApartments();
-                })
-                .catch((error) => {
-                    console.error('Errore durante la creazione', error); // In caso di errore
-                });
         },
     },
 };
@@ -75,9 +50,9 @@ export default {
                     <p class="promotion-price fw-bold">
                         Prezzo: €{{ promotion.price }}
                     </p>
-                    <button class="btn promotion-button mt-3" @click="choosePromotion(promotion.id)">
+                    <router-link :to="{name: 'PromotionsCheckout'}" class="btn promotion-button mt-3" @click="choosePromotion(promotion.id) ">
                         Acquista {{ promotion.title }}
-                    </button>
+                    </router-link>
                 </div>
             </div>
             <!-- Aggiungi l'opzione per la promozione standard -->
@@ -93,6 +68,8 @@ export default {
                 </div>
             </div>
         </div>
+        <!-- checkout -->
+        <div v-show="store.APIError" class="fw-bold text-danger">Si è verificato un errore, verrai reindirizzato alla dashboard</div>
     </div>
 </template>
 
