@@ -348,12 +348,16 @@ export default {
             border:1px solid black;
             position:relative;
             cursor:pointer;
+            transition: transform .1s linear;
             .avatar {
                 position: absolute;
                 top:50%;
                 left:50%;
                 transform:translate(-50%, -50%)
-            } 
+            }
+            &:hover{
+                transform: scale(110%);
+            }
         }
         .profile-menu {
             
