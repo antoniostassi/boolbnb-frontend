@@ -95,10 +95,11 @@ export const api = reactive({
                 console.log(response.data);
                 store.createdApartmentCheck = true;
                 setTimeout(() => {
-                store.createdApartmentCheck = false;
+                    store.createdApartmentCheck = false;
                 }, 5000);
                 router.push('/user/dashboard'); // Reindirizzamento a user/dashboard
                 this.getUserApartments();
+                this.getAllApartments();
             })
             .catch((error) => {
                 console.error('Errore durante la creazione', error); // In caso di errore
