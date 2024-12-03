@@ -28,7 +28,7 @@
 
 <template>
 
-    <div class="row d-flex align-items-center justify-content-center">
+    <div class="row mb-2 d-flex align-items-center justify-content-center py-2">
         <div class="col-12 col-md-6">
             <label for="customRange2" class="form-label fw-bold px-3">Inserisci il range di km</label>
             <div class="form-text px-3 text-danger" :class ="tomtom.position.lat ? 'd-none': ''">
@@ -70,9 +70,11 @@
 <style scoped lang="scss">
     .custom-bg-color{
         background-color:#360000;
-        &:active{
-            background-color:#641405;
-        }
     }
-
+    i{
+        transition: transform .2s linear;
+    }
+    .active{
+        transform: rotate(180deg);
+    }
 </style>

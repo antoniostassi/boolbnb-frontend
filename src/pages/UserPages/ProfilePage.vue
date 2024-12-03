@@ -155,10 +155,7 @@ export default {
     </div>
 </template>
 
-<style scoped lang="scss">
-.container{
-    min-height:77vh;
-}
+<style scoped>
 .border-end {
     border-right: 1px solid #e0e0e0 !important; /* Separazione visiva */
 }
