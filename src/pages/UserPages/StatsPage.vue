@@ -193,8 +193,9 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/scss/partials/variables.scss';
 @import '@/assets/scss/partials/mixins.scss';
-
+// comment
 .stats-page {
+  min-height:77vh;
   .container {
     max-width: 1200px;
     margin: auto;
