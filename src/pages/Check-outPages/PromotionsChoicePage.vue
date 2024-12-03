@@ -10,14 +10,13 @@ export default {
         };
     },
     mounted() {
-        // this.api.redirectIfNotCreated();
+        this.api.redirectIfNotCreated();
         this.api.getPromotions(); // Ottieni tutte le promozioni dal backend
     },
     methods: {
         choosePromotion(promotionId) { // Al click sul pulsante di scelta promozione si esegue questa funzione
             this.api.selectedPromotionId = promotionId; // La variabile selectedPromotionId viene riempita con l'ID della promozione scelta
             if (promotionId === null) { // Se la promozione è Standard, si esegue la funzione che crea l'apartment senza promozione
-                this.store.storedApartment.append('promotions', 'null')
                 this.api.createApartment(); // Funzione di creazione apartment
             } 
             else {
@@ -70,7 +69,7 @@ export default {
             </div>
         </div>
         <!-- checkout -->
-        
+        <div v-show="store.APIError" class="fw-bold text-danger">Si è verificato un errore, verrai reindirizzato alla dashboard</div>
     </div>
 </template>
 
