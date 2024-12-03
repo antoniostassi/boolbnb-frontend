@@ -186,7 +186,6 @@ export const store = reactive({
         { name: "Strutture", href: "/apartments" },
         { name: "Piani promozionali", href: "/promotions" },
         { name: "Chi siamo", href: "/about" },
-        { name: "Contatti", href: "/contacts" },
     ],
     currentApartment: 0, // 0 by default because it is a number
     showLoginForm: false, // Stato per mostrare/nascondere il form di login

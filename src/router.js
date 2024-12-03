@@ -5,7 +5,6 @@ import HomePage from './pages/NavbarPages/HomePage.vue';
 import ApartmentsPage from './pages/NavbarPages/ApartmentsPage.vue';
 import PromotionsPage from './pages/NavbarPages/PromotionsPage.vue';
 import AboutPage from './pages/NavbarPages/AboutPage.vue';
-import ContactsPage from './pages/NavbarPages/ContactsPage.vue';
 
 // SingleApartmentPage
 import ApartmentDetailsPage from './pages/SingleApartmentPage/ApartmentDetailsPage.vue';
@@ -35,9 +34,7 @@ const router = createRouter({
         { path: '/apartments', name: 'apartments', component: ApartmentsPage },
         { path: '/promotions', name: 'promotions', component: PromotionsPage },
         { path: '/about', name: 'about', component: AboutPage },
-        { path: '/contacts', name: 'contacts', component: ContactsPage
-        },
-
+        
         // SingleApartmentPage
         { path: '/apartments/:id', name: 'apartments-details', component: ApartmentDetailsPage, props: true },
 
