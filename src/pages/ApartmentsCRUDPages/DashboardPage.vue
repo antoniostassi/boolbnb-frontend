@@ -144,7 +144,7 @@ export default {
 
   .table-container {
     overflow:auto;
-    max-height:500px;
+    max-height:60vh;
 
     .table {
       width: 100%;
