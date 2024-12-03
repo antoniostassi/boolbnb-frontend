@@ -12,6 +12,7 @@ import ApartmentDetailsPage from './pages/SingleApartmentPage/ApartmentDetailsPa
 
 // UserPages
 import ProfilePage from './pages/UserPages/ProfilePage.vue';
+import StatsPage from './pages/UserPages/StatsPage.vue';
 
 // ApartmentsCRUDPages
 import DashboardPage from './pages/ApartmentsCRUDPages/DashboardPage.vue'; // Show
@@ -41,6 +42,7 @@ const router = createRouter({
 
         // UserPages
         {  path: '/user/profile', name: 'profile-page', component: ProfilePage },
+        {  path: '/user/stats/:id', name: 'stats-page', component: StatsPage, props: true },
 
         // ApartmentsCRUDPages
         { path: '/user/dashboard', name: 'your-apartments', component: DashboardPage },

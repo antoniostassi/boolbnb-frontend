@@ -83,8 +83,8 @@ export default {
                 <i class="fa-solid fa-pencil"></i>
               </button>
               
-              <router-link :to="{ name:'profile-page' }" class="view-button bg-secondary" @click="store.messageFilter = apartment.title; store.apartmentIndex = index">
-                <i class="fa-solid fa-envelope"></i>
+              <router-link :to="{ name:'stats-page', params: { id: apartment.id } }" class="view-button bg-secondary">
+                <i class="fa-solid fa-chart-simple"></i>
               </router-link>
             </td>
           </tr>
