@@ -117,7 +117,7 @@ export default {
     <div class="container">
       <div class="row g-4">
         <!-- Colonna Sinistra: Dati dell'Appartamento -->
-        <div class="col-12 col-lg-6 mb-4">
+        <div class="col-12 col-lg-6">
           <div class="left-column p-4 h-100">
             <h2 class="mb-4">{{ selectedApartment.title }}</h2>
             <p class="mb-2"><strong>Indirizzo:</strong> {{ selectedApartment.address }}</p>

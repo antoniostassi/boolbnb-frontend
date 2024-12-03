@@ -35,7 +35,7 @@ export default {
     <header class="text-center bg-primary text-white py-3 animate__fadeInDown">
       <h1 class="display-5">Meet the Creators</h1>
     </header>
-    <main class="flex-grow-1 bg-light py-4">
+    <main class="flex-grow-1 bg-light py-4 body-about d-flex justify-content-center align-items-center">
       <div class="container">
         <div class="row justify-content-center">
           <div
@@ -43,7 +43,7 @@ export default {
             :key="index"
             class="col-lg-3 col-md-5 col-sm-10 mb-4"
           >
-            <div class="card border-0 shadow h-100 animate__fadeInUp">
+            <div class="card border-0 shadow h-100 animate__fadeInUp p-3">
               <div class="card-body text-center">
                 <h2 class="h5 mb-2">{{ creator.name }}</h2>
                 <p class="text-primary font-weight-bold mb-2">{{ creator.role }}</p>
@@ -91,8 +91,12 @@ header {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+.body-about {
+  min-height: 550px;
+}
+
 .card-body {
-  padding: 20px;
+  padding: 30px;
 }
 
 .card h2 {
