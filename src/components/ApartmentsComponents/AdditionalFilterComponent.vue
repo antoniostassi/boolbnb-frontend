@@ -28,7 +28,7 @@
 
 <template>
 
-    <div class="row mb-2 d-flex align-items-center justify-content-center py-2">
+    <div class="row d-flex align-items-center justify-content-center">
         <div class="col-12 col-md-6">
             <label for="customRange2" class="form-label fw-bold px-3">Inserisci il range di km</label>
             <div class="form-text px-3 text-danger" :class ="tomtom.position.lat ? 'd-none': ''">
