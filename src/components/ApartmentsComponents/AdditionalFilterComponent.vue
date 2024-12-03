@@ -70,11 +70,9 @@
 <style scoped lang="scss">
     .custom-bg-color{
         background-color:#360000;
+        &:active{
+            background-color:#641405;
+        }
     }
-    i{
-        transition: transform .2s linear;
-    }
-    .active{
-        transform: rotate(180deg);
-    }
+
 </style>

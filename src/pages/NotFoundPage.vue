@@ -13,13 +13,19 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="container">
+    <div>
     404 | NOT FOUND
+    </div>
+    <p>
+      Il link inserito non è corretto.
+    </p>
   </div>
-  <p>
-    Il link inserito non è corretto.
-  </p>
+  
 </template>
 
-<style>
+<style lang="scss" scoped>
+  .container{
+    min-height:77vh;
+  }
 </style>

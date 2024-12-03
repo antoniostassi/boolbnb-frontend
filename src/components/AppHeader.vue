@@ -121,8 +121,8 @@ export default {
 
 <template>
     <div>
-        <header id="main-container" class="bg-gradient sticky-top" :class="{ 'hide-header': hideHeader }">
-            <nav class="container d-flex align-items-center justify-content-between py-3">
+        <header id="main-container" class="bg-gradient  sticky-top" :class="{ 'hide-header': hideHeader }">
+            <nav class="container d-flex align-items-center justify-content-between">
                 <!-- Logo -->
                 <div class="logo-container">
                     <router-link to="/" class="d-flex align-items-center">
@@ -275,11 +275,13 @@ export default {
         top: 0;
         z-index: 1000;
         transition: transform 0.3s ease-in-out;
-
+        min-height:8vh;
+        nav{
+            min-height:8vh;
+        }
         &.hide-header {
             transform: translateY(-100%);
         }
-
         .logo-container {
             .logo {
                 max-height: 40px;
@@ -287,22 +289,18 @@ export default {
                 transition: transform 0.3s ease;
 
                 &:hover {
-                    transform: scale(1.8);
+                    transform: scale(1.6);
                 }
             }
         }
-
         .navbar {
             .nav {
                 display: flex;
-                gap: 1rem;
-
                 .nav-item {
                     .nav-link {
                         color: black;
                         font-size: 20px;
                         font-weight: 500;
-                        padding: 0.5rem 0.5rem;
                         transition: color 0.3s, background-color 0.3s;
 
                         &:hover {
@@ -364,7 +362,6 @@ export default {
 
             .dropdown-menu {
                 border-radius: 0.5rem;
-
                 .dropdown-item {
                     font-size: 0.9rem;
                     color: #333;
