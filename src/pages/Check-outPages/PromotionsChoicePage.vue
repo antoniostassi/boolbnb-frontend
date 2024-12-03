@@ -10,7 +10,7 @@ export default {
         };
     },
     mounted() {
-        this.api.redirectIfNotCreated();
+        // this.api.redirectIfNotCreated();
         this.api.getPromotions(); // Ottieni tutte le promozioni dal backend
     },
     methods: {
@@ -28,8 +28,8 @@ export default {
 </script>
 
 <template>
-    <div class="container promotions-choice-page my-5">
-        <h1 class="text-center mb-4">Scegli una promozione per il tuo appartamento</h1>
+    <div class="container promotions-choice-page">
+        <h1 class="text-center py-4">Scegli una promozione per il tuo appartamento</h1>
         <p class="text-center text-muted mb-4">
             Ottimizza la visibilità con una delle nostre opzioni!
         </p>
@@ -78,6 +78,8 @@ export default {
 @import '@/assets/scss/partials/mixins.scss';
 
 .promotions-choice-page {
+    min-height:77vh;
+
     font-family: 'Arial', sans-serif;
     h1 {
         font-size: $font-size-xl;

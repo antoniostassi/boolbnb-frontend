@@ -54,8 +54,10 @@ export default {
                 withCredentials: false
                 })
                 .then(response => {
-                    this.api.createApartment();
-                    
+                    this.api.createApartment(); 
+                    setTimeout(() => {
+                        this.store.formSubmitted = false;
+                    }, 1000);
                 })
                 .catch(error => {
                     console.log(error);
@@ -63,6 +65,9 @@ export default {
             }
             else{
                 this.CardError = true;
+                setTimeout(() => {
+                    this.store.formSubmitted = false;
+                }, 1000);
             }
         }
     }
@@ -124,6 +129,9 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/scss/partials/variables.scss';
 @import '@/assets/scss/partials/mixins.scss';
+.container{
+    min-height:77vh;
+}
 button{
     background-color: $color-guestly;
     &:hover{

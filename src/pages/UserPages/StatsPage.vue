@@ -195,6 +195,7 @@ export default {
 @import '@/assets/scss/partials/mixins.scss';
 
 .stats-page {
+  min-height:77vh;
   .container {
     max-width: 1200px;
     margin: auto;
