@@ -158,9 +158,9 @@ export default {
 
                     <!-- Se l'utente è loggato -->
                     <div v-else class="dropdown profile-menu d-none d-lg-inline-block">
-                        <a href="#" class="d-flex align-items-center" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg" alt="User Avatar" class="rounded-circle avatar" />
-                        </a>
+                        <div href="#" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="avatar fw-bold fs-5">{{ api.user.firstname[0]}}</div>
+                        </div>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                             <router-link
                                 :to="{ name: 'profile-page' }"
@@ -341,17 +341,22 @@ export default {
         }
 
         
-
-        .profile-menu {
+        #dropdownMenuButton{
+            height: 35px;
+            width: 35px;
+            border-radius:50%;
+            border:1px solid black;
+            position:relative;
+            cursor:pointer;
             .avatar {
-                height: 35px;
-                width: 35px;
-                transition: transform 0.3s;
-
-                &:hover {
-                    transform: scale(1.1);
-                }
-            }
+                position: absolute;
+                top:50%;
+                left:50%;
+                transform:translate(-50%, -50%)
+            } 
+        }
+        .profile-menu {
+            
 
             .dropdown-menu {
                 border-radius: 0.5rem;
