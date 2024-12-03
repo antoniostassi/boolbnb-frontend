@@ -31,6 +31,7 @@ export default {
     AdditionalFilterComponent
   },
   methods: {
+
     testingBound(lat, lng) {
       const center = new tt.LngLat(this.tomtom.position.lng, this.tomtom.position.lat); // Posizione della ricerca
       const radiusMeters = tomtom.rangeFilter * 1000; // la variabile viene presa dall'input range e moltiplicata * 1000
@@ -72,79 +73,45 @@ export default {
 </script>
 
 <template>
-  <section>
-    <a href="#main-container" class="go-up">
-          <span class="inner-go-up"><i class="fa-solid fa-arrow-up fw-bold"></i></span>
-    </a>
-    <div class="container my-3">
-        <div class="filters pt-2">
-          <SearchComponent/>
-          <FilterComponent :filters="api.services" :ref="'filters'"/> 
-          <AdditionalFilterComponent />
-          <hr style="display:block; width:96%; margin: 0 auto;">
-        </div>
-      
-      <!-- Lista degli appartamenti 
-        :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
-      -->
-      <div class="row d-flex flex-wrap m-0">
-        <div
-          v-for="(apartment, index) in api.apartments"
-          :key="apartment.id"
-          class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
-          :class="
-            tomtom.filterStarted == true && store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
-            tomtom.filterStarted == true && tomtom.position.lat && tomtom.position.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '',
-            additionalFiltersCheck(apartment.beds, apartment.rooms)? '' : 'd-none'"
-        >
-        <!-- {{ console.log(apartment) }} -->
-          <div class="apartment-card-wrapper w-100">
-            <SingleApartment :apartment="apartment" :index="index" />
-          </div>
+  <div class="container my-3">
+
+      <SearchComponent/>
+      <FilterComponent :filters="api.services" :ref="'filters'"/> 
+      <AdditionalFilterComponent />
+    <hr class="pb-3" style="display:block; width:96%; margin: 0 auto;">
+    
+    <!-- Lista degli appartamenti 
+      :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
+     -->
+    <div class="row d-flex flex-wrap m-0">
+      <div
+        v-for="(apartment, index) in api.apartments"
+        :key="apartment.id"
+        class="col-12 col-sm-6 col-lg-3 p-3 d-flex justify-content-center"
+        :class="
+          tomtom.filterStarted == true && store.filterSelected.length != 0 && !checkFilter(store.filterSelected, apartment) ? 'd-none' : '',
+          tomtom.filterStarted == true && tomtom.position.lat && tomtom.position.lng && !testingBound(apartment.latitude, apartment.longitude) ? 'd-none': '',
+          additionalFiltersCheck(apartment.beds, apartment.rooms)? '' : 'd-none'"
+      >
+
+      <!-- {{ console.log(apartment) }} -->
+        <div class="apartment-card-wrapper w-100">
+          <SingleApartment :apartment="apartment" :index="index" />
         </div>
       </div>
     </div>
-  </section>
+    
+  </div>
 </template>
 
 <style lang="scss" scoped>
-section{
-  position:relative;
-}
 .container {
   max-width: 1400px;
   margin: 0 auto;
+}
 
-}
-.go-up{
-  display:inline-block;
-  font-size:1.2rem;
-  color:white;
-  text-decoration:none;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  position:fixed;
-  bottom:10px;
-  right:50px;
-  z-index:3;
-  background-color: #360000;
-  cursor:pointer;
-  transition: transform .1s linear;
-  &:hover{
-    transform:scale(105%)
-  }
-  .inner-go-up{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
-  }
-}
-.filters{
-  position:sticky;
-  top:0;
-  z-index:2;
-  background-color:white;
+.row {
+  margin: 30px 0;
+
 }
 </style>

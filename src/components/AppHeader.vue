@@ -21,7 +21,6 @@ export default {
             userLastname: '', // Cognome per la registrazione
             userDateOfBirth: '', // Data di nascita per la registrazione
             errorText: '', // Errore visualizzato in caso di fallimento login/registrazione
-
         };
     },
     mounted() {
@@ -122,8 +121,8 @@ export default {
 
 <template>
     <div>
-        <header id="main-container" class="bg-gradient  sticky-top" :class="{ 'hide-header': hideHeader }">
-            <nav class="container d-flex align-items-center justify-content-between">
+        <header id="main-container" class="bg-gradient sticky-top" :class="{ 'hide-header': hideHeader }">
+            <nav class="container d-flex align-items-center justify-content-between py-3">
                 <!-- Logo -->
                 <div class="logo-container">
                     <router-link to="/" class="d-flex align-items-center">
@@ -255,7 +254,7 @@ export default {
                                 </span>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <button type="button" class="btn btn-danger me-2" @click="store.showLoginForm = false; resetForm()">Chiudi</button>
+                                <button type="button" class="btn btn-secondary me-2" @click="store.showLoginForm = false; resetForm()">Chiudi</button>
                                 <button type="submit" class="btn btn-primary" :disabled="store.formSubmitted">{{ store.isRegistration ? 'Registrati' : 'Accedi' }}</button>
                             </div>
                         </form>
@@ -276,13 +275,11 @@ export default {
         top: 0;
         z-index: 1000;
         transition: transform 0.3s ease-in-out;
-        min-height:8vh;
-        nav{
-            min-height:8vh;
-        }
+
         &.hide-header {
             transform: translateY(-100%);
         }
+
         .logo-container {
             .logo {
                 max-height: 40px;
@@ -290,18 +287,22 @@ export default {
                 transition: transform 0.3s ease;
 
                 &:hover {
-                    transform: scale(1.6);
+                    transform: scale(1.8);
                 }
             }
         }
+
         .navbar {
             .nav {
                 display: flex;
+                gap: 1rem;
+
                 .nav-item {
                     .nav-link {
                         color: black;
                         font-size: 20px;
                         font-weight: 500;
+                        padding: 0.5rem 0.5rem;
                         transition: color 0.3s, background-color 0.3s;
 
                         &:hover {
@@ -325,8 +326,19 @@ export default {
                     color: white;
                 }
             }
+
+            .btn-primary {
+                background: #360000;
+                border: 2px solid #360000;
+                color: white;
+                transition: all 0.3s;
+
+                &:hover {
+                    background: #e057a3;
+                    border-color: #e057a3;
+                }
+            }
         }
-        
 
         
         #dropdownMenuButton{
@@ -348,8 +360,11 @@ export default {
             }
         }
         .profile-menu {
+            
+
             .dropdown-menu {
                 border-radius: 0.5rem;
+
                 .dropdown-item {
                     font-size: 0.9rem;
                     color: #333;
@@ -387,14 +402,4 @@ export default {
             padding: 20px;
         }
     }
-    .btn-primary {
-                background: #360000;
-                border: 2px solid #360000;
-                color: white;
-                transition: all 0.3s;
-                &:hover {
-                    background: #6b2222;
-                    border-color: #8a3535;
-                }
-            }
 </style>

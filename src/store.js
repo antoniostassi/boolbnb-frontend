@@ -117,7 +117,6 @@ export const api = reactive({
             this.isLoggedIn = false;
             param.push('/')
             this.getCSRF();
-            this.user = [];
         } catch (error) {
             console.error('Errore durante il logout:', error.response?.data?.message || error.message);
         }

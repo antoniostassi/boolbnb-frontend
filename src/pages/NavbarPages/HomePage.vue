@@ -89,10 +89,10 @@ export default {
 
 <style lang="scss">
 .hero {
-  min-height:77vh;
   background-image: url(../../public/img/homepage-main-photo.jpg);
   background-size: cover;
   background-position: center;
+  min-height: 75vh;
   padding: 4rem 0;
   display: flex;
   flex-direction: column;
