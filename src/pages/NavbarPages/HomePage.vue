@@ -31,7 +31,7 @@ export default {
           // Filtra gli appartamenti con promozioni attive
           const promoted = this.apartments.filter(
             (apartment) =>
-              apartment.promotions && apartment.promotions.length > 0
+              apartment.promotions && apartment.promotions.length > 0 && apartment.promotions[apartment.promotions.length - 1].pivot.end_date >= this.getTodayDate()
           );
 
           // Assegna un'immagine casuale a ogni appartamento
@@ -49,6 +49,13 @@ export default {
           console.error("Errore nel caricamento degli appartamenti:", error);
         });
     },
+
+    getTodayDate() {
+      let today = new Date();
+      let todaySplit = today.toLocaleDateString().split('/');
+      const todayDate = todaySplit[2] + '-' + todaySplit[1] + '-' + todaySplit[0];
+      return todayDate
+    }
 
   },
 };

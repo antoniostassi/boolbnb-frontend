@@ -4,31 +4,18 @@ export default {
     return {
       plans: [
         {
-          name: "Standard",
-          price: "Gratuito",
-          duration: "Illimitato",
-          features: ["Visibilità base negli annunci", "Nessun costo aggiuntivo"],
-          color: "#E0E0E0",
-        },
-        {
           name: "Bronze",
-          price: "€ 2.99",
           duration: "1 giorno",
-          features: ["Visibilità avanzata negli annunci", "Priorità nella ricerca"],
           color: "#CD7F32",
         },
         {
           name: "Silver",
-          price: "€ 5.99",
           duration: "3 giorni",
-          features: ["Visibilità premium negli annunci", "Maggiore priorità nella ricerca"],
           color: "#C0C0C0",
         },
         {
           name: "Gold",
-          price: "€ 9.99",
           duration: "6 giorni",
-          features: ["Massima visibilità", "Annunci in cima alla ricerca", "Badge esclusivo"],
           color: "#FFD700",
         },
       ],
@@ -39,8 +26,8 @@ export default {
 
 <template>
   <div class="promotions-page">
-    <h1 class="title">Scegli il tuo piano promozionale</h1>
-    <p class="subtitle">Ottimizza la visibilità del tuo annuncio con uno dei nostri piani!</p>
+    <h1 class="title">I nostri piani promozionali</h1>
+    <p class="subtitle">Ottimizza la visibilità del tuo annuncio con uno dei nostri piani dimostrativi!</p>
     <div class="plans-container">
       <div
         v-for="(plan, index) in plans"
@@ -49,18 +36,11 @@ export default {
         :style="{ borderColor: plan.color }"
       >
         <h2 :style="{ color: plan.color }">{{ plan.name }}</h2>
-        <p class="price">{{ plan.price }}</p>
         <p class="duration">Durata: {{ plan.duration }}</p>
         <ul class="features">
-          <li v-for="(feature, i) in plan.features" :key="i">
-            {{ feature }}
-          </li>
+          <li>Visibilità avanzata negli annunci</li>
+          <li>Priorità nella ricerca</li>
         </ul>
-        <div class="button-wrapper">
-          <button class="choose-button" :disabled="plan.name == standard" :style="{ backgroundColor: plan.color }">
-            Scegli {{ plan.name }}
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -116,15 +96,8 @@ export default {
       margin-bottom: 10px;
     }
 
-    .price {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 10px 0;
-      color: #333;
-    }
-
     .duration {
-      font-size: 1rem;
+      font-size: 1.2rem;
       color: #666;
       margin-bottom: 15px;
     }
@@ -140,30 +113,6 @@ export default {
         margin: 5px 0;
       }
     }
-
-    .button-wrapper {
-      margin-top: 15px; 
-      height: 50px; 
-      display: flex;
-      align-items: center;
-    }
-
-    .choose-button {
-      padding: 10px 15px;
-      font-size: 1rem;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
-      width: 100%;
-
-      &:hover {
-        transform: scale(1.05);
-        background-color: lighten(#FFD700, 10%);
-      }
-    }
   }
 }
-
 </style>

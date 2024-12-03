@@ -20,6 +20,7 @@ export const api = reactive({
         nextPage:'',
     },
     loginError: false,
+
     selectedPromotionId: null, // ID della promozione selezionata
     seenApartments: [],
 
