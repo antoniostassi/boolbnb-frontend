@@ -105,6 +105,7 @@ export default {
   max-width:fit-content;
 }
 .dashboard-page {
+  min-height:77vh;
   font-family: 'Arial', sans-serif;
   padding: 20px;
   max-width: 1200px;
@@ -143,7 +144,7 @@ export default {
 
   .table-container {
     overflow:auto;
-    max-height:500px;
+    max-height:60vh;
 
     .table {
       width: 100%;

@@ -48,12 +48,10 @@ export default {
 
 <style lang="scss" scoped>
 .promotions-page {
+  min-height:77vh;
   font-family: 'Arial', sans-serif;
   text-align: center;
-  padding: 20px;
   background-color: #f9f9f9;
-  min-height: 650px;
-
   .title {
     font-size: 2.5rem;
     color: #333;
