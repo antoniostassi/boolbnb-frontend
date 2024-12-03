@@ -25,8 +25,8 @@ export default {
 </script>
 
 <template>
-  <div class="promotions-page">
-    <h1 class="title">I nostri piani promozionali</h1>
+  <div class="promotions-page d-flex justify-content-center align-items-center flex-column">
+    <h1 class="title mb-4">I nostri piani promozionali</h1>
     <p class="subtitle">Ottimizza la visibilità del tuo annuncio con uno dei nostri piani dimostrativi!</p>
     <div class="plans-container">
       <div
@@ -52,6 +52,7 @@ export default {
   text-align: center;
   padding: 20px;
   background-color: #f9f9f9;
+  min-height: 650px;
 
   .title {
     font-size: 2.5rem;

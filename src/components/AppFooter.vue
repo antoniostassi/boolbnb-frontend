@@ -20,14 +20,14 @@ export default {
             <!-- Logo -->
             <div class="logo-container d-none d-sm-block">
                 <router-link to="/" class="d-flex align-items-center">
-                    <img src="/img/BoolBnB Logo.png" alt="BoolBnB Logo" class="logo">
+                    <img src="/img/Guestly Logo.png" alt="Guestly Logo" class="logo">
                 </router-link>
             </div>            
         </nav>
 
         <div class="footer-bottom text-center py-3">
             <hr class="divider" />
-            <p class="mb-0">&copy; 2024 BoolBnB. Tutti i diritti riservati.</p>
+            <p class="mb-0">&copy; 2024 Guestly. Tutti i diritti riservati.</p>
         </div>
     </footer>
 </template>

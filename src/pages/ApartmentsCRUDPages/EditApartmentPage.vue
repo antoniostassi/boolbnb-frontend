@@ -369,7 +369,7 @@ label {
 
     &.selected {
       background-color: #7b29883f;
-      border-color: $color-violet;
+      border-color: $color-guestly;
       box-shadow: 0 6px 12px #58206144;
 
       .checkmark {
@@ -393,7 +393,7 @@ label {
 
       .service-icon {
         font-size: 20px;
-        color: $color-violet;
+        color: $color-guestly;
       }
 
       .service-title {

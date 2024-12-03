@@ -126,7 +126,7 @@ export default {
                 <!-- Logo -->
                 <div class="logo-container">
                     <router-link to="/" class="d-flex align-items-center">
-                        <img src="/img/BoolBnB Logo.png" alt="BoolBnB Logo" class="logo ms-3" />
+                        <img src="/img/Guestly Logo.png" alt="Guestly Logo" class="logo ms-3" />
                     </router-link>
                 </div>
 
@@ -306,7 +306,7 @@ export default {
                         transition: color 0.3s, background-color 0.3s;
 
                         &:hover {
-                            color: #E352FA;
+                            color: #360000;
                             border-radius: 4px;
                         }
                     }
@@ -316,20 +316,20 @@ export default {
 
         .auth-buttons {
             .btn-outline-primary {
-                color: #E352FA;
-                border: 2px solid #E352FA;
+                color: #360000;
+                border: 2px solid #360000;
                 transition: all 0.3s;
                 margin: 0 10px;
 
                 &:hover {
-                    background: #E352FA;
+                    background: #360000;
                     color: white;
                 }
             }
 
             .btn-primary {
-                background: #E352FA;
-                border: 2px solid #E352FA;
+                background: #360000;
+                border: 2px solid #360000;
                 color: white;
                 transition: all 0.3s;
 
@@ -370,7 +370,7 @@ export default {
                     color: #333;
 
                     &:hover {
-                        color: #E352FA;
+                        color: #360000;
                     }
                 }
             }

@@ -63,7 +63,7 @@ export default {
     </main>
     <footer class="footer bg-dark text-white py-2 text-center">
       <p class="mb-0">
-        &copy; {{ new Date().getFullYear() }} BoolBnB. All rights reserved.
+        &copy; {{ new Date().getFullYear() }} Guestly. All rights reserved.
       </p>
     </footer>
   </div>
@@ -76,7 +76,7 @@ export default {
 
 /* Sfondo e header */
 header {
-  background: linear-gradient(135deg, $color-violet, $color-violet);
+  background: linear-gradient(135deg, $color-guestly, $color-guestly);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -92,7 +92,7 @@ header {
 }
 
 .body-about {
-  min-height: 550px;
+  min-height: 515px;
 }
 
 .card-body {

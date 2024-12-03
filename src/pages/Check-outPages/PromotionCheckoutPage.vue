@@ -77,7 +77,7 @@ export default {
                 Hai scelto: 
                 <span v-if="api.selectedPromotionId == 3">Bronze</span>
                 <span v-else-if="api.selectedPromotionId == 2">Silver</span>
-                <span v-else="api.selectedPromotionId == 1">Gold</span>
+                <span v-else-if="api.selectedPromotionId == 1">Gold</span>
             </h3>
             <div class="payment">
                 <form @submit.prevent="Payment()" class="border rounded p-4">
@@ -125,9 +125,9 @@ export default {
 @import '@/assets/scss/partials/variables.scss';
 @import '@/assets/scss/partials/mixins.scss';
 button{
-    background-color: $color-violet;
+    background-color: $color-guestly;
     &:hover{
-        background-color: $color-lightviolet;
+        background-color: $color-lightGuestly;
     }
 }
 .price{

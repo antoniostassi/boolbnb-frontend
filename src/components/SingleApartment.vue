@@ -135,7 +135,7 @@ export default {
     position: absolute;
     top: 10px;
     left: 10px;
-    background: #e352fa;
+    background: #360000;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
