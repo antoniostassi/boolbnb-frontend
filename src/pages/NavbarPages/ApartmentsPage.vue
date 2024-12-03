@@ -22,6 +22,7 @@ export default {
         prevPage:'',
         nextPage:'',
       },
+      hideHeader: false,
     };
   },
   components: {
@@ -29,6 +30,14 @@ export default {
     FilterComponent,
     SearchComponent,
     AdditionalFilterComponent
+  },
+  mounted() {
+      // Aggiungi il listener per lo scroll
+      window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeDestroy() {
+      // Rimuovi il listener quando il componente viene distrutto
+      window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     testingBound(lat, lng) {
@@ -66,6 +75,16 @@ export default {
       }
       return false
     },
+    handleScroll() {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY > this.lastScrollY && currentScrollY > 50) {
+            this.hideHeader = true;
+        } else {
+            this.hideHeader = false;
+        }
+
+        this.lastScrollY = currentScrollY;
+    },
 
   }
 };
@@ -73,16 +92,17 @@ export default {
 
 <template>
   <section>
-    <a href="#main-container" class="go-up">
-          <span class="inner-go-up"><i class="fa-solid fa-arrow-up fw-bold"></i></span>
+    <a href="#main-container" class="go-up" 
+    :class=" { 'hide-arrow' : !hideHeader }">
+        <span class="inner-go-up"><i class="fa-solid fa-arrow-up fw-bold"></i></span>
     </a>
     <div class="container my-3">
-        <div class="filters pt-2">
-          <SearchComponent/>
-          <FilterComponent :filters="api.services" :ref="'filters'"/> 
-          <AdditionalFilterComponent />
-          <hr style="display:block; width:96%; margin: 0 auto;">
-        </div>
+      <SearchComponent :class="{ 'hide-header': hideHeader }"/>
+      <div class="sticky-lg-top filters pt-2">
+        <FilterComponent :filters="api.services" :ref="'filters'"/> 
+        <AdditionalFilterComponent />
+        <hr style="display:block; width:96%; margin: 0 auto;">
+      </div>
       
       <!-- Lista degli appartamenti 
         :class="getSelectedFilters.length > 0 && checkFilter(getSelectedFilters, apartment) ? 'd-block' : 'd-none'"
@@ -108,43 +128,51 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-section{
-  position:relative;
-}
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
+    section{
+      position:relative;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
 
-}
-.go-up{
-  display:inline-block;
-  font-size:1.2rem;
-  color:white;
-  text-decoration:none;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  position:fixed;
-  bottom:10px;
-  right:50px;
-  z-index:3;
-  background-color: #360000;
-  cursor:pointer;
-  transition: transform .1s linear;
-  &:hover{
-    transform:scale(105%)
-  }
-  .inner-go-up{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
-  }
-}
-.filters{
-  position:sticky;
-  top:0;
-  z-index:2;
-  background-color:white;
-}
+    }
+    .go-up{
+      display:inline-block;
+      font-size:1.2rem;
+      color:white;
+      text-decoration:none;
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      position:fixed;
+      bottom:10px;
+      right:50px;
+      z-index:3;
+      background-color: #360000;
+      cursor:pointer;
+      transition: transform .1s linear;
+      &:hover{
+        transform:scale(105%)
+      }
+      .inner-go-up{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .filters{
+      //position:sticky;
+      top:0;
+      z-index:2;
+      background-color:white;
+    }
+    
+    .hide-header {
+      transform: translateY(-200%);
+    }
+
+    .hide-arrow {
+      transform: translateX(300%);
+    }
 </style>
