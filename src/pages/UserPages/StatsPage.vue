@@ -54,9 +54,11 @@ export default {
     // Computed property per ottenere l'ultima promozione
     lastPromotion() {
       const lastPromotion = this.selectedApartment.promotions[this.selectedApartment.promotions.length - 1];
+
+      if (this.selectedApartment.promotions.length == 0) { return null };
       return {
-        start_date: moment(lastPromotion.pivot.start_date).format('DD MMMM YYYY'),
-        end_date: moment(lastPromotion.pivot.end_date).format('DD MMMM YYYY'),
+        start_date: moment(lastPromotion?.pivot?.start_date).format('DD MMMM YYYY'),
+        end_date: moment(lastPromotion?.pivot?.end_date).format('DD MMMM YYYY'),
       }; 
     },
   },
@@ -131,6 +133,7 @@ export default {
               </ul>
             </div>
             <div v-if="lastPromotion" class="mt-4">
+              
               <strong>Data di inizio sponsorizzazione:</strong> {{ lastPromotion.start_date }} <br>
               <strong>Data di fine sponsorizzazione:</strong> {{ lastPromotion.end_date }}
             </div>
