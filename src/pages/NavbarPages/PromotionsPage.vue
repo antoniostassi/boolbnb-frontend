@@ -52,7 +52,7 @@ export default {
   text-align: center;
   padding: 20px;
   background-color: #f9f9f9;
-  min-height: 600px;
+  min-height: 650px;
 
   .title {
     font-size: 2.5rem;

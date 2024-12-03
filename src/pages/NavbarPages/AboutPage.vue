@@ -92,7 +92,7 @@ header {
 }
 
 .body-about {
-  min-height: 550px;
+  min-height: 515px;
 }
 
 .card-body {
