@@ -31,11 +31,12 @@ export default {
 </script>
 
 <template>
-  <div class="d-flex flex-column">
-    <header class="text-center bg-primary text-white py-3 animate__fadeInDown">
-      <h1 class="display-5">Meet the Creators</h1>
-    </header>
-    <main class="flex-grow-1 bg-light py-4 body-about d-flex justify-content-center align-items-center">
+  <div class="d-flex flex-column my-container bg-light">
+    
+    <div class="text-center bg-primary text-white animate__fadeInDown my-div">
+        <h1 class="display-5">Meet the Creators</h1>
+      </div>
+    <main class="flex-grow-1  body-about d-flex justify-content-center align-items-center mt-3">
       <div class="container">
         <div class="row justify-content-center">
           <div
@@ -61,11 +62,6 @@ export default {
         </div>
       </div>
     </main>
-    <footer class="footer bg-dark text-white py-2 text-center">
-      <p class="mb-0">
-        &copy; {{ new Date().getFullYear() }} Guestly. All rights reserved.
-      </p>
-    </footer>
   </div>
 </template>
 
@@ -75,7 +71,11 @@ export default {
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 
 /* Sfondo e header */
-header {
+.my-container{
+  min-height:77vh
+  
+}
+.my-div {
   background: linear-gradient(135deg, $color-guestly, $color-guestly);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -91,9 +91,6 @@ header {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-.body-about {
-  min-height: 515px;
-}
 
 .card-body {
   padding: 30px;
@@ -113,14 +110,7 @@ header {
   font-size: 13px;
 }
 
-/* Stile del footer */
-.footer {
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-  width: 100%;
-  bottom: 0;
-  font-size: 14px;
-}
+
 
 /* Animazioni con SCSS */
 @keyframes fadeInUp {

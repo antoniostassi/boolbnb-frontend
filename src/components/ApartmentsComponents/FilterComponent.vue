@@ -142,7 +142,7 @@
 }
 
 .arrow:hover {
-  background-color: #c129d7;
+  background-color: #641405;
   transform: scale(1.1);
 }
 
