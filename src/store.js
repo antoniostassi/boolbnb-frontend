@@ -82,6 +82,7 @@ export const api = reactive({
         })
     },
     createApartment() { // Funzione di creazione apartment
+        store.APIError = false;
         axios
             .post('http://localhost:8000/api/apartments', 
             store.storedApartment,
@@ -101,6 +102,10 @@ export const api = reactive({
             })
             .catch((error) => {
                 console.error('Errore durante la creazione', error); // In caso di errore
+                store.APIError = true;
+                setTimeout(() => {
+                    router.push('/user/profile')
+                }, 3000);
             });
         },
 
@@ -198,6 +203,8 @@ export const store = reactive({
     storedApartment: null,
     editedApartmentCheck: false,
     createdApartmentCheck: false,
+    APIError: false,
+
 });
 
 import * as services from "@tomtom-international/web-sdk-services";
