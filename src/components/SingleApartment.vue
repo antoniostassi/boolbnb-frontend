@@ -1,5 +1,10 @@
 <script>
 export default {
+  data() {
+    return {
+        lastPromotion: this.apartment.promotions.length - 1,
+    };
+  },
   props: { // Passaggio di props
     apartment: { // Serve per prendere l'id dell'apartment da mostrare dentro la card nel router-link
       type: Object,
@@ -10,8 +15,17 @@ export default {
       required: true,
     },
   },
+  methods: {
+    getTodayDate() {
+      let today = new Date();
+      let todaySplit = today.toLocaleDateString().split('/');
+      const todayDate = todaySplit[2] + '-' + todaySplit[1] + '-' + todaySplit[0];
+      return todayDate
+    }
+  }
 };
 </script>
+
 
 <template>
   <router-link
@@ -22,7 +36,7 @@ export default {
       class="card animate-card m-auto"
       :style="{ animationDelay: `${1 * 0.1}s` }"
     >
-      <div v-if="apartment.promotions && apartment.promotions.length > 0" class="sponsored-badge">
+      <div v-if="apartment.promotions && apartment.promotions.length > 0 && apartment.promotions[lastPromotion].pivot.end_date >= getTodayDate()" class="sponsored-badge">
         ⭐ Sponsorizzato
       </div>
       <img
