@@ -127,7 +127,7 @@ export default {
                 <!-- Logo -->
                 <div class="logo-container">
                     <router-link to="/" class="d-flex align-items-center">
-                        <img src="/img/Guestly Logo.png" alt="Guestly Logo" class="logo ms-3" />
+                        <img src="/img/Guestly_Logo.png" alt="Guestly Logo" class="logo ms-3" />
                     </router-link>
                 </div>
 
