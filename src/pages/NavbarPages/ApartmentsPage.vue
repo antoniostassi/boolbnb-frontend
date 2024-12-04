@@ -97,7 +97,7 @@ export default {
         <span class="inner-go-up"><i class="fa-solid fa-arrow-up fw-bold"></i></span>
     </a>
     <div class="container my-3">
-      <SearchComponent :class="{ 'hide-header': hideHeader }"/>
+      <SearchComponent :class="{ 'hide-header': hideHeader }" class="pb-2"/>
       <div class="sticky-lg-top filters pt-2">
         <FilterComponent :filters="api.services" :ref="'filters'"/> 
         <AdditionalFilterComponent />
