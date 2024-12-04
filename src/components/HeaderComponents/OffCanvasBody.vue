@@ -22,15 +22,15 @@ export default {
 <template>
   <div class="offcanvas offcanvas-end w-100" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
-                <h5 class="text-center ms-3" id="offcanvasRightLabel">
+                <h5 class="text-center ms-1" id="offcanvasRightLabel">
                     Menù |
                 </h5>
-                <h5 v-if="!this.api.isLoggedIn" class="text-center ms-1" id="offcanvasRightLabel">
-                    <button @click="store.showLoginForm = true; store.isRegistration = false ; closeCanvas(); this.api.loginError = false;" class="btn offcanvas-btn-outline-primary">Accedi</button>
-                    <button @click="store.showLoginForm = true; store.isRegistration = true; closeCanvas(); this.api.registrationError = false; " class="btn offcanvas-btn-primary">Registrati</button>
+                <h5 v-if="this.api.isLoggedIn" class="text-center" id="offcanvasRightLabel">
+                    Benvenuto {{ api.user.firstname + ' ' + api.user.lastname }} 
                 </h5>
-                <h5 v-else class="text-center ms-1" id="offcanvasRightLabel">
-                    Benvenuto {{ api.user.firstname + ' ' + api.user.lastname }}
+                <h5 v-else class="text-center" id="offcanvasRightLabel">
+                    <button @click="store.showLoginForm = true; store.isRegistration = false; closeCanvas(); this.api.loginError = false;" class="btn offcanvas-btn-outline-primary">Accedi</button>
+                    <button @click="store.showLoginForm = true; store.isRegistration = true; closeCanvas(); this.api.registrationError = false; " class="btn offcanvas-btn-primary">Registrati</button>
                 </h5>
                 <button type="button" id="close-canvas" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
@@ -39,7 +39,7 @@ export default {
 
                 <div class="logo-container">
                     <router-link to="/" class="d-flex align-items-center" @click="closeCanvas()">
-                        <img src="/img/BoolBnB Logo.png" alt="BoolBnB Logo" class="logo ms-3" />
+                        <img src="/img/Guestly_Logo.png" alt="Guestly Logo" class="logo ms-3" />
                     </router-link>
                 </div>
                 
@@ -79,26 +79,27 @@ export default {
 <style lang="scss">
 .offcanvas-header {
     .offcanvas-btn-outline-primary {
-            color: #E352FA;
-            border: 2px solid #E352FA;
+            color: #360000;
+            border: 2px solid #360000;
             transition: all 0.3s;
             margin: 0 10px;
 
             &:hover {
-                background: #E352FA;
+                background: #360000;
                 color: white;
             }
         }
 
         .offcanvas-btn-primary {
-            background: #E352FA ;
-            border: 2px solid #E352FA;
+            background: #360000 ;
+            border: 2px solid #360000;
             color: white;
             transition: all 0.3s;
 
             &:hover {
-                background: #e057a3;
-                border-color: #e057a3;
+                background: white;
+                color:black;
+                border-color: black;
             }
         }
     }
@@ -132,10 +133,9 @@ export default {
                     font-weight: 500;
                     padding: 0.5rem 0.5rem;
                     transition: color 0.3s, background-color 0.3s;
-
                     &:hover {
-                        color: #E352FA;
-                        border-radius: 4px;
+                        color: #a17171;
+                        
                     }
                 }
             }

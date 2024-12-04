@@ -20,7 +20,7 @@ export default {
             <!-- Logo -->
             <div class="logo-container mt-4">
                 <router-link to="/" class="d-flex align-items-center">
-                    <img src="/img/Guestly Logo.png" alt="Guestly Logo" class="logo">
+                    <img src="/img/Guestly_Logo.png" alt="Guestly Logo" class="logo">
                 </router-link>
             </div>            
         </nav>
