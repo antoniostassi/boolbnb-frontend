@@ -55,7 +55,7 @@ export default {
       </div>
     </div>
     
-    <div class="container mt-5">
+    <div class="container mt-5" style="max-width:950px">
       <h2 class="mb-4" v-if="selectedPromotion != 0">Acquista la promozione: <span :style="{ color: plans[selectedPromotion-1].color}">{{ plans[selectedPromotion-1].name }}</span></h2>
       <table class="table" :class="selectedPromotion != 0 ? 'd-table' : 'd-none'">
         <thead>
