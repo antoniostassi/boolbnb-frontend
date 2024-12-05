@@ -10,16 +10,19 @@ export default {
           name: "Gold",
           duration: "6 giorni",
           color: "#FFD700",
+          price: 9.99
         },
         {
           name: "Silver",
           duration: "3 giorni",
           color: "#C0C0C0",
+          price: 5.99
         },
         {
           name: "Bronze",
           duration: "1 giorno",
           color: "#CD7F32",
+          price: 2.99
         },
       ],
 
@@ -48,6 +51,7 @@ export default {
           <li>Visibilità avanzata negli annunci</li>
           <li>Priorità nella ricerca</li>
         </ul>
+        <h4>{{ plan.price }} €</h4>
       </div>
     </div>
     
@@ -113,6 +117,7 @@ export default {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     text-align: center;
+    cursor: pointer;
 
     &:hover {
       transform: translateY(-10px);
