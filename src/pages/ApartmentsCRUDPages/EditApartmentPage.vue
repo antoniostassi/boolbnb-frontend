@@ -106,8 +106,8 @@ export default {
 
       formData.append('_method', "PUT");
     
-      this.apartment.services.forEach((service) => {
-        formData.append('services[]', service.id);
+      this.activeServices.forEach((service) => {
+        formData.append('services[]', service);
       })
 
       setTimeout(() => {
