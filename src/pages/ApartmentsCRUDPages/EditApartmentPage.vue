@@ -244,9 +244,9 @@ export default {
       <hr>
       <h3>Servizi</h3>
       <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
-      <div class="row mb-3 services-container">
+      <div class="row mb-3 services-container justify-content-center">
         <div
-          class="service-badge justify-space-between d-flex"
+          class="service-badge  d-flex"
           v-for="(service, index) in visibleServices"
           :key="index"
           :class="{ selected: activeServices.includes(service.id) }"
@@ -255,13 +255,13 @@ export default {
           <div class="service-content">
             <!-- Icona del servizio -->
             <div class="service-icon">
-              <i :class="service.image" class="fa-lg me-2"></i>
+              <i :class="service.image" class="fa-xs me-2"></i>
             </div>
             <!-- Titolo del servizio -->
             <span class="service-title">{{ service.title }}</span>
             <!-- Spunta verde -->
             <div v-if="activeServices.includes(service.id)" class="checkmark">
-              <i class="fa-solid fa-check"></i>
+              <i class="fa-solid fa-check fa-xs"></i>
             </div>
           </div>
         </div>

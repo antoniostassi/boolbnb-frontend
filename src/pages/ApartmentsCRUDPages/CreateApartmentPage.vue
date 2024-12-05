@@ -85,7 +85,6 @@ export default {
                 this.store.servicesEmpty = true; // serviceEmpty dallo store viene dichiarato true in quanto non esistono dei servizi
                 return;
             }
-
             const formData = new FormData();
             formData.append('user_id', this.api.user.id);
             formData.append('title', this.apartment.title);
@@ -237,7 +236,7 @@ export default {
         <!-- Servizi -->
         <h3>Servizi</h3>
         <p v-show="store.servicesEmpty" class="fw-bold text-danger">Inserisci almeno un servizio!</p>
-        <div class="row mb-3 services-container">
+        <div class="row mb-3 services-container justify-content-center">
           <div
             class="service-badge justify-space-between d-flex"
             v-for="(service, index) in visibleServices"
@@ -247,13 +246,14 @@ export default {
           >
             <div class="service-content">
               <div class="service-icon">
-                <i :class="service.image" class="fa-lg me-2"></i>
+                <i :class="service.image" class="me-2 fa-xs"></i>
               </div>
               <span class="service-title">{{ service.title }}</span>
               <div v-if="apartment.services.includes(service.id)" class="checkmark">
-                <i class="fa-solid fa-check"></i>
+                <i class="fa-solid fa-check fa-xs"></i>
               </div>
             </div>
+
           </div>
         </div>
   
