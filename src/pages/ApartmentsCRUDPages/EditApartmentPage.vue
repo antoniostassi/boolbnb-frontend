@@ -9,6 +9,7 @@ export default {
       api,
       store,
       apartment: [],
+      newImage: File,
       activeServices: [],
       showAllServices: false,
       searchAddress: "",
@@ -77,29 +78,45 @@ export default {
         this.apartment.latitude = suggestion.position.lat;
         this.apartment.longitude = suggestion.position.lng;
         this.suggestions = [];
-
     },
     editApartment() {
       this.store.formSubmitted = true;
       this.delayOnAPI();
       this.store.servicesEmpty = false;
+
       if (this.activeServices.length == 0){
         this.store.servicesEmpty = true;
         return
       }
-      axios
-        .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
-          user_id: this.api.user.id,
-          title: this.apartment.title,
-          rooms: this.apartment.rooms,
-          beds: this.apartment.beds,
-          bathrooms: this.apartment.bathrooms,
-          apartment_size: this.apartment.apartment_size,
-          address: this.apartment.address,
-          latitude: this.apartment.latitude,
-          longitude: this.apartment.longitude,
-          image: this.apartment.image,
-          services: this.activeServices,
+      
+      const formData = new FormData();
+      formData.append('user_id', this.api.user.id);
+      formData.append('title', this.apartment.title);
+      formData.append('rooms', this.apartment.rooms);
+      formData.append('beds', this.apartment.beds);
+      formData.append('bathrooms', this.apartment.bathrooms);
+      formData.append('apartment_size', this.apartment.apartment_size);
+      formData.append('address', this.apartment.address);
+      formData.append('latitude', this.apartment.latitude);
+      formData.append('longitude', this.apartment.longitude);
+
+      if (typeof this.apartment.image !== "string") {
+        formData.append('image', this.apartment.image);
+      }
+
+      formData.append('_method', "PUT");
+    
+      this.activeServices.forEach((service) => {
+        formData.append('services[]', service);
+      })
+
+      setTimeout(() => {
+        axios.post('http://localhost:8000/api/apartments/' + this.apartment.id,
+        formData,
+        {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
         })
           .then((result) => {
             console.log(result);
@@ -113,6 +130,9 @@ export default {
         .catch((error) => {
           console.log(error);
         }) 
+      }, 500);
+
+      
     },
     toggleService(serviceId) {
       if (this.activeServices.includes(serviceId)) {
@@ -124,7 +144,13 @@ export default {
     },
     showMoreServices() {
       this.showAllServices = !this.showAllServices;
-    }
+    },
+    uploadImage(event) {
+      const image = event.target.files[0]; 
+      if (image) {
+          this.apartment.image = image;
+      }
+    }, 
   },
 }
 </script>
@@ -132,7 +158,7 @@ export default {
 <template>
   <div class="container my-5">
     <h1 class="text-center mb-4">Modifica l'appartamento</h1>
-    <form @submit.prevent="editApartment" class="p-4 border rounded shadow">
+    <form @submit.prevent="editApartment" class="p-4 border rounded shadow" enctype='multipart/form-data'>
       <div class="mb-3">
         <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
         <input
@@ -229,17 +255,20 @@ export default {
             </li>
         </ul>
       </div>
+      <h5>Immagine attuale:</h5>
+      <img :src="apartment.image" :alt="apartment.title" style="max-width:100%;">
+      <hr class="mb-3">
       <div class="mb-3">
-        <label class="form-label" for="image">Immagine <span class="text-danger">*</span></label>
-        <input
-          class="form-control"
-          type="text"
-          name="image"
-          required
-          v-model="apartment.image"
-          placeholder="Modifica il link dell'immagine"
-        />
-      </div>
+          <label class="form-label" for="image">Inserisci una nuova immagine per il tuo appartamento</label>
+          <input
+            class="form-control"
+            type="file"
+            name="image"
+            accept="image/png, image/jpeg"
+            placeholder="Inserisci l'immagine"
+            @change="uploadImage"
+          />
+        </div>
       <div class="fw-bold mb-3">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</div>
       <hr>
       <h3>Servizi</h3>
@@ -273,7 +302,7 @@ export default {
         {{ showAllServices ? 'Mostra Meno' : 'Mostra Tutti' }}
       </button>
       <p class="fw-bold my-2">NB: Inserisci almeno un servizio </p>
-      <button :disabled="store.formSubmitted" class="btn btn-primary w-100">Salva Modifiche</button>
+      <button type="submit" :disabled="store.formSubmitted" class="btn btn-primary w-100">Salva Modifiche</button>
     </form>
   </div>
 </template>

@@ -106,6 +106,7 @@ export default {
             }
 
             this.store.storedApartment = formData; // Salva il formData nello store per l'utilizzo successivo nella pagina di scelta promozione
+            console.log(this.store.storedApartment);
             this.$router.push('/apartments/create/promotion'); // Reindirizza alla pagina di scelta della promozione
         },
 
