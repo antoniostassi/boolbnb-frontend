@@ -14,7 +14,11 @@ export default {
         };
     },
     mounted(){
-        this.api.redirectIfNotCreated();
+
+        if (!this.store.isBuyingAfter) {
+            this.api.redirectIfNotCreated();
+        }
+        
         this.takeTodayDate();
     },
     methods:{
@@ -54,10 +58,16 @@ export default {
                 withCredentials: false
                 })
                 .then(response => {
-                    this.api.createApartment(); 
-                    setTimeout(() => {
-                        this.store.formSubmitted = false;
-                    }, 1000);
+                    if (!this.store.isBuyingAfter) {
+                        this.api.createApartment(); 
+                        setTimeout(() => {
+                            this.store.formSubmitted = false;
+                        }, 1000);
+                    } else {
+                        this.store.isBuyingAfter = false;
+                        this.api.buyPromotion(this.api.toUpdateApartmentId);
+                        this.api.toUpdateApartmentId = 0;
+                    }
                 })
                 .catch(error => {
                     console.log(error);

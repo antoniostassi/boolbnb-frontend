@@ -1,12 +1,15 @@
 <script>
+
+import { api, store } from '../../store';
+
 export default {
   data() {
     return {
       plans: [
         {
-          name: "Bronze",
-          duration: "1 giorno",
-          color: "#CD7F32",
+          name: "Gold",
+          duration: "6 giorni",
+          color: "#FFD700",
         },
         {
           name: "Silver",
@@ -14,11 +17,14 @@ export default {
           color: "#C0C0C0",
         },
         {
-          name: "Gold",
-          duration: "6 giorni",
-          color: "#FFD700",
+          name: "Bronze",
+          duration: "1 giorno",
+          color: "#CD7F32",
         },
       ],
+
+      selectedPromotion: 0,
+      api, store
     };
   },
 };
@@ -34,6 +40,7 @@ export default {
         :key="index"
         class="plan-card"
         :style="{ borderColor: plan.color }"
+        @click="selectedPromotion = index+1"
       >
         <h2 :style="{ color: plan.color }">{{ plan.name }}</h2>
         <p class="duration">Durata: {{ plan.duration }}</p>
@@ -43,6 +50,28 @@ export default {
         </ul>
       </div>
     </div>
+    
+    <div class="container mt-5">
+      <h2 class="mb-4" v-if="selectedPromotion != 0">Acquista la promozione: <span :style="{ color: plans[selectedPromotion-1].color}">{{ plans[selectedPromotion-1].name }}</span></h2>
+      <table class="table" :class="selectedPromotion != 0 ? 'd-table' : 'd-none'">
+        <thead>
+          <tr>
+            <th scope="col">Appartamento</th>
+            <th scope="col">Azione</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="apartment, index in api.user.apartments" :key="index">
+            <td>{{apartment.title}}</td>
+            <td>
+              <div class="btn btn-success px-2 py-0" @click="api.selectedPromotionId = selectedPromotion; store.isBuyingAfter = true; api.toUpdateApartmentId = apartment.id; $router.push('/apartments/create/checkout');">Acquista Promozione</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+
   </div>
 </template>
 
