@@ -52,7 +52,7 @@ export default {
           <li>Priorità nella ricerca</li>
         </ul>
         <h4>{{ plan.price }} €</h4>
-      </div>
+        </div>
     </div>
     
     <div class="container mt-5" style="max-width:950px">
@@ -65,11 +65,13 @@ export default {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="apartment, index in api.user.apartments" :key="index">
-            <td>{{apartment.title}}</td>
-            <td>
-              <div class="btn btn-success px-2 py-0" @click="api.selectedPromotionId = selectedPromotion; store.isBuyingAfter = true; api.toUpdateApartmentId = apartment.id; $router.push('/apartments/create/checkout');">Acquista Promozione</div>
-            </td>
+          <tr v-for="apartment, index in api.user.apartments" :key="index" :class="apartment.promotions.length > 0 ? 'd-none'  : ''">
+              <td>
+                {{apartment.title}}
+              </td>
+              <td>
+                <div class="btn btn-success px-2 py-0" @click="api.selectedPromotionId = selectedPromotion; store.isBuyingAfter = true; api.toUpdateApartmentId = apartment.id; $router.push('/apartments/create/checkout');">Acquista Promozione</div>
+              </td>
           </tr>
         </tbody>
       </table>
