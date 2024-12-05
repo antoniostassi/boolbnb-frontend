@@ -164,6 +164,7 @@ export default {
           <h3>Servizi Disponibili:</h3>
           <ul>
             <li v-for="(service, index) in apartment.services" :key="index">
+              <i :class="service.image"></i>
               {{ service.title }}
             </li>
           </ul>
