@@ -284,6 +284,7 @@ export default {
 @import '@/assets/scss/partials/mixins.scss';
 .container {
   max-width: 1000px;
+  min-height:77vh;
   margin: auto;
 
   h1 {
