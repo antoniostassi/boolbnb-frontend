@@ -20,7 +20,7 @@ export const api = reactive({
         nextPage:'',
     },
     loginError: false,
-
+    toUpdateApartmentId: 0,
     selectedPromotionId: null, // ID della promozione selezionata
     seenApartments: [],
 
@@ -177,6 +177,22 @@ export const api = reactive({
             this.seenApartments.push(apartmentId);
         }
 
+    },
+
+    async buyPromotion(apartmentId) {
+        await axios.post('http://localhost:8000/api/apartment/promotion/'+ apartmentId, {promotions: this.selectedPromotionId})
+        .then((response) => {
+            console.log(response);
+            this.getUserApartments();
+            this.getAllApartments();
+            this.selectedPromotionId = 0;
+            setTimeout(() => {
+            router.push('/user/dashboard'); // Reindirizzamento a user/dashboard
+                
+            }, 1000);
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
 });

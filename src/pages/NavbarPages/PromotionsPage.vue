@@ -1,24 +1,33 @@
 <script>
+
+import { api, store } from '../../store';
+
 export default {
   data() {
     return {
       plans: [
         {
-          name: "Bronze",
-          duration: "1 giorno",
-          color: "#CD7F32",
+          name: "Gold",
+          duration: "6 giorni",
+          color: "#FFD700",
+          price: 9.99
         },
         {
           name: "Silver",
           duration: "3 giorni",
           color: "#C0C0C0",
+          price: 5.99
         },
         {
-          name: "Gold",
-          duration: "6 giorni",
-          color: "#FFD700",
+          name: "Bronze",
+          duration: "1 giorno",
+          color: "#CD7F32",
+          price: 2.99
         },
       ],
+
+      selectedPromotion: 0,
+      api, store
     };
   },
 };
@@ -34,6 +43,7 @@ export default {
         :key="index"
         class="plan-card"
         :style="{ borderColor: plan.color }"
+        @click="selectedPromotion = index+1"
       >
         <h2 :style="{ color: plan.color }">{{ plan.name }}</h2>
         <p class="duration">Durata: {{ plan.duration }}</p>
@@ -41,8 +51,31 @@ export default {
           <li>Visibilità avanzata negli annunci</li>
           <li>Priorità nella ricerca</li>
         </ul>
+        <h4>{{ plan.price }} €</h4>
       </div>
     </div>
+    
+    <div class="container mt-5" style="max-width:950px">
+      <h2 class="mb-4" v-if="selectedPromotion != 0">Acquista la promozione: <span :style="{ color: plans[selectedPromotion-1].color}">{{ plans[selectedPromotion-1].name }}</span></h2>
+      <table class="table" :class="selectedPromotion != 0 ? 'd-table' : 'd-none'">
+        <thead>
+          <tr>
+            <th scope="col">Appartamento</th>
+            <th scope="col">Azione</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="apartment, index in api.user.apartments" :key="index">
+            <td>{{apartment.title}}</td>
+            <td>
+              <div class="btn btn-success px-2 py-0" @click="api.selectedPromotionId = selectedPromotion; store.isBuyingAfter = true; api.toUpdateApartmentId = apartment.id; $router.push('/apartments/create/checkout');">Acquista Promozione</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+
   </div>
 </template>
 
@@ -84,6 +117,7 @@ export default {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     text-align: center;
+    cursor: pointer;
 
     &:hover {
       transform: translateY(-10px);
