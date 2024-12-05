@@ -22,9 +22,7 @@ export default {
 <template>
   <div class="offcanvas offcanvas-end w-100" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
-                <h5 class="text-center ms-1" id="offcanvasRightLabel">
-                    Menù |
-                </h5>
+
                 
                 <h5 :class="this.api.isLoggedIn ? 'd-none' : 'd-block'" v-if="!this.api.isLoggedIn" class="text-center ms-1" id="offcanvasRightLabel">
                     <button @click="store.showLoginForm = true; store.isRegistration = false ; closeCanvas(); this.api.loginError = false;" class="btn offcanvas-btn-outline-primary">Accedi</button>
