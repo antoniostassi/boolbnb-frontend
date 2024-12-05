@@ -121,8 +121,8 @@ export default {
 </script>
 
 <template>
-    <div class="container my-5">
-      <h1 class="text-center mb-4">Aggiungi un nuovo appartamento</h1>
+    <div class="container py-4">
+      <h1 class="text-center">Aggiungi un nuovo appartamento</h1>
       <form @submit.prevent="prepareApartment" class="p-4 border rounded shadow" enctype='multipart/form-data'>
         <div class="mb-3">
           <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
@@ -278,6 +278,7 @@ export default {
 @import '@/assets/scss/partials/mixins.scss';
 .container {
     max-width: 1000px;
+    min-height:77vh;
 
     input {
         display: block;
