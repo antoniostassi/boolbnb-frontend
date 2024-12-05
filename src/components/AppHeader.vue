@@ -125,9 +125,9 @@ export default {
         <header id="main-container" class="bg-gradient  sticky-top" :class="{ 'hide-header': hideHeader }">
             <nav class="container d-flex align-items-center justify-content-between">
                 <!-- Logo -->
-                <div class="logo-container">
-                    <router-link to="/" class="d-flex align-items-center">
-                        <img src="/img/Guestly_Logo.png" alt="Guestly Logo" class="logo ms-3" />
+                <div class="logo-container ">
+                    <router-link to="/" class="d-flex align-items-center ">
+                        <img src="/img/Guestly_Logo.png" alt="Guestly Logo" class="logo ms-3 p-1 p-lg-0" />
                     </router-link>
                 </div>
 
