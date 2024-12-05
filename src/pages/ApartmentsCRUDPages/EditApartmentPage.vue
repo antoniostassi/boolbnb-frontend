@@ -9,6 +9,7 @@ export default {
       api,
       store,
       apartment: [],
+      newImage: File,
       activeServices: [],
       showAllServices: false,
       searchAddress: "",
@@ -87,6 +88,7 @@ export default {
         this.store.servicesEmpty = true;
         return
       }
+      
       axios
         .put('http://localhost:8000/api/apartments/'+ this.apartment.id , {
           user_id: this.api.user.id,
@@ -98,8 +100,12 @@ export default {
           address: this.apartment.address,
           latitude: this.apartment.latitude,
           longitude: this.apartment.longitude,
-          image: this.apartment.image,
+          image: this.newImage,
           services: this.activeServices,
+        }, {
+          headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
         })
           .then((result) => {
             console.log(result);
@@ -124,7 +130,15 @@ export default {
     },
     showMoreServices() {
       this.showAllServices = !this.showAllServices;
-    }
+    },
+    uploadImage(event) {
+        const image = event.target.files[0];
+        if (image) {
+          const formData = new FormData();
+          formData.append('image', image);
+          this.newImage = formData;
+        }
+    },
   },
 }
 </script>
@@ -132,7 +146,7 @@ export default {
 <template>
   <div class="container my-5">
     <h1 class="text-center mb-4">Modifica l'appartamento</h1>
-    <form @submit.prevent="editApartment" class="p-4 border rounded shadow">
+    <form @submit.prevent="editApartment" class="p-4 border rounded shadow" enctype="multipart/form-data">
       <div class="mb-3">
         <label class="form-label" for="title">Titolo dell'annuncio <span class="text-danger">*</span></label>
         <input
@@ -230,16 +244,17 @@ export default {
         </ul>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="image">Immagine <span class="text-danger">*</span></label>
-        <input
-          class="form-control"
-          type="text"
-          name="image"
-          required
-          v-model="apartment.image"
-          placeholder="Modifica il link dell'immagine"
-        />
-      </div>
+          <label class="form-label" for="image">Immagine <span class="text-danger">*</span></label>
+          <input
+            class="form-control"
+            type="file"
+            name="image"
+            accept="image/png, image/jpeg"
+            required
+            placeholder="Inserisci l'immagine"
+            @change="uploadImage"
+          />
+        </div>
       <div class="fw-bold mb-3">I campi contrassegnati con <span class="text-danger">*</span> sono obbligatori</div>
       <hr>
       <h3>Servizi</h3>
