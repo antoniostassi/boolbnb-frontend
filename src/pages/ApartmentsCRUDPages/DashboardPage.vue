@@ -17,6 +17,7 @@ export default {
         .delete(`http://localhost:8000/api/apartments/${apartmentId}`)
         .then(() => {
           this.api.getUserApartments();
+          this.api.getAllApartments();
         })
         .catch((error) => {
           console.error("Errore durante l'eliminazione dell'appartamento:", error);
